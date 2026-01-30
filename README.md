@@ -44,6 +44,7 @@ This mod has been created by a different group of people (with multiple speedrun
 - Fixed an item cutscenes not properly finishing
 - Removed a few memory leaks
 - Fixed the syncing issues caused by game id issues
+- Fixed some skipped quests not being properly skipped
 
 ### Features in the Client/Mod
 - Locations have been renamed to show the coordinates inside the world

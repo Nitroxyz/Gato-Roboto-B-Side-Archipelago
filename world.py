@@ -68,7 +68,7 @@ class GatoRobotoWorld(World):
         slot_data["game_id"] = str(uuid.uuid4())
         return slot_data
 
-    def generate_output(self, output_directory: str) -> None:
+    def DISABLED_generate_output(self, output_directory: str) -> None:
         from Utils import visualize_regions
         state = self.multiworld.get_all_state(False)
         state.update_reachable_regions(self.player)

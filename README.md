@@ -1,5 +1,5 @@
 # Gato Roboto B-Side
-This mod intergrates the Archipelago Randomizer with Gato Roboto. You can send and recieve items and world progression in a multiworld containing
+This mod integrates the Archipelago Randomizer with Gato Roboto. You can send and recieve items and world progression in a multiworld containing multiple players.
 
 ## Installation
 1. Get the apworld in the releases and install it in the apworld (you can double-click it if you have the Launcher installed)

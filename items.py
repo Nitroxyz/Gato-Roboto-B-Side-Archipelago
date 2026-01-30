@@ -74,9 +74,6 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
 class GatoRobotoItem(Item):
     game = "Gato Roboto B-Side"
 
-def get_random_filler_item_name(world: GatoRobotoWorld) -> str:
-    return "Cute Meow"
-
 def create_item_with_correct_classification(world: GatoRobotoWorld, name: str) -> GatoRobotoItem:
     # Our world class must have a create_item() function that can create any of our items by name at any time.
     # So, we make this helper function that creates the item by name with the correct classification.

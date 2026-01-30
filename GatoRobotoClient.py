@@ -6,18 +6,18 @@ import bsdiff4
 import shutil
 import json
 import psutil
-import subprocess
+#import subprocess
 
 import Utils
 
 from NetUtils import NetworkItem, ClientStatus
-from worlds import gatoroboto
+from worlds import gatoroboto_b_side
 from MultiServer import mark_raw
 from CommonClient import CommonContext, server_loop, \
     gui_enabled, ClientCommandProcessor, logger, get_base_parser
-from Utils import async_start, is_linux
+from Utils import is_linux
 
-verbose = True
+verbose = False
 
 def long_file(path):
     """ Creates the full path of the files in the save game folder. """
@@ -135,7 +135,7 @@ class GatoRobotoContext(CommonContext):
         else:
             #Write patched game data
             with open(f"{filepath}/data.win", "rb") as f:
-                patched_file: bytes = bsdiff4.patch(f.read(), gatoroboto.data_path("patch.bsdiff"))
+                patched_file: bytes = bsdiff4.patch(f.read(), gatoroboto_b_side.data_path("patch.bsdiff"))
             with open(f"{filepath}/data.win", "wb") as f:
                 f.write(patched_file)
 

@@ -53,7 +53,6 @@ class GatoRobotoWorld(World):
     # In our case, we defined a function called get_random_filler_item_name for this purpose in our items.py.
     def get_filler_item_name(self) -> str:
         return "Cute Meow"
-        #return items.get_random_filler_item_name(self)
 
     def generate_early(self) -> None:
         #if self.options.nexus_start or self.options.unlock_all_warps:
@@ -70,7 +69,6 @@ class GatoRobotoWorld(World):
         return slot_data
 
     def generate_output(self, output_directory: str) -> None:
-
         from Utils import visualize_regions
         state = self.multiworld.get_all_state(False)
         state.update_reachable_regions(self.player)

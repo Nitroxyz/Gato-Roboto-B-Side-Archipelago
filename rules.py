@@ -22,7 +22,7 @@ def set_all_rules(world: GatoRobotoWorld) -> None:
 def set_all_entrance_rules(world: GatoRobotoWorld) -> None:
     to_nexus = world.get_entrance("Zu Nexus")
     to_landing_site = world.get_entrance("Zu Landing Site")
-    to_aqueducts = world.get_entrance("Zu Aqueducts")
+    #to_aqueducts = world.get_entrance("Zu Aqueducts")
     to_heater_core = world.get_entrance("Zu Heater Core")
     to_ventilation = world.get_entrance("Zu Ventilation")
     to_incubator = world.get_entrance("Zu Incubator")

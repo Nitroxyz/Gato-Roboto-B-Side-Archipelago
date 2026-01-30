@@ -1,7 +1,7 @@
 # Gato Roboto B-Side
 This mod intergrates the Archipelago Randomizer with Gato Roboto. You can send and recieve items and world progression in a multiworld containing
 
-## Intstallation
+## Installation
 1. Get the apworld in the releases and install it in the apworld (you can double-click it if you have the Launcher installed)
 2. Get your template via the built-in option in the Archipelago Launcher
 3. After installing the apworld, a Gato Roboto Client is available in the Archipelago Launcher
@@ -89,9 +89,9 @@ This mod has been created by a different group of people (with multiple speedrun
 
 # The great people who helped in the project
 **Nitroxy**: Speedrunner and programmer; Main dev  
-**Tylui**: Original randodmizer developer; Provided original logic and helped organize the randomizer  
+**Tylui**: Original randomizer developer; Provided original logic and helped organize the randomizer  
 **Haxaplax**: Speedrunner and randomizer player; Helped with the logic and testing  
-**Noah**: Speedunner; Helped with the logic and modding  
+**Noah**: Speedrunner; Helped with the logic and modding  
 **Bokyubi**: Programmer; Supported the project and made an early client  
 **Cullen**: Original game developer; Helped with game specific issues and making modding a little easier  
 **Nick and Pathkendle**: Programmers; Provided the original Mod/Client and helped with some Client issues

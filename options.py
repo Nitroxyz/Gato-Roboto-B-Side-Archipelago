@@ -27,12 +27,13 @@ class GlitchCatTech(DefaultOnToggle):
     """
     Includes logic for some difficult cat mechanics.
     Requires intense mashing.
+    Note that this will soon represent all tech difficulties.
     """
     display_name = "Use CatTech"
 
 class NexusStart(DefaultOnToggle):
     """
-    Start in the Nexus instead of the Landing Site
+    Start in the Nexus instead of the Landing Site.
     Allows for some logic checks without rocket. It's recommended to turn CatTech on with this.
     """
     display_name = "Nexus Start"

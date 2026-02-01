@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
-from Options import OptionGroup, PerGameCommonOptions, Toggle, DefaultOnToggle
+from Options import OptionGroup, PerGameCommonOptions, Toggle, DefaultOnToggle, Choice
+
 
 # Flymech (off)
 # Randomize Aqueduct Quest (on)
@@ -16,31 +17,39 @@ class GlitchSmallmech(DefaultOnToggle):
     """
     display_name = "Use Smallmech"
 
-class GlitchWatermech(Toggle):
+class GlitchWatermech(DefaultOnToggle):
     """
     Includes logic for the Watermech glitch.
     Better with "Randomized Aqueduct Quest" off.
     """
     display_name = "Use Watermech"
 
-class GlitchCatTech(DefaultOnToggle):
+class GlitchGatoTech(Choice):
     """
-    Includes logic for some difficult cat mechanics.
-    Requires intense mashing.
-    Note that this will soon represent all tech difficulties.
+    Difficulty of strategies
+    Vanilla is a special difficulty, which:
+    - removes the crash fixes in heater core
+    - includes the logic for the standard cat vent skip and vent mashing
+    - assumes that you can avoid a hardlock in ventilation by either routing properly or resetting the savefile.
     """
-    display_name = "Use CatTech"
+    display_name = "Gato Tech"
+    option_easy = 1
+    option_hard = 2
+    option_vanilla = 3
+
+    default = option_easy
 
 class NexusStart(DefaultOnToggle):
     """
     Start in the Nexus instead of the Landing Site.
-    Allows for some logic checks without rocket. It's recommended to turn CatTech on with this.
+    Allows for some logic checks without rocket.
     """
     display_name = "Nexus Start"
 
 class UnlockAllWarps(Toggle):
     """
     Allows you to warp to every main area (Landing Site, Aqueducts, Heater Core and Ventilation).
+    It is currently not functional :/
     """
     display_name = "Unlock all warps"
 
@@ -54,7 +63,7 @@ class ForceLocalStart(DefaultOnToggle):
 class GatoRobotoOptions(PerGameCommonOptions):
     use_smallmech: GlitchSmallmech
     use_watermech: GlitchWatermech
-    use_cattech: GlitchCatTech
+    gato_tech: GlitchGatoTech
     nexus_start: NexusStart
     unlock_all_warps: UnlockAllWarps
     local_start: ForceLocalStart
@@ -62,6 +71,6 @@ class GatoRobotoOptions(PerGameCommonOptions):
 option_groups = [
     OptionGroup(
         "Expert Logic",
-        [GlitchSmallmech, GlitchWatermech, GlitchCatTech, NexusStart, UnlockAllWarps, ForceLocalStart],
+        [GlitchSmallmech, GlitchWatermech, GlitchGatoTech, NexusStart, UnlockAllWarps, ForceLocalStart],
     ),
 ]

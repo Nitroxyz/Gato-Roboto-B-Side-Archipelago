@@ -14,7 +14,7 @@ def launch_client(*args):
         launch()
 
 
-components.append(Component("Gato Roboto Client",
+components.append(Component("Gato Roboto Client B-Side",
                             func=launch_client,
                             component_type=Type.CLIENT,
                             icon="kiki",

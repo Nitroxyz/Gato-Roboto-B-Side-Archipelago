@@ -17,7 +17,7 @@ from CommonClient import CommonContext, server_loop, \
     gui_enabled, ClientCommandProcessor, logger, get_base_parser
 from Utils import is_linux
 
-verbose = False
+verbose = True
 
 def long_file(path):
     """ Creates the full path of the files in the save game folder. """
@@ -52,10 +52,10 @@ class GatoRobotoPath:
     def save_game_folder(cls) -> str:
         if is_linux:
             return os.path.expanduser(
-                "~/.local/share/Steam/steamapps/compatdata/916730/pfx/drive_c/users/steamuser/AppData/Local/GatoRoboto_patch_1_1/archipelago")  # running w/ proton
+                "~/.local/share/Steam/steamapps/compatdata/916730/pfx/drive_c/users/steamuser/AppData/Local/GatoRoboto_patch_1_1/")  # running w/ proton
 
         # default, Utils.is_windows
-        return os.path.expandvars(r"%localappdata%/GatoRoboto")  # TODO: Change to real folder
+        return os.path.expandvars(r"%localappdata%/GatoRoboto_patch_1_1")  # TODO: Change to real folder
 
 
 class GatoRobotoCommandProcessor(ClientCommandProcessor):
@@ -276,14 +276,14 @@ async def game_watcher(ctx: GatoRobotoContext):
 
                             for key in locations_in:
                                 if str(key).isdigit():
-                                    if ctx.missing_locations.__contains__(int(key)) and int(locations_in[str(key)]) > 0:
+                                    if int(key) in ctx.missing_locations and int(locations_in[str(key)]) > 0:
                                         print("Found Location to Send")
                                         sending.append(int(key))
 
                             if len(sending) != 0:
                                 await ctx.send_msgs([{"cmd": "LocationChecks", "locations": sending}])
 
-                        safe_delete_file(current_file_short)
+                        safe_delete_file(current_file_short) # TODO: WHY?!
 
                     # handle win send
                     current_file_short = "victory.json"
@@ -293,22 +293,6 @@ async def game_watcher(ctx: GatoRobotoContext):
                         if not ctx.finished_game:
                             await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
                             safe_delete_file(current_file_short)
-
-                    current_file_short = "cur_region.json"
-                    if os.path.exists(long_file(current_file_short)):
-                        if verbose:
-                            ctx.command_processor.print_log("New Region")
-                        with open(long_file(current_file_short), "r+") as f:
-                            locations_in: dict = get_clean_game_comms_file(f)
-
-                            await ctx.send_msgs([{"cmd": "Bounce", "slots": [ctx.slot],
-                                                  "data": {
-                                                      "type": "MapUpdate",
-                                                      "mapId": int(locations_in["Region"]),
-                                                  }
-                                                  }])
-
-                        safe_delete_file(current_file_short)
 
                     # send items
                     current_file_short = "items.json"

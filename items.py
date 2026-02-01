@@ -34,7 +34,7 @@ ITEM_NAME_TO_ID = {
     "Water Level": 10237,
     "Lava Cooled 1": 10254,
     "Lava Cooled 2": 10255,
-    "<Lava Cooled>": 10257,
+    "Lava Cooled": 10257,
     "Vent Level": 10268,
     "Cute Meow": 10001,
 }
@@ -66,7 +66,7 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Water Level": ItemClassification.progression,
     "Lava Cooled 1": ItemClassification.progression,
     "Lava Cooled 2": ItemClassification.progression,
-    "<Lava Cooled>": ItemClassification.progression,
+    "Lava Cooled": ItemClassification.progression,
     "Vent Level": ItemClassification.progression_skip_balancing,
     "Cute Meow": ItemClassification.filler,
 }
@@ -80,6 +80,8 @@ def create_item_with_correct_classification(world: GatoRobotoWorld, name: str) -
     # Note: This function's content could just be the contents of world.create_item in world.py directly,
     # but it seemed nicer to have it in its own function over here in items.py.
     classification = DEFAULT_ITEM_CLASSIFICATIONS[name]
+    if name == "Big Shot" and world.options.use_smallmech:
+        classification = ItemClassification.trap
 
     return GatoRobotoItem(name, classification, ITEM_NAME_TO_ID[name], world.player)
 
@@ -126,12 +128,12 @@ def create_all_items(world: GatoRobotoWorld) -> None:
     for i in range(3):
         itempool.append(world.create_item(f"Vent Level"))
 
-    if world.options.use_smallmech:
-        itempool.append(world.create_item("<Lava Cooled>"))
-    else:
+    if world.options.gato_tech == 3 and not world.options.use_smallmech:
         # Lock it!
-        lava_cooled = world.get_location("Lava Cooled (Heater Core-0015)")
-        lava_cooled.place_locked_item(world.create_item("<Lava Cooled>"))
+        lava_cooled = world.get_location("Cooler (Heater Core-0113)")
+        lava_cooled.place_locked_item(world.create_item("Lava Cooled"))
+    else:
+        itempool.append(world.create_item("Lava Cooled"))
 
     # Lock the hot boys
     lava_cooled = world.get_location("Hotboy 1 (Heater Core-0019)")
@@ -153,6 +155,9 @@ def create_all_items(world: GatoRobotoWorld) -> None:
     world.multiworld.itempool += itempool
 
 def generate_early(world: GatoRobotoWorld) -> None:
+
+
+    # Early Starter items
     if world.options.unlock_all_warps:
         starter_pick = world.random.choice(["Rocket Start", "Spin Jump Start"])
     else:

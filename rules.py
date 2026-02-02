@@ -27,14 +27,14 @@ def set_all_entrance_rules(world: GatoRobotoWorld) -> None:
     to_ventilation = world.get_entrance("Zu Ventilation")
     to_incubator = world.get_entrance("Zu Incubator")
 
-    if not world.options.unlock_all_warps:
-        set_rule(to_nexus, lambda state: state.has("Rocket", world.player))
-        set_rule(to_landing_site, lambda state: state.has("Rocket", world.player))
-        #set_rule(to_aqueducts, labda state: True)
-        if world.options.use_smallmech:
-            set_rule(to_ventilation, lambda state: state.has("Rocket", world.player))
-        else:
-            set_rule(to_ventilation, lambda state: state.has_all(("Rocket", "Dash"), world.player))
+    #if not world.options.unlock_all_warps:
+    set_rule(to_nexus, lambda state: state.has("Rocket", world.player))
+    set_rule(to_landing_site, lambda state: state.has("Rocket", world.player))
+    #set_rule(to_aqueducts, labda state: True)
+    if world.options.use_smallmech:
+        set_rule(to_ventilation, lambda state: state.has("Rocket", world.player))
+    else:
+        set_rule(to_ventilation, lambda state: state.has_all(("Rocket", "Dash"), world.player))
     set_rule(to_heater_core, lambda state: state.has_any(("Rocket", "Spin Jump"), world.player))
     set_rule(to_incubator, lambda state: state.has("<Completed all areas>", world.player) and state.has("Decoder", world.player))
 

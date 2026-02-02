@@ -66,12 +66,16 @@ class GatoRobotoOptions(PerGameCommonOptions):
     use_watermech: GlitchWatermech
     gato_tech: GlitchGatoTech
     nexus_start: NexusStart
-    unlock_all_warps: UnlockAllWarps
     local_start: ForceLocalStart
+    #unlock_all_warps: UnlockAllWarps
 
 option_groups = [
     OptionGroup(
         "Expert Logic",
-        [GlitchSmallmech, GlitchWatermech, GlitchGatoTech, NexusStart, UnlockAllWarps, ForceLocalStart],
+        [GlitchSmallmech, GlitchWatermech, GlitchGatoTech, NexusStart],
+    ),
+    OptionGroup(
+        "Technical Stuff",
+        [ForceLocalStart],
     ),
 ]

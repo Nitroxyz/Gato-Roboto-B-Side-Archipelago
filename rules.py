@@ -39,7 +39,8 @@ def set_all_entrance_rules(world: GatoRobotoWorld) -> None:
     set_rule(to_incubator, lambda state: state.has("<Completed all areas>", world.player) and state.has("Decoder", world.player))
 
 def set_all_location_rules(world: GatoRobotoWorld) -> None:
-
+    vhs = ("Palette 02", "Palette 03", "Palette 04", "Palette 05", "Palette 06", "Palette 07", "Palette 08",
+           "Palette 09", "Palette 10", "Palette 11", "Palette 12", "Palette 13", "Palette 14", "Palette 15")
 
     current_location = world.get_location("VHS (Landing Site-1810)")
     set_rule(current_location, lambda state: state.has("Rocket", world.player))
@@ -58,8 +59,6 @@ def set_all_location_rules(world: GatoRobotoWorld) -> None:
     set_rule(current_location, lambda state: ((world.options.gato_tech == 3)) or (state.has("Vent Level", world.player, 3) and state.has("Rocket", world.player)) or (state.has("Vent Level", world.player, 3) and state.has("Spin Jump", world.player)))
     current_location = world.get_location("Health Upgrade (Nexus-2314)")
     set_rule(current_location, lambda state: (state.has("Rocket", world.player)))
-    vhs = ("Palette 02", "Palette 03", "Palette 04", "Palette 05", "Palette 06", "Palette 07", "Palette 08",
-           "Palette 09", "Palette 10", "Palette 11", "Palette 12", "Palette 13", "Palette 14", "Palette 15")
     current_location = world.get_location("Rebba quest 1 (Nexus-1716)")
     set_rule(current_location, lambda state: state.has_from_list(vhs, world.player, 7))
     current_location = world.get_location("Rebba quest 2 (Nexus-1716)")

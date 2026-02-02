@@ -13,20 +13,21 @@ from Options import OptionGroup, PerGameCommonOptions, Toggle, DefaultOnToggle, 
 class GlitchSmallmech(DefaultOnToggle):
     """
     Includes logic for the Smallmech glitch.
-    Disabling it requires the heater core quest to be vanilla.
+    In "Vanilla" difficulty, this will force the Lava Cooled event to be at Cooler
     """
     display_name = "Use Smallmech"
 
 class GlitchWatermech(DefaultOnToggle):
     """
     Includes logic for the Watermech glitch.
-    Better with "Randomized Aqueduct Quest" off.
     """
     display_name = "Use Watermech"
 
 class GlitchGatoTech(Choice):
     """
     Difficulty of strategies
+    Easy is recommended for normal players
+    Hard includes a bunch of unique strategies, which require advanced knowledge
     Vanilla is a special difficulty, which:
     - removes the crash fixes in heater core
     - includes the logic for the standard cat vent skip and vent mashing
@@ -49,7 +50,7 @@ class NexusStart(DefaultOnToggle):
 class UnlockAllWarps(Toggle):
     """
     Allows you to warp to every main area (Landing Site, Aqueducts, Heater Core and Ventilation).
-    It is currently not functional :/
+    IT IS CURRENTLY NOT FUNCTIONAL! :/
     """
     display_name = "Unlock all warps"
 

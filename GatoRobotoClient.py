@@ -72,7 +72,8 @@ class GatoRobotoCommandProcessor(ClientCommandProcessor):
         if isinstance(self.ctx, GatoRobotoContext):
 
             #Validate file or set to default path
-            if steam_install == "" or not os.path.exists(steam_install):
+            steam_install = steam_install.strip(" \"")
+            if steam_install == "":
                 for possible_install_location in GatoRobotoPath.steam_install():
                     if os.path.exists(possible_install_location):
                         steam_install = possible_install_location

@@ -5,16 +5,13 @@ This mod integrates the Archipelago Randomizer with Gato Roboto. You can send an
 2. Get your template via the built-in option in the Archipelago Launcher
 3. After installing the apworld, a Gato Roboto Client is available in the Archipelago Launcher
 4. Patch the game in the Client by running `/auto_patch`
-5. If you want to use the controlls/settings from you original game, copy the `userprefs.json` from `%localappdata%/GatoRoboto_patch_1_1` into `%localappdata%/GatoRoboto`
-6. Connect to the multiworld in the Client and open up the game
-7. Make sure to delete the current savefile before starting a new randomizer!
+5. Connect to the multiworld in the Client and open up the game
+6. Make sure to delete the current savefile before starting a new randomizer!
 # What is different?
 You might notice that the mod currently is quite similar to the other randomizer, but it does have a few differences.  
 This mod has been created by a different group of people (with multiple speedrunners and people from the original randomizer), with a focus on stability and plans on adding new features not possible in the current randomizer.
-## Current Main Features/Differences
-Note that (Same) is matching the other mod.
+## Current main differences
 ### Settings
-- (Same) A setting to enable/disable the Watermech glitch and Smallmech glitch
 - A setting to start in the nexus instead of the landing site, allowing for some rocket-less tech
 - A 3-stage difficulty setting, allowing for some unique tech on each tier
 - A setting to give you a local rocket, preventing a long BK
@@ -41,6 +38,8 @@ Note that (Same) is matching the other mod.
 - Fixed the syncing issues caused by game id issues
 - Fixed some skipped quests not being properly skipped
 - Fixed the controlls/settings not carrying over 
+- Fixed the auto_patch command not filtering out quotes
+- Fixed the auto_patch automatically searching for the original installation if you input a bad file path
 ### Features in the Client/Mod
 - Locations have been renamed to show the coordinates inside the world
 - Added a custom notification when you pick up items
@@ -74,9 +73,10 @@ Note that (Same) is matching the other mod.
 - Add Room Randomizer
 - Add rocketjump-less option
 # The great people who helped in the project
-**Nitroxy**: Speedrunner and programmer; Main dev  
-**Tylui**: Original randomizer developer; Provided original logic and helped organize the randomizer  
-**Haxaplax**: Speedrunner and randomizer player; Helped with the logic and testing  
-**Noah**: Speedrunner; Helped with the logic and modding  
-**Cullen**: Original game developer; Helped with game specific issues and making modding a little easier  
-**Nick**: Programmers; Provided the original Client and helped with the Mod
+**Nitroxy:** Speedrunner and programmer; Main dev  
+**Tylui:** Original randomizer developer; Provided original logic and helped organize the randomizer  
+**Haxaplax:** Speedrunner and randomizer player; Helped with the logic and testing  
+**Noah:** Speedrunner; Helped with the logic and modding  
+**Cullen:** Original game developer; Helped with game specific issues and making modding a little easier  
+**Nick:** Programmers; Provided the original Client and helped with the Mod  
+**PoryGone (and others):** Discordian; Helped establish the APworld thread  

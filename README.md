@@ -60,6 +60,7 @@ This mod has been created by a different group of people (with multiple speedrun
 - Readd the warps
 - Add a display for event progression
 - Adjust rebbas 2nd item
+- Fix the data.win double patching
 ### Planned features (for the future)
 - Submarine upgrades
 - Add option to keep world progression vanilla
@@ -72,6 +73,9 @@ This mod has been created by a different group of people (with multiple speedrun
 - Add Roomsanity
 - Add Room Randomizer
 - Add rocketjump-less option
+- Warp camera
+- Fix the guide and setup page
+- Add an icon for the client
 # The great people who helped in the project
 **Nitroxy:** Speedrunner and programmer; Main dev  
 **Tylui:** Original randomizer developer; Provided original logic and helped organize the randomizer  

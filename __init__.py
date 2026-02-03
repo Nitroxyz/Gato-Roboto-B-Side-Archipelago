@@ -17,11 +17,11 @@ def launch_client(*args):
 components.append(Component("Gato Roboto Client B-Side",
                             func=launch_client,
                             component_type=Type.CLIENT,
-                            icon="kiki",
+                            #icon="kiki",
                             supports_uri=True,
                             game_name="Gato Roboto B-Side"))
 
-icon_paths['kiki'] = f"ap:{__name__}/data/Kiki.png"
+#icon_paths['kiki'] = f"ap:{__name__}/data/Kiki.png"
 
 
 def data_path(file_name: str):

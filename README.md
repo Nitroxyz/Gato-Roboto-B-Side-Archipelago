@@ -1,7 +1,7 @@
 # Gato Roboto B-Side
 This mod integrates the Archipelago Randomizer with Gato Roboto. You can send and recieve items and world progression in a multiworld containing multiple players.
 ## Installation
-1. Get the apworld in the releases and install it in the apworld (you can double-click it if you have the Launcher installed)
+1. Get the apworld in the [releases](https://github.com/Nitroxyz/Gato-Roboto-B-Side-Archipelago/releases) and install it in the apworld (you can double-click it if you have the Launcher installed)
 2. Get your template via the built-in option in the Archipelago Launcher
 3. After installing the apworld, a Gato Roboto Client is available in the Archipelago Launcher
 4. Patch the game in the Client by running `/auto_patch`

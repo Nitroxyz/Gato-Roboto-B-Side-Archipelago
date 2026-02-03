@@ -67,7 +67,7 @@ class GatoRobotoOptions(PerGameCommonOptions):
     gato_tech: GlitchGatoTech
     nexus_start: NexusStart
     local_start: ForceLocalStart
-    unlock_all_warps: UnlockAllWarps
+    #unlock_all_warps: UnlockAllWarps
 
 option_groups = [
     OptionGroup(

@@ -55,9 +55,9 @@ class GatoRobotoWorld(World):
         return "Cute Meow"
 
     def generate_early(self) -> None:
-        if self.options.unlock_all_warps:
+        '''if self.options.unlock_all_warps:
             self.options.unlock_all_warps.value = False
-            #raise OptionError
+            #raise OptionError'''
         items.generate_early(self)
 
     # There may be data that the game client will need to modify the behavior of the game.
@@ -65,7 +65,7 @@ class GatoRobotoWorld(World):
     # slot_data is just a dictionary using basic types, that will be converted to json when sent to the client.
     def fill_slot_data(self) -> Mapping[str, Any]:
         # If you need access to the player's chosen options on the client side, there is a helper for that.
-        slot_data = self.options.as_dict("nexus_start", "unlock_all_warps", "gato_tech")
+        slot_data = self.options.as_dict("nexus_start", "gato_tech")
         slot_data["game_id"] = str(uuid.uuid4())
         return slot_data
 

@@ -1,4 +1,4 @@
-# Gato Roboto Randomizer Setup Guide
+# Gato Roboto B-Side Randomizer Setup Guide
 
 ## Required Software
 - [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases)

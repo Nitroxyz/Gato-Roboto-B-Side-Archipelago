@@ -28,7 +28,6 @@ if random.random() > 0.1:
 else:
     icon_paths['gato'] = f"ap:{__name__}/data/evil_gato.webp"
 
-
 def data_path(file_name: str):
     import pkgutil
     return pkgutil.get_data(__name__, f"data/{file_name}")

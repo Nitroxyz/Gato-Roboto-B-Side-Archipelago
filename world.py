@@ -65,7 +65,7 @@ class GatoRobotoWorld(World):
     # slot_data is just a dictionary using basic types, that will be converted to json when sent to the client.
     def fill_slot_data(self) -> Mapping[str, Any]:
         # If you need access to the player's chosen options on the client side, there is a helper for that.
-        slot_data = self.options.as_dict("nexus_start", "gato_tech")
+        slot_data = self.options.as_dict("use_smallmech", "use_watermech", "nexus_start", "gato_tech")
         slot_data["game_id"] = str(uuid.uuid4())
         return slot_data
 

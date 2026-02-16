@@ -32,8 +32,8 @@ ITEM_NAME_TO_ID = {
     "Palette 14": 10014,
     "Palette 15": 10015,
     "Water Level": 10237,
-    "Lava Cooled 1": 10254,
-    "Lava Cooled 2": 10255,
+    "Hotboy defeated 1": 10254,
+    "Hotboy defeated 2": 10255,
     "Lava Cooled": 10257,
     "Vent Level": 10268,
     "Cute Meow": 10001,
@@ -64,8 +64,8 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Palette 15": ItemClassification.progression_deprioritized_skip_balancing,
     "Health Upgrade": ItemClassification.useful,
     "Water Level": ItemClassification.progression,
-    "Lava Cooled 1": ItemClassification.progression,
-    "Lava Cooled 2": ItemClassification.progression,
+    "Hotboy defeated 1": ItemClassification.progression,
+    "Hotboy defeated 2": ItemClassification.progression,
     "Lava Cooled": ItemClassification.progression,
     "Vent Level": ItemClassification.progression_skip_balancing,
     "Cute Meow": ItemClassification.filler,
@@ -137,9 +137,9 @@ def create_all_items(world: GatoRobotoWorld) -> None:
 
     # Lock the hot boys
     lava_cooled = world.get_location("Hotboy 1 (Heater Core-0019)")
-    lava_cooled.place_locked_item(world.create_item("Lava Cooled 1"))
+    lava_cooled.place_locked_item(world.create_item("Hotboy defeated 1"))
     lava_cooled = world.get_location("Hotboy 2 (Heater Core-0313)")
-    lava_cooled.place_locked_item(world.create_item("Lava Cooled 2"))
+    lava_cooled.place_locked_item(world.create_item("Hotboy defeated 2"))
 
     # Make the final item for rebba quest... not very useful :)
     #rebba_quest = world.get_location("Rebba quest 2 (Nexus-1716)")

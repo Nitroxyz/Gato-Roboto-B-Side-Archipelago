@@ -34,11 +34,11 @@ class GlitchGatoTech(Choice):
     - assumes that you can avoid a hardlock in ventilation by either routing properly or resetting the savefile.
     """
     display_name = "Gato Tech"
-    option_easy = 1
+    option_medium = 1
     option_hard = 2
-    option_vanilla = 3
+    option_vanilla_expert = 3
 
-    default = option_easy
+    default = option_medium
 
 class NexusStart(DefaultOnToggle):
     """
@@ -47,12 +47,14 @@ class NexusStart(DefaultOnToggle):
     """
     display_name = "Nexus Start"
 
+''' Out of order
 class UnlockAllWarps(Toggle):
     """
     Allows you to warp to every main area (Landing Site, Aqueducts, Heater Core and Ventilation).
     IT IS CURRENTLY NOT FUNCTIONAL! :/
     """
     display_name = "Unlock all warps"
+'''
 
 class ForceLocalStart(DefaultOnToggle):
     """

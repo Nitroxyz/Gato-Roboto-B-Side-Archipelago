@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from BaseClasses import ItemClassification, Location, LocationProgressType
 
 from . import items
-from ..generic.Rules import forbid_item
+from worlds.generic.Rules import forbid_item
 
 if TYPE_CHECKING:
     from .world import GatoRobotoWorld

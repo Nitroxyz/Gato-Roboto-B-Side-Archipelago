@@ -103,9 +103,9 @@ def set_all_location_rules(world: GatoRobotoWorld) -> None:
         set_rule(current_location, lambda state: (world.options.use_smallmech and state.has("Rocket", world.player)) or (state.has("Rocket", world.player) and state.has("Dash", world.player)) or (state.has("Spin Jump", world.player) and state.has("Dash", world.player)))
     else:
         current_location = world.get_location("Cooler (Heater Core-0113)")
-        set_rule(current_location, lambda state: (world.options.use_smallmech and state.has("Rocket", world.player)) or (state.has("Lava Cooled", world.player) and state.has("Rocket", world.player)))
+        set_rule(current_location, lambda state: (world.options.use_smallmech and state.has("Rocket", world.player)) or (state.has("Dash", world.player) and state.has("Rocket", world.player)))
         current_location = world.get_location("Lava Cooled (Heater Core-0015)")
-        set_rule(current_location, lambda state: (world.options.use_smallmech and state.has("Rocket", world.player)) or (state.has("Lava Cooled", world.player) and state.has("Rocket", world.player)))
+        set_rule(current_location, lambda state: (world.options.use_smallmech and state.has("Rocket", world.player)) or (state.has("Dash", world.player) and state.has("Rocket", world.player)))
 
     current_location = world.get_location("Bigshot (Ventilation-1718)")
     set_rule(current_location, lambda state: (state.has("Vent Level", world.player, 3)) or (state.has("Vent Level", world.player, 1) and state.has("<Smallmech entry>", world.player)) or ((world.options.gato_tech == 3) and world.options.use_smallmech and state.has("Spin Jump", world.player) and state.has("Dash", world.player)) or ((world.options.gato_tech == 3) and world.options.use_smallmech and state.has("Cooler", world.player) and state.has("Dash", world.player)))

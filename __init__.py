@@ -23,7 +23,7 @@ components.append(Component("Gato Roboto Client B-Side",
                             supports_uri=True,
                             game_name="Gato Roboto B-Side"))
 
-if random.random() > 0.1:
+if random.random() > 0.01:
     icon_paths['gato'] = f"ap:{__name__}/data/main_gato.webp"
 else:
     icon_paths['gato'] = f"ap:{__name__}/data/evil_gato.webp"

@@ -76,7 +76,7 @@ class GatoRobotoWorld(World):
         return "Cute Meow"
 
     def generate_early(self) -> None:
-        '''ut_stuff.setup_options_from_slot_data(self)'''
+        ut_stuff.setup_options_from_slot_data(self)
 
         '''if self.options.unlock_all_warps:
             self.options.unlock_all_warps.value = False

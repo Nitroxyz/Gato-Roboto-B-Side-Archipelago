@@ -14,7 +14,7 @@ class GatoRobotoWebWorld(WebWorld):
         language="English",
         file_name="guide_en.md",
         link="guide/en",
-        authors=["Nitroxy", "Haxaplax"]
+        authors=["Nitroxy"]
     )
 
     tutorials = [setup_en]

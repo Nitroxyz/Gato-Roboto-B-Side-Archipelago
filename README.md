@@ -36,7 +36,7 @@ This mod has been created by a different group of people (with multiple speedrun
 - Fixed the hot boy being unable to turn into phase 2
 - Fixed the heater core potentially crashing/hardlocking if the lava cooled item is recieved
 - Fixed a hardlock caused by the hot boys not properly saving themselves
-- tems recieved by the apworld won't override cutscenes anymore and thus avoid hardlocks
+- Items recieved by the apworld won't override cutscenes anymore and thus avoid hardlocks
 - Fixed an item cutscenes not properly finishing
 - Removed a few memory leaks
 - Fixed the syncing issues caused by game id issues

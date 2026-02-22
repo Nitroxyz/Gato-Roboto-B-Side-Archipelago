@@ -202,8 +202,8 @@
                 "map_locations": [{"map": "Heater Core", "x": 5408, "y": 321}]
             },
             {
-                "name": "VHS (Nexus-2113)", "sections": [
-                    { "name": "VHS (Nexus-2113)"}
+                "name": "VHS (Heater Core-1916)", "sections": [
+                    { "name": "VHS (Heater Core-1916)"}
                 ],
                 "map_locations": [{"map": "Heater Core", "x": 5872, "y": 881}]
             }

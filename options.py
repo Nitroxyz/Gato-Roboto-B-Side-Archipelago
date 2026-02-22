@@ -47,15 +47,6 @@ class NexusStart(DefaultOnToggle):
     """
     display_name = "Nexus Start"
 
-''' Out of order
-class UnlockAllWarps(Toggle):
-    """
-    Allows you to warp to every main area (Landing Site, Aqueducts, Heater Core and Ventilation).
-    IT IS CURRENTLY NOT FUNCTIONAL! :/
-    """
-    display_name = "Unlock all warps"
-'''
-
 class ForceLocalStart(DefaultOnToggle):
     """
     Makes the Rocket (or if possible, Spin Jump + Dash) a local drop, preventing an early BK.

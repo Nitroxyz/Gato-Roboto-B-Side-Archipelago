@@ -17,7 +17,7 @@ from CommonClient import CommonContext, server_loop, \
     gui_enabled, ClientCommandProcessor, logger, get_base_parser
 from Utils import is_linux
 
-verbose = True
+verbose = False
 
 def long_file(path):
     """ Creates the full path of the files in the save game folder. """

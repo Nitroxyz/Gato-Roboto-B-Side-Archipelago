@@ -107,9 +107,11 @@ This mod has been created by a different group of people (with multiple speedrun
 **Haxaplax:** Speedrunner and randomizer player; Helped with the logic and testing  
 **Noah:** Speedrunner; Helped with the logic and modding  
 **Cullen:** Original game developer; Helped with game specific issues and making modding a little easier  
+
 **Nick:** Programmer; Provided the original Client and helped with the Mod  
-**PoryGone (and others):** Discordian; Helped establish the APworld thread  
-**Palex:** Discordian; Helped with testing and helped create UT support
-**Slipomatic:** Discordian; Helped with testing and gave some nice ideas
-**Faris:** Discordian; Helped with setting up UT support
-**Ixrec:** Discordian; Helped with setting up UT support
+**PoryGone:** Discordian; Helped establish the APworld thread  
+**Palex:** Discordian; Helped with testing and helped create UT support  
+**Slipomatic:** Discordian; Helped with testing and suggestions  
+**Faris:** Discordian; Helped with setting up UT support  
+**Ixrec:** Discordian; Helped with setting up UT support  
+**Mysteryem**: Discordian; Helped with fixing the Client  

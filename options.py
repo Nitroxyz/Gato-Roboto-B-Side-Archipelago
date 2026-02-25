@@ -37,18 +37,12 @@ class GlitchGatoTech(Choice):
 
     default = option_medium
 
-class NexusStart(DefaultOnToggle):
+class NexusStart(Toggle):
     """
     Start in the Nexus instead of the Landing Site.
     Allows for some logic checks without rocket.
     """
     display_name = "Nexus Start"
-
-class ForceLocalStart(DefaultOnToggle):
-    """
-    Makes the Rocket (or if possible, Spin Jump + Dash) a local drop, preventing an early BK.
-    """
-    display_name = "Force Local Start"
 
 class AqueductGoal(Range):
     """
@@ -74,6 +68,18 @@ class VentilationGoal(Range):
     range_start = 0
     range_end = 3
 
+class Loresanity(Toggle):
+    """
+    Add lore buttons/terminals to the itempool (WiP)
+    """
+    display_name = "Loresanity"
+
+class ForceLocalStart(DefaultOnToggle):
+    """
+    Makes the Rocket (or if possible, Spin Jump + Dash) a local drop, preventing an early BK.
+    """
+    display_name = "Force Local Start"
+
 @dataclass
 class GatoRobotoOptions(PerGameCommonOptions):
     use_smallmech: GlitchSmallmech
@@ -84,6 +90,7 @@ class GatoRobotoOptions(PerGameCommonOptions):
     aqueduct_goal: AqueductGoal
     heatercore_goal: HeaterCoreGoal
     ventilation_goal: VentilationGoal
+    loresanity: Loresanity
 
 option_groups = [
     OptionGroup(
@@ -93,6 +100,10 @@ option_groups = [
     OptionGroup(
         "Goal Options",
         [AqueductGoal, HeaterCoreGoal, VentilationGoal],
+    ),
+    OptionGroup(
+        "Checksanity",
+        [Loresanity],
     ),
     OptionGroup(
         "Technical Stuff",

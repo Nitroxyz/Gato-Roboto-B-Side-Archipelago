@@ -17,6 +17,7 @@ LOCATION_NAME_TO_ID = {
 	"Health Upgrade (Landing Site-0408)": 10408,
 	"Rocket (Landing Site-0814)": 10814,
 	"Decoder (Landing Site-0807)": 3,
+
 	"VHS (Aqueducts-2106)": 22106,
 	"Water Level (Aqueducts-1908)": 21908,
 	"Health Upgrade (Aqueducts-0406)": 20406,
@@ -26,11 +27,13 @@ LOCATION_NAME_TO_ID = {
 	"Water Level (Aqueducts-1603)": 21603, # and 1503
 	"VHS (Aqueducts-1106)": 21106,
 	"Water Level (Aqueducts-0204)": 20204,
+
 	"Health Upgrade (Nexus-2314)": 32314,
 	"VHS (Nexus-0914)": 30914,
 	"Health Upgrade (Nexus-1014)": 31014,
 	"VHS (Nexus-2113)": 32113,
 	"VHS (Nexus-1413)": 31413,
+
 	"VHS (Heater Core-0414)": 40414,
 	"VHS (Heater Core-1916)": 41916,
 	"Cooler (Heater Core-0113)": 40113,
@@ -41,6 +44,7 @@ LOCATION_NAME_TO_ID = {
     "Hotboy 1 (Heater Core-0019)": 40019,
     "Hotboy 2 (Heater Core-0313)": 40313,
     "Lava Cooled (Heater Core-0015)": 40015,
+
 	"Bigshot (Ventilation-1718)": 51718,
 	"VHS (Ventilation-0517)": 50517,
 	"VHS (Ventilation-1613)": 51613,
@@ -50,8 +54,20 @@ LOCATION_NAME_TO_ID = {
     "Vent Level (Ventilation-0521)": 50521,
 	"Health Upgrade (Incubator-2413)": 62413,
 	"VHS (Incubator-1513)": 61513,
+
     "Rebba quest 1 (Nexus-1716)": 1,
     "Rebba quest 2 (Nexus-1716)": 2,
+
+    "Terminal (Landing Site-0809)": 10809,
+    "Terminal (Landing Site-0807)": 10807,
+    "Terminal (Aqueducts-1006)": 21006,
+    "Main Terminal (Nexus-1615)": 31615,
+    "Secret Terminal Dev (Nexus-1610)": 31610,
+    "Secret Terminal Anna (Nexus-2109)": 32109,
+    "Terminal (Heater Core-2215)": 42215,
+    "Terminal (Ventilation-1618)": 51618,
+    "Terminal (Incubator-1514)": 61514,
+    "Secret Terminal (Win)": 70000,
 }
 
 class GatoRobotoLocation(Location):
@@ -80,6 +96,14 @@ def create_regular_locations(world: GatoRobotoWorld) -> None:
     heater_core_list = ['VHS (Heater Core-0414)', 'VHS (Heater Core-1916)', 'Cooler (Heater Core-0113)', 'VHS (Heater Core-1318)', 'Dash (Heater Core-1114)', 'Health Upgrade (Heater Core-1713)', 'Health Upgrade (Heater Core-0417)', "Hotboy 1 (Heater Core-0019)", "Hotboy 2 (Heater Core-0313)", "Lava Cooled (Heater Core-0015)"]
     ventilation_list = ['Bigshot (Ventilation-1718)', 'VHS (Ventilation-0517)', 'VHS (Ventilation-1613)', 'Health Upgrade (Ventilation-0815)', "Vent Level (Ventilation-1113)", "Vent Level (Ventilation-1122)", "Vent Level (Ventilation-0521)"]
     incubator_list = ['Health Upgrade (Incubator-2413)', 'VHS (Incubator-1513)']
+
+    if world.options.loresanity:
+        landing_site_list += ["Terminal (Landing Site-0809)", "Terminal (Landing Site-0807)"]
+        nexus_list += ["Main Terminal (Nexus-1615)", "Secret Terminal Dev (Nexus-1610)", "Secret Terminal Anna (Nexus-2109)"]
+        aqueducts_list += ["Terminal (Aqueducts-1006)"]
+        heater_core_list += ["Terminal (Heater Core-2215)"]
+        ventilation_list += ["Terminal (Ventilation-1618)"]
+        incubator_list += ["Terminal (Incubator-1514)", "Secret Terminal (Win)"]
 
     landing_site.add_locations(get_location_names_with_ids(landing_site_list), GatoRobotoLocation)
     nexus.add_locations(get_location_names_with_ids(nexus_list), GatoRobotoLocation)

@@ -42,7 +42,7 @@ class GatoRobotoPath:
     @classmethod
     def steam_install(cls) -> list[str]:
         if is_linux:
-            return [os.path.expanduser("~/.local/share/Steam/steamapps/common/Gato Roboto")]  # running w/ proton
+            return [os.path.expanduser("~/.local/share/Steam/steamapps/common/Gato Roboto")]  # running w/ proton # TODO: Change to real folder
 
         # default, Utils.is_windows
         return ["C:\\Program Files (x86)\\Steam\\steamapps\\common\\Gato Roboto",
@@ -59,8 +59,9 @@ class GatoRobotoPath:
 
 
 class GatoRobotoCommandProcessor(ClientCommandProcessor):
-    def __init__(self, ctx):
-        super().__init__(ctx)
+    # Test for removal
+    '''def __init__(self, ctx):
+        super().__init__(ctx)'''
 
     @staticmethod
     def print_log(msg):
@@ -131,9 +132,9 @@ class GatoRobotoCommandProcessor(ClientCommandProcessor):
 
 
 class GatoRobotoContext(CommonContext):
-    tags: dict = {"AP", "Online"}
-    game: str = "Gato Roboto B-Side"
-    command_processor: GatoRobotoCommandProcessor = GatoRobotoCommandProcessor
+    tags = {"AP"}
+    game = "Gato Roboto B-Side"
+    command_processor = GatoRobotoCommandProcessor
     items_handling = 0b111
 
     def __init__(self, server_address, password):
@@ -215,7 +216,6 @@ async def game_watcher(ctx: GatoRobotoContext):
         """ Used in debugging to find the section of the error """
         try:
             # TODO: Replace ai junk
-            # handle client restarts and game crashes via exe check. if so
             # check for active process
             current_file_short = "active process check"
             running = False
@@ -319,7 +319,7 @@ async def game_watcher(ctx: GatoRobotoContext):
                         for item_check in set(items_received):
                             recv_count = items_received.count(item_check)
                             client_count = ctx.cur_game_items.count(item_check)
-                            if recv_count > client_count:  # TODO: Could be while loop
+                            if recv_count > client_count:
 
                                 ctx.cur_game_items.append(int(item_check))
                                 client_count += 1
@@ -339,7 +339,7 @@ async def game_watcher(ctx: GatoRobotoContext):
                                     raise RuntimeError
                                 overwrite_file("tmp_it.json", current_file_short)
 
-                                break  # TODO: Remove if while loop
+                                break
 
         except PermissionError:
             ctx.command_processor.print_log(f"!!File in \"{current_file_short}\" is locked by another program!!")
@@ -378,7 +378,7 @@ def launch():
         ctx = GatoRobotoContext(None, None)
 
         #safe_delete_file("gameid.json")
-        safe_delete_file("victory.json")
+        #safe_delete_file("victory.json")
 
         ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
         asyncio.create_task(game_watcher(ctx), name="GatoRobotoProgressionWatcher")

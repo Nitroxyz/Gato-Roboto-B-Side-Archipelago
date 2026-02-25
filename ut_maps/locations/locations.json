@@ -274,5 +274,12 @@
                 "map_locations": [{"map": "Incubator", "x": 2272, "y": 257}]
             }
         ]
+    },
+
+    {
+        "name": "Lore Checks",
+        "children": [
+
+        ]
     }
 ]

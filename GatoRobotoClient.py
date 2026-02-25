@@ -52,10 +52,10 @@ class GatoRobotoPath:
     def save_game_folder(cls) -> str:
         if is_linux:
             return os.path.expanduser(
-                "~/.local/share/Steam/steamapps/compatdata/916730/pfx/drive_c/users/steamuser/AppData/Local/GatoRoboto_patch_1_1/")  # running w/ proton
+                "~/.local/share/Steam/steamapps/compatdata/916730/pfx/drive_c/users/steamuser/AppData/Local/GatoRoboto_patch_1_1/")  # running w/ proton   # TODO: Change to real folder
 
         # default, Utils.is_windows
-        return os.path.expandvars(r"%localappdata%/GatoRoboto_patch_1_1")  # TODO: Change to real folder
+        return os.path.expandvars(r"%localappdata%/GatoRoboto_patch_1_1")
 
 
 class GatoRobotoCommandProcessor(ClientCommandProcessor):
@@ -67,8 +67,8 @@ class GatoRobotoCommandProcessor(ClientCommandProcessor):
         logger.info(msg)
 
     @mark_raw
-    def _cmd_auto_patch(self, steam_install: str = ""):
-        """Patch the game automatically."""
+    def _cmd_patch(self, steam_install: str = ""):
+        """ Patch the game. """
         if isinstance(self.ctx, GatoRobotoContext):
 
             #Validate file or set to default path
@@ -86,8 +86,37 @@ class GatoRobotoCommandProcessor(ClientCommandProcessor):
             elif not (os.path.isfile(os.path.join(steam_install, "data.win")) or os.path.isfile(os.path.join(steam_install, "ArchipelagoData/data.win"))):
                 self.output("ERROR: data.win is missing. Please validate your files.")
             else: #Patch game if valid file
-                self.ctx.patch_game(steam_install)
-                self.output("Patching complete!")
+                try:
+                    # Save vanilla game data for backup purposes
+                    os.makedirs(name=f"{steam_install}/ArchipelagoData", exist_ok=True)
+                    if not os.path.exists(f"{steam_install}/ArchipelagoData/data.win"):
+                        shutil.copy(f"{steam_install}/data.win", f"{steam_install}/ArchipelagoData/data.win")
+                    else:
+                        # Revert first, to prevent double patches
+                        if os.path.exists(f"{steam_install}/data.win"):
+                            os.remove(f"{steam_install}/data.win")
+                        shutil.copy(f"{steam_install}/ArchipelagoData/data.win", f"{steam_install}/data.win")
+
+                    def copy_over(source_path, destination_path):
+                        data = gatoroboto_b_side.data_path(source_path)
+                        with open(destination_path, "wb") as f:
+                            f.write(data)
+
+                    # TODO: make full patch work
+                    if False:
+                        copy_over("data.win", f"{steam_install}/data.win")
+                    else:
+                        # Write patched game data
+                        with open(f"{steam_install}/data.win", "rb") as f:
+                            patched_file: bytes = bsdiff4.patch(f.read(), gatoroboto_b_side.data_path("patch.bsdiff"))
+                        with open(f"{steam_install}/data.win", "wb") as f:
+                            f.write(patched_file)
+
+                    copy_over("warp_pic_ls.png", f"{steam_install}/ArchipelagoData/warp_pic_ls.png")
+                    copy_over("warp_pic_nexus.png", f"{steam_install}/ArchipelagoData/warp_pic_nexus.png")
+                    self.output("Patching complete!")
+                except:
+                    self.output("ERROR: Failed to patch data.")
 
                 # TODO: Include auto start
                 ''' 
@@ -100,60 +129,22 @@ class GatoRobotoCommandProcessor(ClientCommandProcessor):
                 subprocess.Popen([exe_path, "-game", steam_install])
                 '''
 
-    def _cmd_resync(self):
-        """Manually trigger a resync."""
-        if isinstance(self.ctx, GatoRobotoContext):
-            self.output(f"Syncing items.")
-            self.ctx.syncing = True
-
 
 class GatoRobotoContext(CommonContext):
     tags: dict = {"AP", "Online"}
     game: str = "Gato Roboto B-Side"
     command_processor: GatoRobotoCommandProcessor = GatoRobotoCommandProcessor
-    cur_client_items: list[int] = []
-    game_is_initialized: bool = False
-    game_id: dict = {}
     items_handling = 0b111
 
     def __init__(self, server_address, password):
         super().__init__(server_address, password)
         self.game = "Gato Roboto B-Side"
-        self.syncing = False
+        self.cur_game_items: list[int] = []
+        """ This is used to keep track of all items from the game. """
+        self.game_is_initialized: bool = False
+        """ This flag depicts wether the game is "connected" and you can send/receive commands. """
 
-    # TODO: move this to the other spot
-    @staticmethod
-    def patch_game(filepath):
-        #Save vanilla game data for backup purposes
-        os.makedirs(name=f"{filepath}/ArchipelagoData", exist_ok=True)
-        if not os.path.exists(f"{filepath}/ArchipelagoData/data.win"):
-            shutil.copy(f"{filepath}/data.win", f"{filepath}/ArchipelagoData/data.win")
-        else:
-            # Revert first, to prevent double patches
-            if os.path.exists(f"{filepath}/data.win"):
-                os.remove(f"{filepath}/data.win")
-            shutil.copy( f"{filepath}/ArchipelagoData/data.win", f"{filepath}/data.win")
-
-        # First test to copy the images over
-        def copy_over(source_path, destination_path):
-            data = gatoroboto_b_side.data_path(source_path)
-            with open(destination_path, "wb") as f:
-                f.write(data)
-
-        # TODO: make full patch work
-        if False:
-            copy_over("data.win", f"{filepath}/data.win")
-        else:
-            #Write patched game data
-            with open(f"{filepath}/data.win", "rb") as f:
-                patched_file: bytes = bsdiff4.patch(f.read(), gatoroboto_b_side.data_path("patch.bsdiff"))
-            with open(f"{filepath}/data.win", "wb") as f:
-                f.write(patched_file)
-
-        copy_over("warp_pic_ls.png", f"{filepath}/ArchipelagoData/warp_pic_ls.png")
-        copy_over("warp_pic_nexus.png", f"{filepath}/ArchipelagoData/warp_pic_nexus.png")
-
-
+    # TODO: Up for removal
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
             await super().server_auth(password_requested)
@@ -164,11 +155,9 @@ class GatoRobotoContext(CommonContext):
     def on_package(self, cmd, args):
         if cmd == "Connected":
             self.game = self.slot_info[self.slot].game
-
             # Do folder init here
             if not os.path.exists(f"{GatoRobotoPath.save_game_folder()}"):
                 os.mkdir(f"{GatoRobotoPath.save_game_folder()}")
-
             if verbose:
                 self.command_processor.print_log("Setting Game ID")
             # send game id (and slot data) for syncing
@@ -179,18 +168,7 @@ class GatoRobotoContext(CommonContext):
             with open(long_file("tmp_id.json"), 'w') as f:
                 f.write(item_in_json)
             overwrite_file("tmp_id.json", "gameid.json")
-
-    async def connect(self, address: typing.Optional[str] = None):
-        await super().connect(address)
-
-    async def disconnect(self, allow_autoreconnect: bool = False):
-        await super().disconnect(allow_autoreconnect)
-
-    async def connection_closed(self):
-        await super().connection_closed()
-
-    async def shutdown(self):
-        await super().shutdown()
+            self.reconnect_game()
 
     def run_gui(self):
         from kvui import GameManager
@@ -204,17 +182,39 @@ class GatoRobotoContext(CommonContext):
         self.ui = UTManager(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
 
+    async def connection_closed(self):
+        self.game_is_initialized = False
+        await super().connection_closed()
+
+    async def disconnect(self, allow_autoreconnect: bool = False):
+        self.reconnect_game()
+        self.locations_checked = set()
+        self.finished_game = False
+        await super().disconnect()
+
+    def reconnect_game(self):
+        """ Custom function; A call to reconnect with the mod. """
+        self.game_is_initialized = False
+        self.cur_game_items = []
+        safe_delete_file("items.json")
+        safe_delete_file("init.json")
+
+
 # All the communication happens here
 async def game_watcher(ctx: GatoRobotoContext):
     ctx.command_processor.print_log("Waiting for Connection to Game")
 
     while not ctx.exit_event.is_set():
         await asyncio.sleep(0.2)
+        # If not connected
         if not (ctx.server and ctx.server.socket):
+            ctx.game_is_initialized = False
             await asyncio.sleep(2)
             continue
         current_file_short: str = "outer"
+        """ Used in debugging to find the section of the error """
         try:
+            # TODO: Replace ai junk
             # handle client restarts and game crashes via exe check. if so
             # check for active process
             current_file_short = "active process check"
@@ -222,7 +222,7 @@ async def game_watcher(ctx: GatoRobotoContext):
             for process in psutil.process_iter(attrs=["exe"]):
                 try:
                     exe_path: str = process.info["exe"]
-                    if exe_path and "gatoroboto" in exe_path.lower():  # ✅ Check if not None TODO: Replace ai junk
+                    if exe_path and "gatoroboto" in exe_path.lower():  # ✅ Check if not None
                         running = True
                 except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
                     continue
@@ -231,34 +231,31 @@ async def game_watcher(ctx: GatoRobotoContext):
             if not running or os.path.exists(long_file("off.json")):
                 if ctx.game_is_initialized:
                     if verbose:
-                        ctx.command_processor.print_log(f"Game isn't active anymore {not running} {os.path.exists(long_file("off.json"))}")
+                        ctx.command_processor.print_log(f"Game isn't active anymore {not running} {os.path.exists(long_file('off.json'))}")
 
                     ctx.command_processor.print_log("Lost Connection to Game")
-                    safe_delete_file("items.json")
-                    safe_delete_file("req_init.json")
-                    ctx.cur_client_items = []
-                    ctx.game_is_initialized = False
+                    ctx.reconnect_game()
                     ctx.command_processor.print_log("Waiting for Connection to Game")
                 #continue # rest of code should be skipped
             #else: assume running
 
-            if os.path.exists(long_file("init.json")):
+            current_file_short = "init.json"
+            if os.path.exists(long_file(current_file_short)):
                 # if init file exists, read it
-                current_file_short = "init.json"
                 if verbose:
                     ctx.command_processor.print_log("Received Init")
 
+                ctx.cur_game_items = []
                 with open(long_file(current_file_short), 'r+') as f:
                     items_init: dict = get_clean_game_comms_file(f)
-                    ctx.cur_client_items = []
 
-                    key: str
-                    for key in items_init:
-                        if key.isnumeric():
-                            if verbose:
-                                ctx.command_processor.print_log(f"get item {key} {int(items_init[key])} times")
-                            for _ in range(int(items_init[key])):
-                                ctx.cur_client_items.append(int(key))
+                key: str
+                for key in items_init:
+                    if key.isnumeric():
+                        if verbose:
+                            ctx.command_processor.print_log(f"get item {key} {int(items_init[key])} times")
+                        for _ in range(int(items_init[key])):
+                            ctx.cur_game_items.append(int(key))
                 safe_delete_file("req_init.json")
                 safe_delete_file("items.json")
                 overwrite_file(current_file_short, "init_old.json")
@@ -287,18 +284,19 @@ async def game_watcher(ctx: GatoRobotoContext):
                         with open(long_file(current_file_short), "r+") as f:
                             locations_in: dict = get_clean_game_comms_file(f)
 
-                            sending: list[int] = []
+                        sending = False
+                        for key in locations_in:
+                            if str(key).isdigit():
+                                if int(key) in ctx.missing_locations and int(locations_in[str(key)]) > 0:
+                                    ctx.locations_checked.add(int(key))
+                                    sending = True
 
-                            for key in locations_in:
-                                if str(key).isdigit():
-                                    if int(key) in ctx.missing_locations and int(locations_in[str(key)]) > 0:
-                                        print("Found Location to Send")
-                                        sending.append(int(key))
-
-                            if len(sending) != 0:
-                                await ctx.send_msgs([{"cmd": "LocationChecks", "locations": sending}])
-
-                        safe_delete_file(current_file_short) # TODO: WHY?!
+                        if sending:
+                            await ctx.send_msgs([{"cmd": "LocationChecks", "locations": list(ctx.locations_checked)}])
+                        else:
+                            safe_delete_file(current_file_short)  # TODO: Test removal
+                            if verbose:
+                                ctx.command_processor.print_log("Finished receiving locations")
 
                     # handle win send
                     current_file_short = "victory.json"
@@ -307,12 +305,12 @@ async def game_watcher(ctx: GatoRobotoContext):
                             ctx.command_processor.print_log("Received Victory")
                         if not ctx.finished_game:
                             await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
-                            safe_delete_file(current_file_short)
+                            ctx.finished_game = True
+                        safe_delete_file(current_file_short)
 
                     # send items
                     current_file_short = "items.json"
-                    if len(ctx.items_received) > 0 and ctx.game_is_initialized and not os.path.exists(
-                            long_file(current_file_short)):
+                    if len(ctx.items_received) > 0 and not os.path.exists(long_file(current_file_short)):
                         # turn the list of network items into simple id's
                         cur_item: NetworkItem
                         items_received: list[int] = [int(cur_item.item) for cur_item in ctx.items_received]
@@ -320,18 +318,18 @@ async def game_watcher(ctx: GatoRobotoContext):
                         # for each item with a smaller count send missing
                         for item_check in set(items_received):
                             recv_count = items_received.count(item_check)
-                            client_count = ctx.cur_client_items.count(item_check)
+                            client_count = ctx.cur_game_items.count(item_check)
                             if recv_count > client_count:  # TODO: Could be while loop
 
-                                ctx.cur_client_items.append(int(item_check))
+                                ctx.cur_game_items.append(int(item_check))
                                 client_count += 1
 
                                 item_in = {
                                     "item": int(item_check),
-                                    "item_index": len(ctx.cur_client_items)
+                                    "item_index": len(ctx.cur_game_items)
                                 }
                                 if verbose:
-                                    ctx.command_processor.print_log(f"send item: {item_check} : {recv_count}, {client_count} : {len(ctx.items_received)} {len(ctx.cur_client_items)}")
+                                    ctx.command_processor.print_log(f"send item: {item_check} : {recv_count}, {client_count} : {len(ctx.items_received)} {len(ctx.cur_game_items)}")
 
                                 item_in_json: str = json.dumps(item_in, indent=4)
                                 with open(long_file("tmp_it.json"), 'w') as f:
@@ -341,16 +339,7 @@ async def game_watcher(ctx: GatoRobotoContext):
                                     raise RuntimeError
                                 overwrite_file("tmp_it.json", current_file_short)
 
-                                break  # TODO: Remove if while loo
-
-            # resync, and attempt to send client all items received
-            if ctx.syncing:
-                ctx.items_received = []
-                sync_msg = [{"cmd": "Sync"}]
-                if ctx.locations_checked:
-                    sync_msg.append({"cmd": "LocationChecks", "locations": list(ctx.locations_checked)})
-                await ctx.send_msgs(sync_msg)
-                ctx.syncing = False
+                                break  # TODO: Remove if while loop
 
         except PermissionError:
             ctx.command_processor.print_log(f"!!File in \"{current_file_short}\" is locked by another program!!")
@@ -360,7 +349,6 @@ async def game_watcher(ctx: GatoRobotoContext):
             ctx.command_processor.print_log(f"Something else went wrong in \"{current_file_short}\". Exception type {type(e)}")
             await asyncio.sleep(0.3)
             continue
-
 
 def get_clean_game_comms_file(f) -> dict | None:
     content = f.read()

@@ -1,12 +1,9 @@
 from dataclasses import dataclass
 
-from Options import OptionGroup, PerGameCommonOptions, Toggle, DefaultOnToggle, Choice
+from Options import OptionGroup, PerGameCommonOptions, Toggle, DefaultOnToggle, Choice, Range
 
 
 # Flymech (off)
-# Randomize Aqueduct Quest (on)
-# Randomize Heater Core Quest (off)
-# Randomize Ventilation Quest (on) (Reminder that it can only be ventilation quest off with progressive)
 # Ultrahard (off)
 # Upwarp (on)
 
@@ -53,6 +50,30 @@ class ForceLocalStart(DefaultOnToggle):
     """
     display_name = "Force Local Start"
 
+class AqueductGoal(Range):
+    """
+    Required amount of "Water Level" required to enter Incubator.
+    """
+    display_name = "Aqueduct Goal"
+    range_start = 0
+    range_end = 3
+
+class HeaterCoreGoal(Range):
+    """
+    Required amount of "Lava Cooled" required to enter Incubator.
+    """
+    display_name = "Heater Core Goal"
+    range_start = 0
+    range_end = 1
+
+class VentilationGoal(Range):
+    """
+    Required amount of "Vent Level" required to enter Incubator.
+    """
+    display_name = "Ventilation Goal"
+    range_start = 0
+    range_end = 3
+
 @dataclass
 class GatoRobotoOptions(PerGameCommonOptions):
     use_smallmech: GlitchSmallmech
@@ -60,12 +81,18 @@ class GatoRobotoOptions(PerGameCommonOptions):
     gato_tech: GlitchGatoTech
     nexus_start: NexusStart
     local_start: ForceLocalStart
-    #unlock_all_warps: UnlockAllWarps
+    aqueduct_goal: AqueductGoal
+    heatercore_goal: HeaterCoreGoal
+    ventilation_goal: VentilationGoal
 
 option_groups = [
     OptionGroup(
         "Expert Logic",
         [GlitchSmallmech, GlitchWatermech, GlitchGatoTech, NexusStart],
+    ),
+    OptionGroup(
+        "Goal Options",
+        [AqueductGoal, HeaterCoreGoal, VentilationGoal],
     ),
     OptionGroup(
         "Technical Stuff",

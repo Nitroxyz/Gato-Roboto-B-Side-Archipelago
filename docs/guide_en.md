@@ -31,7 +31,7 @@
 3. At the top you need to input the ``archipelago:XXXXX`` thing from the multiworld and press the "connect" button
 4. Inside the Text client, it now prompts you to input your slot name. This is the name you made inside the yaml for your game
 5. Once you connected, it will return a "Client connected" prompt and you might see all the items being sent by other players already
-6. You need to patch the game by typing ``/auto_patch`` into your Text client. If your game is in a different location than your steam directory, you will have to add the file path after the command.
+6. You need to patch the game by typing ``/patch`` into your Text client. If your game is in a different location than your steam directory, you will have to add the file path after the command.
 7. Once you did that successfully, you can open up the game!
 8. Keep in mind that you only need to patch once!
 9. When you are inside of the game, you can confirm that you have correctly installed the mod by seeing only one savefile

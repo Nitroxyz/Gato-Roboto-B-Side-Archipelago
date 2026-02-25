@@ -16,27 +16,46 @@ ITEM_NAME_TO_ID = {
     "Decoder": 10209,
     "Big Shot": 10212,
     "Repeater": 10213,
+
+    "Bark Palette": 10002,
+    "Nicotine Palette": 10003,
+    "Starboard Palette": 10004,
+    "Coffee Stain Palette": 10005,
+    "Virtual Cat Palette": 10006,
+    "Port Palette": 10007,
+    "Meowtrix Palette": 10008,
+    "Goop Palette": 10009,
+    "Urine Palette": 10010,
+    "Tamagato Palette": 10011,
+    "Gris Palette": 10012,
+    "Chewed Gun Palette": 10013,
+    "Swamp Matcha Palette": 10014,
+    "Grape Palette": 10015,
+
     "Health Upgrade": 10208,
-    "Palette 02": 10002,
-    "Palette 03": 10003,
-    "Palette 04": 10004,
-    "Palette 05": 10005,
-    "Palette 06": 10006,
-    "Palette 07": 10007,
-    "Palette 08": 10008,
-    "Palette 09": 10009,
-    "Palette 10": 10010,
-    "Palette 11": 10011,
-    "Palette 12": 10012,
-    "Palette 13": 10013,
-    "Palette 14": 10014,
-    "Palette 15": 10015,
     "Water Level": 10237,
     "Hotboy defeated": 10254,
     "Lava Cooled": 10257,
     "Vent Level": 10268,
     "Cute Meow": 10001,
 }
+
+VHS = (
+    "Bark Palette",
+    "Nicotine Palette",
+    "Starboard Palette",
+    "Coffee Stain Palette",
+    "Virtual Cat Palette",
+    "Port Palette",
+    "Meowtrix Palette",
+    "Goop Palette",
+    "Urine Palette",
+    "Tamagato Palette",
+    "Gris Palette",
+    "Chewed Gun Palette",
+    "Swamp Matcha Palette",
+    "Grape Palette"
+)
 
 DEFAULT_ITEM_CLASSIFICATIONS = {
     "Rocket": ItemClassification.progression | ItemClassification.useful,
@@ -47,20 +66,7 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Decoder": ItemClassification.progression,
     "Big Shot": ItemClassification.useful,
     "Repeater": ItemClassification.useful,
-    "Palette 02": ItemClassification.progression_deprioritized_skip_balancing,
-    "Palette 03": ItemClassification.progression_deprioritized_skip_balancing,
-    "Palette 04": ItemClassification.progression_deprioritized_skip_balancing,
-    "Palette 05": ItemClassification.progression_deprioritized_skip_balancing,
-    "Palette 06": ItemClassification.progression_deprioritized_skip_balancing,
-    "Palette 07": ItemClassification.progression_deprioritized_skip_balancing,
-    "Palette 08": ItemClassification.progression_deprioritized_skip_balancing,
-    "Palette 09": ItemClassification.progression_deprioritized_skip_balancing,
-    "Palette 10": ItemClassification.progression_deprioritized_skip_balancing,
-    "Palette 11": ItemClassification.progression_deprioritized_skip_balancing,
-    "Palette 12": ItemClassification.progression_deprioritized_skip_balancing,
-    "Palette 13": ItemClassification.progression_deprioritized_skip_balancing,
-    "Palette 14": ItemClassification.progression_deprioritized_skip_balancing,
-    "Palette 15": ItemClassification.progression_deprioritized_skip_balancing,
+
     "Health Upgrade": ItemClassification.useful,
     "Water Level": ItemClassification.progression,
     "Hotboy defeated": ItemClassification.progression,
@@ -68,6 +74,8 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Vent Level": ItemClassification.progression_skip_balancing,
     "Cute Meow": ItemClassification.filler,
 }
+for vhs in VHS:
+    DEFAULT_ITEM_CLASSIFICATIONS[vhs] = ItemClassification.progression_deprioritized_skip_balancing
 
 class GatoRobotoItem(Item):
     game = "Gato Roboto B-Side"
@@ -96,36 +104,20 @@ def create_all_items(world: GatoRobotoWorld) -> None:
 
     itempool: list[Item] = [
         world.create_item("Rocket"),
-        world.create_item("Dash"),
         world.create_item("Spin Jump"),
-        world.create_item("Hopper"),
         world.create_item("Cooler"),
+        world.create_item("Dash"),
+        world.create_item("Hopper"),
         world.create_item("Decoder"),
         world.create_item("Big Shot"),
         world.create_item("Repeater"),
-        world.create_item("Palette 02"),
-        world.create_item("Palette 03"),
-        world.create_item("Palette 04"),
-        world.create_item("Palette 05"),
-        world.create_item("Palette 06"),
-        world.create_item("Palette 07"),
-        world.create_item("Palette 08"),
-        world.create_item("Palette 09"),
-        world.create_item("Palette 10"),
-        world.create_item("Palette 11"),
-        world.create_item("Palette 12"),
-        world.create_item("Palette 13"),
-        world.create_item("Palette 14"),
-        world.create_item("Palette 15"),
     ]
-    for i in range(10):
-        itempool.append(world.create_item(f"Health Upgrade"))
-    for i in range(3):
-        itempool.append(world.create_item(f"Water Level"))
+    itempool += [world.create_item(vhs) for vhs in VHS]
+    itempool += [world.create_item("Health Upgrade") for _ in range(10)]
+    itempool += [world.create_item("Water Level") for _ in range(3)]
+    itempool += [world.create_item("Vent Level") for _ in range(3)]
 
-    for i in range(3):
-        itempool.append(world.create_item(f"Vent Level"))
-
+    # lava cooled check
     if world.options.gato_tech == 3 and not world.options.use_smallmech:
         # Lock it!
         lava_cooled = world.get_location("Cooler (Heater Core-0113)")
@@ -139,10 +131,7 @@ def create_all_items(world: GatoRobotoWorld) -> None:
     lava_cooled = world.get_location("Hotboy 2 (Heater Core-0313)")
     lava_cooled.place_locked_item(world.create_item("Hotboy defeated"))
 
-    # Make the final item for rebba quest... not very useful :)
-    #rebba_quest = world.get_location("Rebba quest 2 (Nexus-1716)")
-    #rebba_quest.place_locked_item(world.create_item("Health Upgrade"))
-
+    # filler check
     number_of_items = len(itempool)
     number_of_unfilled_locations = len(world.multiworld.get_unfilled_locations(world.player))
     needed_number_of_filler_items = number_of_unfilled_locations - number_of_items
@@ -153,24 +142,24 @@ def create_all_items(world: GatoRobotoWorld) -> None:
     world.multiworld.itempool += itempool
 
 def generate_early(world: GatoRobotoWorld) -> None:
-
+    ''' Make sure that the Rocket gets spawned early '''
 
     # Early Starter items
     '''if world.options.unlock_all_warps:
         starter_pick = world.random.choice(["Rocket Start", "Spin Jump Start"])
-    else:'''
+    else:
     starter_pick = "Rocket Start"
 
-    if starter_pick == "Rocket Start":
-        if world.options.local_start:
-            world.multiworld.local_early_items[world.player]["Rocket"] = 1
-        else:
-            world.multiworld.early_items[world.player]["Rocket"] = 1
+    if starter_pick == "Rocket Start":'''
+    if world.options.local_start:
+        world.multiworld.local_early_items[world.player]["Rocket"] = 1
     else:
+        world.multiworld.early_items[world.player]["Rocket"] = 1
+    '''else:
         if world.options.local_start:
             world.multiworld.local_early_items[world.player]["Spin Jump"] = 1
             world.multiworld.local_early_items[world.player]["Dash"] = 1
         else:
             world.multiworld.early_items[world.player]["Spin Jump"] = 1
-            world.multiworld.early_items[world.player]["Dash"] = 1
+            world.multiworld.early_items[world.player]["Dash"] = 1'''
 

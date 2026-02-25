@@ -73,7 +73,10 @@ class GatoRobotoWorld(World):
     # You must override this function and return this infinitely repeatable item's name.
     # In our case, we defined a function called get_random_filler_item_name for this purpose in our items.py.
     def get_filler_item_name(self) -> str:
-        return "Cute Meow"
+        if self.options.gato_tech <= 1:
+            return "Health Upgrade"
+        else:
+            return "Cute Meow"
 
     def generate_early(self) -> None:
         ut_stuff.setup_options_from_slot_data(self)
@@ -88,7 +91,7 @@ class GatoRobotoWorld(World):
     # slot_data is just a dictionary using basic types, that will be converted to json when sent to the client.
     def fill_slot_data(self) -> Mapping[str, Any]:
         # If you need access to the player's chosen options on the client side, there is a helper for that.
-        slot_data = self.options.as_dict("use_smallmech", "use_watermech", "nexus_start", "gato_tech")
+        slot_data = self.options.as_dict("use_smallmech", "use_watermech", "nexus_start", "gato_tech", "aqueduct_goal", "heatercore_goal", "ventilation_goal")
         slot_data["game_id"] = str(uuid.uuid4())
         return slot_data
 

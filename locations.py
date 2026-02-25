@@ -16,7 +16,7 @@ LOCATION_NAME_TO_ID = {
 	"VHS (Landing Site-0710)": 10710,
 	"Health Upgrade (Landing Site-0408)": 10408,
 	"Rocket (Landing Site-0814)": 10814,
-	"Decoder (Landing Site-0807)": 10807,
+	"Decoder (Landing Site-0807)": 3,
 	"VHS (Aqueducts-2106)": 22106,
 	"Water Level (Aqueducts-1908)": 21908,
 	"Health Upgrade (Aqueducts-0406)": 20406,

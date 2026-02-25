@@ -4,7 +4,7 @@ This mod integrates the Archipelago Randomizer with Gato Roboto. You can send an
 1. Get the apworld in the [releases](https://github.com/Nitroxyz/Gato-Roboto-B-Side-Archipelago/releases) and install it in the apworld (you can double-click it if you have the Launcher installed)
 2. Get your template via the built-in option in the Archipelago Launcher
 3. After installing the apworld, a Gato Roboto Client is available in the Archipelago Launcher
-4. Patch the game in the Client by running `/auto_patch`
+4. Patch the game in the Client by running `/patch` (add directory path if you don't want to modify the default steam installation)
 5. Connect to the multiworld in the Client and open up the game
 6. Make sure to delete the current savefile before starting a new randomizer!
 # What is different?
@@ -32,6 +32,9 @@ This mod has been created by a different group of people (with multiple speedrun
   - Advanced tech to obtain certain items
 - Better fine-tuning for item qualities
 - No generation failiures
+### Universal Tracker support
+- Thanks to the Poptracker Integration it will not show a full map of the game with each check with logic!
+- You can also generate the tracker without having to use a yaml!
 ### Bugfixes in the Mod
 - Fixed the hot boy being unable to turn into phase 2
 - Fixed the heater core potentially crashing/hardlocking if the lava cooled item is recieved
@@ -58,7 +61,6 @@ This mod has been created by a different group of people (with multiple speedrun
 - Improved world generation speeds
 ## Planned features/current issues
 ### Current known issues
-- Vanilla currently doesn't disable the crash fixes
 - Receiving an item in a softlock location might cause the game to hardlock you
 - Linux might not be compatible
 ### Planned features (for the next updates)
@@ -107,5 +109,7 @@ This mod has been created by a different group of people (with multiple speedrun
 **Cullen:** Original game developer; Helped with game specific issues and making modding a little easier  
 **Nick:** Programmer; Provided the original Client and helped with the Mod  
 **PoryGone (and others):** Discordian; Helped establish the APworld thread  
-**Palex:** Discordian; Helped with testing  
-**Slipomatic:** Discordian; Helped with testing
+**Palex:** Discordian; Helped with testing and helped create UT support
+**Slipomatic:** Discordian; Helped with testing and gave some nice ideas
+**Faris:** Discordian; Helped with setting up UT support
+**Ixrec:** Discordian; Helped with setting up UT support

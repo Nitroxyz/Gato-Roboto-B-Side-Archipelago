@@ -10,7 +10,7 @@ from Options import OptionGroup, PerGameCommonOptions, Toggle, DefaultOnToggle, 
 class GlitchSmallmech(Toggle):
     """
     Includes logic for the Smallmech glitch.
-    In "Vanilla" difficulty, this will force the Lava Cooled event to be at Cooler
+    In "Vanilla" difficulty, this will force the Lava Cooled event to be at Cooler.
     """
     display_name = "Use Smallmech"
 
@@ -23,12 +23,15 @@ class GlitchWatermech(Toggle):
 class GlitchGatoTech(Choice):
     """
     Difficulty of strategies
-    Easy is recommended for normal players
-    Hard includes a bunch of unique strategies, which require advanced knowledge
-    Vanilla is a special difficulty, which:
-    - removes the crash fixes in heater core
-    - includes the logic for the standard cat vent skip and vent mashing
-    - assumes that you can avoid a hardlock in ventilation by either routing properly or resetting the savefile.
+
+    "Medium" is recommended for normal players. You might have to do some tricks done in the speedrun.
+
+    "Hard" includes a bunch of difficulty or obscure strategies, which require advanced knowledge.
+
+    "Vanilla" is a special difficulty, with a raised difficulty for the very best. It will:
+    - remove the crash fixes in heater core
+    - include the logic for the standard cat vent skip and vent mashing
+    - assume that you can avoid a hardlock in ventilation by either routing properly or resetting the savefile (not currently!)
     """
     display_name = "Gato Tech"
     option_medium = 1

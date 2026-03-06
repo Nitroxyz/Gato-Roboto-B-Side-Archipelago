@@ -279,7 +279,60 @@
     {
         "name": "Lore Checks",
         "children": [
-
+            {
+                "name": "Terminal (Landing Site-0807)", "sections": [
+                    { "name": "Terminal (Landing Site-0807)"}
+                ],
+                "map_locations": [{"map": "Landing Site", "x": 1744, "y": 170}]
+            },
+            {
+                "name": "Terminal (Landing Site-0809)", "sections": [
+                    { "name": "Terminal (Landing Site-0809)"}
+                ],
+                "map_locations": [{"map": "Landing Site", "x": 1712, "y": 505}]
+            },
+            {
+                "name": "Terminal (Nexus-1615)", "sections": [
+                    { "name": "Terminal (Nexus-1615)"}
+                ],
+                "map_locations": [{"map": "Nexus", "x": 2192, "y": 1289}]
+            },
+            {
+                "name": "Terminal (Nexus-1610)", "sections": [
+                    { "name": "Terminal (Nexus-1610)"}
+                ],
+                "map_locations": [{"map": "Nexus", "x": 2368, "y": 361}]
+            },
+            {
+                "name": "Terminal (Nexus-2109)", "sections": [
+                    { "name": "Terminal (Nexus-2109)"}
+                ],
+                "map_locations": [{"map": "Nexus", "x": 4032, "y": 153}]
+            },
+            {
+                "name": "Terminal (Aqueducts-1006)", "sections": [
+                    { "name": "Terminal (Aqueducts-1006)"}
+                ],
+                "map_locations": [{"map": "Aqueducts", "x": 3200, "y": 745}]
+            },
+            {
+                "name": "Terminal (Heater Core-2215)", "sections": [
+                    { "name": "Terminal (Heater Core-2215)"}
+                ],
+                "map_locations": [{"map": "Heater Core", "x": 6848, "y": 731}]
+            },
+            {
+                "name": "Terminal (Ventilation-1618)", "sections": [
+                    { "name": "Terminal (Ventilation-1618)"}
+                ],
+                "map_locations": [{"map": "Ventilation", "x": 4144, "y": 1321}]
+            },
+            {
+                "name": "Terminal (Incubator-1514)", "sections": [
+                    { "name": "Terminal (Incubator-1514)"}
+                ],
+                "map_locations": [{"map": "Incubator", "x": 2256, "y": 537}]
+            }
         ]
     }
 ]

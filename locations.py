@@ -61,13 +61,12 @@ LOCATION_NAME_TO_ID = {
     "Terminal (Landing Site-0809)": 10809,
     "Terminal (Landing Site-0807)": 10807,
     "Terminal (Aqueducts-1006)": 21006,
-    "Main Terminal (Nexus-1615)": 31615,
-    "Secret Terminal Dev (Nexus-1610)": 31610,
-    "Secret Terminal Anna (Nexus-2109)": 32109,
+    "Terminal (Nexus-1615)": 31615,
+    "Terminal (Nexus-1610)": 31610,
+    "Terminal (Nexus-2109)": 32109,
     "Terminal (Heater Core-2215)": 42215,
     "Terminal (Ventilation-1618)": 51618,
     "Terminal (Incubator-1514)": 61514,
-    "Secret Terminal (Win)": 70000,
 }
 
 class GatoRobotoLocation(Location):
@@ -99,11 +98,11 @@ def create_regular_locations(world: GatoRobotoWorld) -> None:
 
     if world.options.loresanity:
         landing_site_list += ["Terminal (Landing Site-0809)", "Terminal (Landing Site-0807)"]
-        nexus_list += ["Main Terminal (Nexus-1615)", "Secret Terminal Dev (Nexus-1610)", "Secret Terminal Anna (Nexus-2109)"]
+        nexus_list += ["Terminal (Nexus-1615)", "Terminal (Nexus-1610)", "Terminal (Nexus-2109)"]
         aqueducts_list += ["Terminal (Aqueducts-1006)"]
         heater_core_list += ["Terminal (Heater Core-2215)"]
         ventilation_list += ["Terminal (Ventilation-1618)"]
-        incubator_list += ["Terminal (Incubator-1514)", "Secret Terminal (Win)"]
+        incubator_list += ["Terminal (Incubator-1514)"]
 
     landing_site.add_locations(get_location_names_with_ids(landing_site_list), GatoRobotoLocation)
     nexus.add_locations(get_location_names_with_ids(nexus_list), GatoRobotoLocation)

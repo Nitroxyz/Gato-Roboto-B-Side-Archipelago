@@ -17,7 +17,7 @@ from CommonClient import CommonContext, server_loop, \
     gui_enabled, ClientCommandProcessor, logger, get_base_parser
 from Utils import is_linux
 
-verbose = False
+verbose = True
 
 def long_file(path):
     """ Creates the full path of the files in the save game folder. """
@@ -159,8 +159,7 @@ class GatoRobotoContext(CommonContext):
             # Do folder init here
             if not os.path.exists(f"{GatoRobotoPath.save_game_folder()}"):
                 os.mkdir(f"{GatoRobotoPath.save_game_folder()}")
-            if verbose:
-                self.command_processor.print_log("Setting Game ID")
+            self.print_debug("Setting Game ID")
             # send game id (and slot data) for syncing
             if "game_id" not in args["slot_data"]:
                 args["slot_data"]["game_id"] = "no-id"
@@ -199,7 +198,12 @@ class GatoRobotoContext(CommonContext):
         self.cur_game_items = []
         safe_delete_file("items.json")
         safe_delete_file("init.json")
+        self.print_debug("(Re-)connect to Game")
 
+    def print_debug(self, message):
+        """ Handler for any fancy printing shenanigans """
+        if verbose:
+            self.command_processor.print_log(str(message))
 
 # All the communication happens here
 async def game_watcher(ctx: GatoRobotoContext):
@@ -230,8 +234,7 @@ async def game_watcher(ctx: GatoRobotoContext):
             # game is not running. disconnect when needed
             if not running or os.path.exists(long_file("off.json")):
                 if ctx.game_is_initialized:
-                    if verbose:
-                        ctx.command_processor.print_log(f"Game isn't active anymore {not running} {os.path.exists(long_file('off.json'))}")
+                    ctx.print_debug(f"Game isn't active anymore {not running} {os.path.exists(long_file('off.json'))}")
 
                     ctx.command_processor.print_log("Lost Connection to Game")
                     ctx.reconnect_game()
@@ -242,8 +245,7 @@ async def game_watcher(ctx: GatoRobotoContext):
             current_file_short = "init.json"
             if os.path.exists(long_file(current_file_short)):
                 # if init file exists, read it
-                if verbose:
-                    ctx.command_processor.print_log("Received Init")
+                ctx.print_debug("Received Init")
 
                 ctx.cur_game_items = []
                 with open(long_file(current_file_short), 'r+') as f:
@@ -252,8 +254,7 @@ async def game_watcher(ctx: GatoRobotoContext):
                 key: str
                 for key in items_init:
                     if key.isnumeric():
-                        if verbose:
-                            ctx.command_processor.print_log(f"get item {key} {int(items_init[key])} times")
+                        #ctx.print_debug(f"get item {key} {int(items_init[key])} times")
                         for _ in range(int(items_init[key])):
                             ctx.cur_game_items.append(int(key))
                 safe_delete_file("req_init.json")
@@ -269,8 +270,7 @@ async def game_watcher(ctx: GatoRobotoContext):
                     # game is already running. request another initialize
                     current_file_short = "req_init.json"
                     if not os.path.exists(long_file(current_file_short)):
-                        if verbose:
-                            ctx.command_processor.print_log("Client opened with running exe")
+                        ctx.print_debug("Request init")
 
                         open(long_file(current_file_short), "a").close()
                 else:
@@ -278,8 +278,7 @@ async def game_watcher(ctx: GatoRobotoContext):
                     # watch for received locations from game
                     current_file_short = "locations.json"
                     if os.path.exists(long_file(current_file_short)):
-                        if verbose:
-                            ctx.command_processor.print_log("Received locations")
+                        ctx.print_debug("Received locations")
 
                         with open(long_file(current_file_short), "r+") as f:
                             locations_in: dict = get_clean_game_comms_file(f)
@@ -287,6 +286,7 @@ async def game_watcher(ctx: GatoRobotoContext):
                         sending = False
                         for key in locations_in:
                             if str(key).isdigit():
+                                ctx.print_debug(f"Received location {int(key)}")
                                 if int(key) in ctx.missing_locations and int(locations_in[str(key)]) > 0:
                                     ctx.locations_checked.add(int(key))
                                     sending = True
@@ -295,14 +295,12 @@ async def game_watcher(ctx: GatoRobotoContext):
                             await ctx.send_msgs([{"cmd": "LocationChecks", "locations": list(ctx.locations_checked)}])
                         else:
                             safe_delete_file(current_file_short)  # TODO: Test removal
-                            if verbose:
-                                ctx.command_processor.print_log("Finished receiving locations")
+                            ctx.print_debug("Finished receiving locations")
 
                     # handle win send
                     current_file_short = "victory.json"
                     if os.path.exists(long_file(current_file_short)):
-                        if verbose:
-                            ctx.command_processor.print_log("Received Victory")
+                        ctx.print_debug("Received Victory")
                         if not ctx.finished_game:
                             await ctx.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
                             ctx.finished_game = True
@@ -328,8 +326,7 @@ async def game_watcher(ctx: GatoRobotoContext):
                                     "item": int(item_check),
                                     "item_index": len(ctx.cur_game_items)
                                 }
-                                if verbose:
-                                    ctx.command_processor.print_log(f"send item: {item_check} : {recv_count}, {client_count} : {len(ctx.items_received)} {len(ctx.cur_game_items)}")
+                                #ctx.print_debug(f"send item: {item_check} : {recv_count}, {client_count} : {len(ctx.items_received)} {len(ctx.cur_game_items)}")
 
                                 item_in_json: str = json.dumps(item_in, indent=4)
                                 with open(long_file("tmp_it.json"), 'w') as f:

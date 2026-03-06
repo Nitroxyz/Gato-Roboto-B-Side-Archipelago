@@ -7,14 +7,14 @@ from Options import OptionGroup, PerGameCommonOptions, Toggle, DefaultOnToggle, 
 # Ultrahard (off)
 # Upwarp (on)
 
-class GlitchSmallmech(DefaultOnToggle):
+class GlitchSmallmech(Toggle):
     """
     Includes logic for the Smallmech glitch.
     In "Vanilla" difficulty, this will force the Lava Cooled event to be at Cooler
     """
     display_name = "Use Smallmech"
 
-class GlitchWatermech(DefaultOnToggle):
+class GlitchWatermech(Toggle):
     """
     Includes logic for the Watermech glitch.
     """
@@ -51,6 +51,7 @@ class AqueductGoal(Range):
     display_name = "Aqueduct Goal"
     range_start = 0
     range_end = 3
+    default = 3
 
 class HeaterCoreGoal(Range):
     """
@@ -59,6 +60,7 @@ class HeaterCoreGoal(Range):
     display_name = "Heater Core Goal"
     range_start = 0
     range_end = 1
+    default = 1
 
 class VentilationGoal(Range):
     """
@@ -67,6 +69,7 @@ class VentilationGoal(Range):
     display_name = "Ventilation Goal"
     range_start = 0
     range_end = 3
+    default = 3
 
 class Loresanity(Toggle):
     """

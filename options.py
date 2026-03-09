@@ -22,11 +22,11 @@ class GlitchWatermech(Toggle):
 
 class GlitchGatoTech(Choice):
     """
-    Difficulty of strategies
+    Difficulty of strategies.
 
-    "Medium" is recommended for normal players. You might have to do some tricks done in the speedrun.
+    "Medium" is recommended for normal players. You might have to do some tricks done in the Any% speedrun.
 
-    "Hard" includes a bunch of difficulty or obscure strategies, which require advanced knowledge.
+    "Hard" includes a bunch of difficult or obscure strategies, which require advanced knowledge.
 
     "Vanilla" is a special difficulty, with a raised difficulty for the very best. It will:
     - remove the crash fixes in heater core
@@ -43,7 +43,7 @@ class GlitchGatoTech(Choice):
 class NexusStart(Toggle):
     """
     Start in the Nexus instead of the Landing Site.
-    Allows for some logic checks without rocket.
+    Allows for some logic checks without rocket
     """
     display_name = "Nexus Start"
 
@@ -76,7 +76,8 @@ class VentilationGoal(Range):
 
 class Loresanity(Toggle):
     """
-    Add lore buttons/terminals to the itempool (WiP)
+    Add lore buttons/terminals to the itempool.
+    Includes the main terminal in nexus and the two secret lore spot in nexus.
     """
     display_name = "Loresanity"
 

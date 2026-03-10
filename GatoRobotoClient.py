@@ -17,6 +17,9 @@ from CommonClient import CommonContext, server_loop, \
     gui_enabled, ClientCommandProcessor, logger, get_base_parser
 from Utils import is_linux
 
+# DM5 hash
+# 38970C275305CCD7C9ABE9A10817872E
+
 verbose = False
 
 def long_file(path):

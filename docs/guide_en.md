@@ -4,16 +4,32 @@
 - [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases)
 - The game (Gato Roboto)
 
-## Installation
+## Short form
+First, you need to install the Archipelago Launcher and install the apworld. While some games might not require you to do this, this game uses a text client inside the Launcher.  
+Then, each player need to create a setting file often referred to as the "yaml". There you can edit the setting for your game. Each yaml represents one player playing.
+The host then collects the yamls and generate a multiworld, which contains all the information about the randomization.
+Following up on that the host can then host the multiworld. The archipelago website provides a free-to-use hosting service for multiworlds.
+
+
+# Installation
+## Install the APWorld
+First, you need to install the Archipelago Launcher and install the apworld. While some games might not require you to do this, this game uses a text client inside the Launcher.
 ### Archipelago install
-1. Download and install [Archipelago](<https://github.com/ArchipelagoMW/Archipelago/releases/latest>). **The installer file is located in the assets section at the bottom of the version information.**
-2. Make sure it properly installs (due to emulator modding tools some anti-viruses try to prevent you from installing it)
+1. Download and install the [Archipelago Launcher](<https://github.com/ArchipelagoMW/Archipelago/releases/latest>). **The installer file is located in the assets section at the bottom of the version information.**
+2. Make sure it properly installs (due to emulator modding tools some anti-viruses incorrectly mark the files as malware and prevent you from installing it)
 3. Use the "Archipelago Launcher" whenever you are prompted to use a "Launcher" here!
 ### APWorld install
-1. Get the apworld (.apworld file) in the [releases](https://github.com/Nitroxyz/Gato-Roboto-B-Side-Archipelago/releases/latest)  
-2. Then install the apworld into the archipelago Launcher (you can double-click the .apworld anywhere on your pc it if you have the Launcher installed)  
-3. If it prompts you with an "apworld installed" dialogue box, then you successfully installed it!
+1. Get the APWorld (.apworld file) in the [releases](https://github.com/Nitroxyz/Gato-Roboto-B-Side-Archipelago/releases/latest)  
+2. Install the APWorld into the archipelago Launcher (double-click the .apworld anywhere on your pc to automatically install it or put it in the "custom_worlds" folder manually)
+3. If it prompts you with an "APWorld installed" dialogue box, then you successfully installed it!
+## Setting up a multiworld
+### Create a yaml
+Now, each player need to create a setting file often referred to as the "yaml". There you can customize the randomization for your game. Each yaml represents one player playing.  
+You can either create a yaml externally (with potential issues) or create it locally. If you create it locally you need to install the APWorld for your game if it's not in "Core". It is recommended to generate a yaml locally.
+Options Creator: Go to the "Options Creator" tab in the Launcher (or use a website that supports your game), select the settings you desire
+
 ### Generate and host a game
+You The host then needs to collect one yaml for each participating player and
 *Only one person needs to do this process if you are playing together*  
 1. Generate the default option template by opening up the Launcher, the selecting the box "Generate Template Options" 
 2. A folder will open, which gives you the default template for each game installed. Find the one for "Gato Roboto B-Side"

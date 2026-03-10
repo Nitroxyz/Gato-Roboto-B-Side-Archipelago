@@ -5,9 +5,10 @@ This mod integrates the Archipelago Randomizer with Gato Roboto. You can send an
 2. Get your template via "Generate Template Option" or "Options Creator" button in the Archipelago Launcher
 3. After installing the apworld, a Gato Roboto B-Side Client is available in the Archipelago Launcher
 4. Patch the game in the Client by running `/patch` (add directory path if you don't want to modify the default steam installation)
-5. Connect to the Multiworld in the Client and open up the game
-6. Make sure to delete the current savefile before starting a new randomizer!
-7. If you are unsure about which locations are in logic or not, you can use the universal tracker with a built-in map!
+5. Connect to the Multiworld in the Client and open up the game 
+
+Make sure to delete the current savefile before starting a new randomizer!  
+If you are unsure about which locations are in logic or not, you can use the universal tracker with a built-in map!
 # Current main differences
 This mod has been created by a different group of people (with multiple speedrunners and people from the original randomizer), with a focus on stability and plans on adding new features not possible in the current randomizer.
 ## Unique Settings

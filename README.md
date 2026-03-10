@@ -29,39 +29,19 @@ A more stable logic which has been tested by a group of experienced speedrunners
 - Advanced tech to obtain certain items
 - Better fine-tuning for item qualities
 - No generation failiures
+- Improved world generation speeds
 ## Universal Tracker support
 Thanks to the Poptracker Integration it will not show a full map of the game with each check with logic!  
 Also includes yamlless support so you can generate the tracker without having to use a yaml and use weighted yamls
 ## Other features
+- Seperated Heater Core items: LavaCooled is now seperated from FlowsCleared (Hotboys)
 - New client icon: New client icon with a small chance for a shiny evil icon
 - Rewritten guides: The setup guide and game guide has been rewritten
 - No vsync: Disabled vsync
 - Run sync: If the game isn't synced, it will kick you out into the main menu
-## Bugfixes in the Mod
-- Fixed the hot boy being unable to turn into phase 2
-- Fixed the heater core potentially crashing/hardlocking if the lava cooled item is recieved
-- Fixed a hardlock caused by the hot boys not properly saving themselves
-- Items recieved by the apworld won't override cutscenes anymore and thus avoid hardlocks
-- Fixed an item cutscenes not properly finishing
-- Removed a few memory leaks
-- Fixed the syncing issues caused by game id issues
-- Fixed some skipped quests not being properly skipped
-- Fixed the controlls/settings not carrying over 
-## Bugfixes in the Client
-- Getting filler/additional items won't cause a desync anymore
-- Any issues with the client randomly sending items has been resolved
-- Prevented issues caused by the client being closed
-- Prevented issues caused by starting a new randomizer run
-- The auto patcher has been fixed and works
-- Fixed the auto_patch command not filtering out quotes
-- Fixed the auto_patch automatically searching for the original installation if you input a bad file path
-- Fixed issues caused by receiving duplicates
-- Fixed issues by attempting to patch multiple times
-## Other (Mostly programming based things)
-- Fixed the warps breaking if the landing side warp is missing
-- Fixed the Client being able to handle multiples of items
-- Improved world generation speeds
-# Planned features
+## Bugfixes
+There is a lot x_x
+# Planned features (coming up)
 ## Planned features (for the next updates)
 - Add "progressive" to event names
 - Partial health filler
@@ -118,11 +98,11 @@ Also includes yamlless support so you can generate the tracker without having to
 **Haxaplax:** Speedrunner and randomizer player; Helped with the logic and testing  
 **Noah:** Speedrunner; Helped with the logic and modding  
 **Cullen:** Original game developer; Helped with game specific issues and making modding a little easier  
-
-**Nick:** Programmer; Provided the original Client and helped with the Mod  
-**PoryGone:** Discordian; Helped establish the APworld thread  
-**Palex:** Discordian; Helped with testing and helped create UT support  
+**Palex:** Discordian and bananium host; Helped with testing and helped create UT support  
 **Slipomatic:** Discordian; Helped with testing and suggestions  
+
+**Nick:** Programmer and alternate randomizer dev; Provided the original Client and helped with the Mod  
+**PoryGone:** Discordian; Helped establish the APworld thread  
 **Faris:** Discordian; Helped with setting up UT support  
 **Ixrec:** Discordian; Helped with setting up UT support  
 **Mysteryem**: Discordian; Helped with fixing the Client  

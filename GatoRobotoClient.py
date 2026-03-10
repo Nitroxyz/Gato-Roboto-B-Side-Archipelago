@@ -1,11 +1,13 @@
 from __future__ import annotations
 import os
 import asyncio
+import subprocess
 import typing
 import bsdiff4
 import shutil
 import json
 import psutil
+
 #import subprocess
 
 import Utils
@@ -13,12 +15,8 @@ import Utils
 from NetUtils import NetworkItem, ClientStatus
 from worlds import gatoroboto_b_side
 from MultiServer import mark_raw
-from CommonClient import CommonContext, server_loop, \
-    gui_enabled, ClientCommandProcessor, logger, get_base_parser
+from CommonClient import CommonContext, server_loop, gui_enabled, ClientCommandProcessor, logger, get_base_parser
 from Utils import is_linux
-
-# DM5 hash
-# 38970C275305CCD7C9ABE9A10817872E
 
 verbose = False
 
@@ -74,65 +72,7 @@ class GatoRobotoCommandProcessor(ClientCommandProcessor):
     def _cmd_patch(self, steam_install: str = ""):
         """ Patch the game. """
         if isinstance(self.ctx, GatoRobotoContext):
-
-            #Validate file or set to default path
-            steam_install = steam_install.strip(" \"")
-            if steam_install == "":
-                for possible_install_location in GatoRobotoPath.steam_install():
-                    if os.path.exists(possible_install_location):
-                        steam_install = possible_install_location
-                        break
-
-            #If no valid file error out
-            if not os.path.exists(steam_install):
-                self.output("ERROR: Cannot find Gato Roboto. Please rerun the command with the correct folder.\n"
-                            "command. \"/auto_patch (Steam directory)\" or \"/auto_patch\" for an automatic search.")
-            elif not (os.path.isfile(os.path.join(steam_install, "data.win")) or os.path.isfile(os.path.join(steam_install, "ArchipelagoData/data.win"))):
-                self.output("ERROR: data.win is missing. Please validate your files.")
-            else: #Patch game if valid file
-                try:
-                    # Save vanilla game data for backup purposes
-                    os.makedirs(name=f"{steam_install}/ArchipelagoData", exist_ok=True)
-                    if not os.path.exists(f"{steam_install}/ArchipelagoData/data.win"):
-                        shutil.copy(f"{steam_install}/data.win", f"{steam_install}/ArchipelagoData/data.win")
-                    else:
-                        # Revert first, to prevent double patches
-                        if os.path.exists(f"{steam_install}/data.win"):
-                            os.remove(f"{steam_install}/data.win")
-                        shutil.copy(f"{steam_install}/ArchipelagoData/data.win", f"{steam_install}/data.win")
-
-                    def copy_over(source_path, destination_path):
-                        data = gatoroboto_b_side.data_path(source_path)
-                        with open(destination_path, "wb") as f:
-                            f.write(data)
-
-                    # TODO: make full patch work
-                    if False:
-                        copy_over("data.win", f"{steam_install}/data.win")
-                    else:
-                        # Write patched game data
-                        with open(f"{steam_install}/data.win", "rb") as f:
-                            patched_file: bytes = bsdiff4.patch(f.read(), gatoroboto_b_side.data_path("patch.bsdiff"))
-                        with open(f"{steam_install}/data.win", "wb") as f:
-                            f.write(patched_file)
-
-                    copy_over("warp_pic_ls.png", f"{steam_install}/ArchipelagoData/warp_pic_ls.png")
-                    copy_over("warp_pic_nexus.png", f"{steam_install}/ArchipelagoData/warp_pic_nexus.png")
-                    self.output("Patching complete!")
-                except:
-                    self.output("ERROR: Failed to patch data.")
-
-                # TODO: Include auto start
-                ''' 
-                exe_path = os.path.join(steam_install, "GatoRoboto.exe")
-                if not os.path.isfile(exe_path):
-                    exe_path = os.path.join(steam_install, "GatoRoboto_patch_1_1.exe")
-                    if not os.path.isfile(exe_path):
-                        logger.info("No known Gato Roboto executible in the install folder")
-                        return
-                subprocess.Popen([exe_path, "-game", steam_install])
-                '''
-
+            self.ctx.patch_game(steam_install)
 
 class GatoRobotoContext(CommonContext):
     tags = {"AP"}
@@ -147,6 +87,92 @@ class GatoRobotoContext(CommonContext):
         """ This is used to keep track of all items from the game. """
         self.game_is_initialized: bool = False
         """ This flag depicts wether the game is "connected" and you can send/receive commands. """
+
+    def patch_game(self, steam_install: str, auto_start: bool = False):
+
+        try:
+            # Validate file or set to default path
+            steam_install = steam_install.strip(" \"")
+            if steam_install == "":
+                self.command_processor.print_log("Search in default steam directory...")
+                for possible_install_location in GatoRobotoPath.steam_install():
+                    if os.path.exists(possible_install_location):
+                        steam_install = possible_install_location
+                        break
+
+            # If not valid folder
+            if not os.path.exists(steam_install):
+                self.command_processor.print_log("ERROR: Cannot find Gato Roboto. Please rerun the command with the correct folder.\n"
+                                                 "Command: \"/patch (Steam directory)\" or \"/patch\" for an automatic search.")
+                raise FileNotFoundError()
+
+            data_path = os.path.join(steam_install, "data.win")
+            copy_path = os.path.join(steam_install, "ArchipelagoData/data.win")
+
+            # If not valid file
+            if not (os.path.isfile(data_path) or os.path.isfile(copy_path)):
+                self.command_processor.print_log("ERROR: data.win is missing. Please validate your files.")
+                raise FileNotFoundError()
+
+            # The most cursed validation system
+            error_message = None
+            from . import DataWinFile
+            data_file = DataWinFile("")
+            for validate_path in [data_path, copy_path]:
+                try:
+                    data_file.validate(validate_path)
+                    break
+                except ValueError:
+                    error_message = "ERROR: data.win is not vanilla, please reset the file and patch again"
+
+            if error_message is not None:
+                self.command_processor.print_log(error_message)
+                raise ValueError()
+
+            # Copy the validated file
+            os.makedirs(name=f"{steam_install}/ArchipelagoData", exist_ok=True)
+            for overwrite_path in [data_path, copy_path]:
+                if overwrite_path != data_path:
+                    if not os.path.exists(overwrite_path):
+                        os.remove(overwrite_path)
+                    shutil.copy(validate_path, overwrite_path)
+
+
+            def copy_over(source_path, destination_path):
+                """ Copies data from the apworld """
+                data = gatoroboto_b_side.data_path(source_path)
+                with open(destination_path, "wb") as f:
+                    f.write(data)
+
+            patched_path = f"{steam_install}/ArchipelagoData/data_modded.win" if auto_start else data_path
+            # TODO: make full patch work
+            if False:
+                copy_over("data.win", data_path)
+            else:
+                # Write patched game data
+                with open(data_path, "rb") as f:
+                    patched_file: bytes = bsdiff4.patch(f.read(), gatoroboto_b_side.data_path("patch.bsdiff"))
+                with open(patched_path, "wb") as f:
+                    f.write(patched_file)
+
+            copy_over("warp_pic_ls.png", f"{steam_install}/ArchipelagoData/warp_pic_ls.png")
+            copy_over("warp_pic_nexus.png", f"{steam_install}/ArchipelagoData/warp_pic_nexus.png")
+
+            self.command_processor.print_log("Patching complete!")
+
+            if auto_start:
+                self.command_processor.print_log("Start game...")
+                exe_path = os.path.join(steam_install, "GatoRoboto.exe")
+                if not os.path.isfile(exe_path):
+                    exe_path = os.path.join(steam_install, "GatoRoboto_patch_1_1.exe")
+                    if not os.path.isfile(exe_path):
+                        self.command_processor.print_log("No known Gato Roboto executible in the install folder")
+                        return
+                subprocess.Popen([exe_path, "-game", patched_path])
+        except:
+            self.command_processor.print_log("Failed to patch data.")
+
+
 
     # TODO: Up for removal
     async def server_auth(self, password_requested: bool = False):

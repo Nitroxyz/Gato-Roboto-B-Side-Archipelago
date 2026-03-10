@@ -1,39 +1,42 @@
 # Gato Roboto B-Side
-This mod integrates the Archipelago Randomizer with Gato Roboto. You can send and recieve items and world progression in a multiworld containing multiple players.
+This mod integrates the Archipelago Randomizer with Gato Roboto. You can send and receive items and world progression in a multiworld containing multiple players.
 ## Installation
-1. Get the apworld in the [releases](https://github.com/Nitroxyz/Gato-Roboto-B-Side-Archipelago/releases) and install it in the apworld (you can double-click it if you have the Launcher installed)
+1. Get the apworld in the [releases](https://github.com/Nitroxyz/Gato-Roboto-B-Side-Archipelago/releases) and install it in the apworld (double-click it if you have the Launcher installed)
 2. Get your template via "Generate Template Option" or "Options Creator" button in the Archipelago Launcher
-3. After installing the apworld, a Gato Roboto Client is available in the Archipelago Launcher
+3. After installing the apworld, a Gato Roboto B-Side Client is available in the Archipelago Launcher
 4. Patch the game in the Client by running `/patch` (add directory path if you don't want to modify the default steam installation)
-5. Connect to the multiworld in the Client and open up the game
+5. Connect to the Multiworld in the Client and open up the game
 6. Make sure to delete the current savefile before starting a new randomizer!
 7. If you are unsure about which locations are in logic or not, you can use the universal tracker with a built-in map!
 # Current main differences
 This mod has been created by a different group of people (with multiple speedrunners and people from the original randomizer), with a focus on stability and plans on adding new features not possible in the current randomizer.
-## Settings
-- A setting to start in the nexus instead of the landing site, allowing for some rocket-less tech
-- A 3-stage difficulty setting, allowing for more unique tech on each tier
-- A setting to give you a local rocket, preventing a long BK
+## Unique Settings
+- Nexus Start: Start in the nexus instead of landing site, allowing for some rocket-less tech
+- Gato Tech: A 3-stage difficulty setting, allowing for more unique and advanced tech on each tier
+- Loresanity: Adds the Lore buttons as checks to the game
+- Early Goals: Adjust how many event items you need, allowing for quicker randomizers
+- Local Rocket: Gives you a local rocket, preventing a long BK
 ## Visual updates
-- Added a custom notification when you pick up items
-- The warps have gotten a visual overhaul
-- The location have been renamed to show coordinates to make it easier to find the item on the map
-- The old location cutscene have returned, with slight adjustments
-  - Item locations now show one random line from the game ;)
-- The client icon has been changed
-- The setup guide and game guide has been rewritten
-- Progressive items don't have numbers anymore
-- Disabled vsync
-- If the game isn't synced, it will kick you out into the main menu
+- Pickup Notification: Added a custom notification when you pick up items which doesn't interrupt your gameplay
+- Warp Overhaul: The warps have been fancy'd up to teleport your in style. Also prevents issues with warps breaking the logic
+- Coordinate Locations: The location have been renamed to show coordinates to make it easier to find the item on the map
+- Item name improvement: Progressive items don't have numbers anymore; VHS item names are shorter
+- Old locations: The old location cutscene have returned, with slight adjustments. Item locations now show one random line from the game when you pick up an item ;)
 ## Logic
-- A more stable logic which has been tested by speedrunners, with some notable improvements being
-  - Smallmech in ventillation
-  - Advanced tech to obtain certain items
+A more stable logic which has been tested by a group of experienced speedrunners and challenge players.
+- Better logic for Glitches
+- Smallmech in ventillation
+- Advanced tech to obtain certain items
 - Better fine-tuning for item qualities
 - No generation failiures
 ## Universal Tracker support
-- Thanks to the Poptracker Integration it will not show a full map of the game with each check with logic!
-- You can also generate the tracker without having to use a yaml!
+Thanks to the Poptracker Integration it will not show a full map of the game with each check with logic!  
+Also includes yamlless support so you can generate the tracker without having to use a yaml and use weighted yamls
+## Other features
+- New client icon: New client icon with a small chance for a shiny evil icon
+- Rewritten guides: The setup guide and game guide has been rewritten
+- No vsync: Disabled vsync
+- Run sync: If the game isn't synced, it will kick you out into the main menu
 ## Bugfixes in the Mod
 - Fixed the hot boy being unable to turn into phase 2
 - Fixed the heater core potentially crashing/hardlocking if the lava cooled item is recieved

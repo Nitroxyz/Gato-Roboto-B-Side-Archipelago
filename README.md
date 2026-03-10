@@ -96,13 +96,12 @@ There is a lot x_x
 **Nitroxy:** Speedrunner and programmer; Main dev  
 **Tylui:** Original randomizer developer; Provided original logic and helped organize the randomizer  
 **Haxaplax:** Speedrunner and randomizer player; Helped with the logic and testing  
-**Noah:** Speedrunner; Helped with the logic and modding  
+**Noah:** Speedrunner; Helped with the logic and setting up modding  
 **Cullen:** Original game developer; Helped with game specific issues and making modding a little easier  
 **Palex:** Discordian and bananium host; Helped with testing and helped create UT support  
 **Slipomatic:** Discordian; Helped with testing and suggestions  
 
-**Nick:** Programmer and alternate randomizer dev; Provided the original Client and helped with the Mod  
 **PoryGone:** Discordian; Helped establish the APworld thread  
-**Faris:** Discordian; Helped with setting up UT support  
+**Faris:** Discordian and UT developer; Helped with setting up UT support  
 **Ixrec:** Discordian; Helped with setting up UT support  
 **Mysteryem**: Discordian; Helped with fixing the Client  

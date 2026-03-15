@@ -52,13 +52,18 @@ def set_all_location_rules(world: GatoRobotoWorld) -> None:
         "Grape Palette"
     )
 
-
+    current_location = world.get_location("VHS (Landing Site-0710)")
+    set_rule(current_location, lambda state: True)
+    current_location = world.get_location("Health Upgrade (Landing Site-0408)")
+    set_rule(current_location, lambda state: True)
+    current_location = world.get_location("Rocket (Landing Site-0814)")
+    set_rule(current_location, lambda state: True)
     current_location = world.get_location("VHS (Landing Site-1810)")
     set_rule(current_location, lambda state: state.has("Rocket", world.player))
     current_location = world.get_location("Health Upgrade (Landing Site-1812)")
     set_rule(current_location, lambda state: state.has("Rocket", world.player))
     current_location = world.get_location("Decoder (Landing Site-0807)")
-    set_rule(current_location, lambda state: state.has("<Completed all areas>", world.player) or (state.has("Spin Jump", world.player) and state.has("Dash", world.player) and state.has("Hopper", world.player)) or (state.has("Spin Jump", world.player) and state.has("Rocket", world.player)) or ((world.options.gato_tech >= 2) and state.has("Dash", world.player) and state.has("Rocket", world.player) and world.options.use_smallmech))
+    set_rule(current_location, lambda state: (state.has("<Completed all areas>", world.player) and state.has("Rocket", world.player)) or (state.has("<Completed all areas>", world.player) and state.has("Spin Jump", world.player)) or (state.has("Spin Jump", world.player) and state.has("Dash", world.player) and state.has("Hopper", world.player)) or (world.options.use_smallmech and state.has("Spin Jump", world.player) and state.has("Rocket", world.player) and state.has("Cooler", world.player)) or ((world.options.gato_tech >= 2) and state.has("Spin Jump", world.player) and state.has("Rocket", world.player)) or ((world.options.gato_tech >= 2) and world.options.use_smallmech and state.has("Dash", world.player) and state.has("Rocket", world.player)))
 
     current_location = world.get_location("VHS (Nexus-0914)")
     set_rule(current_location, lambda state: (state.has("Water Level", world.player, 2) and state.has("Rocket", world.player)) or (world.options.use_watermech and state.has("Rocket", world.player)))
@@ -77,6 +82,8 @@ def set_all_location_rules(world: GatoRobotoWorld) -> None:
     current_location = world.get_location("Completed all areas (Nexus)")
     set_rule(current_location, lambda state: (state.has("Water Level", world.player, world.options.aqueduct_goal) and state.has("Lava Cooled", world.player) and state.has("Vent Level", world.player, world.options.ventilation_goal)))
 
+    current_location = world.get_location("Water Level (Aqueducts-0204)")
+    set_rule(current_location, lambda state: True)
     current_location = world.get_location("Health Upgrade (Aqueducts-0406)")
     set_rule(current_location, lambda state: (state.has("Water Level", world.player, 1) and state.has("Rocket", world.player)) or (world.options.use_watermech and state.has("Rocket", world.player)))
     current_location = world.get_location("VHS (Aqueducts-1106)")
@@ -90,7 +97,7 @@ def set_all_location_rules(world: GatoRobotoWorld) -> None:
     current_location = world.get_location("Water Level (Aqueducts-1908)")
     set_rule(current_location, lambda state: (state.has("Water Level", world.player, 2) and state.has("Rocket", world.player)) or (world.options.use_watermech and state.has("Rocket", world.player)))
     current_location = world.get_location("Spin Jump (Aqueducts-2410)")
-    set_rule(current_location, lambda state: (state.has("Water Level", world.player, 2) and state.has("Rocket", world.player)) or (world.options.use_watermech and state.has("Rocket", world.player)))
+    set_rule(current_location, lambda state: (state.has("Water Level", world.player, 3) and state.has("Rocket", world.player)) or (world.options.use_watermech and state.has("Rocket", world.player)))
     current_location = world.get_location("VHS (Aqueducts-0707)")
     set_rule(current_location, lambda state: (state.has("Water Level", world.player, 3) and state.has("Rocket", world.player) and state.has("Spin Jump", world.player)) or (world.options.use_watermech and state.has("Rocket", world.player) and state.has("Spin Jump", world.player)))
 
@@ -148,7 +155,7 @@ def set_all_location_rules(world: GatoRobotoWorld) -> None:
         current_location = world.get_location("Terminal (Landing Site-0809)")
         set_rule(current_location, lambda state: state.has("Rocket", world.player))
         current_location = world.get_location("Terminal (Landing Site-0807)")
-        set_rule(current_location, lambda state: (state.has("<Completed all areas>", world.player)) or (state.has("Spin Jump", world.player) and state.has("Dash", world.player) and state.has("Hopper", world.player)) or (world.options.use_smallmech and state.has("Spin Jump", world.player) and state.has("Rocket", world.player) and state.has("Cooler", world.player)) or ((world.options.gato_tech >= 2) and state.has("Spin Jump", world.player) and state.has("Rocket", world.player)) or ((world.options.gato_tech >= 2) and world.options.use_smallmech and state.has("Dash", world.player) and state.has("Rocket", world.player)))
+        set_rule(current_location, lambda state: (state.has("<Completed all areas>", world.player) and state.has("Rocket", world.player)) or (state.has("<Completed all areas>", world.player) and state.has("Spin Jump", world.player)) or (state.has("Spin Jump", world.player) and state.has("Dash", world.player) and state.has("Hopper", world.player)) or (world.options.use_smallmech and state.has("Spin Jump", world.player) and state.has("Rocket", world.player) and state.has("Cooler", world.player)) or ((world.options.gato_tech >= 2) and state.has("Spin Jump", world.player) and state.has("Rocket", world.player)) or ((world.options.gato_tech >= 2) and world.options.use_smallmech and state.has("Dash", world.player) and state.has("Rocket", world.player)))
         current_location = world.get_location("Terminal (Nexus-1615)")
         set_rule(current_location, lambda state: True)
         current_location = world.get_location("Terminal (Nexus-1610)")

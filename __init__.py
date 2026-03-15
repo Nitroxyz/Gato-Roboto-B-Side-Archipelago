@@ -1,4 +1,7 @@
+import pkgutil
 import random
+
+from settings import FilePath
 
 from .world import GatoRobotoWorld as GatoRobotoWorld
 from worlds.LauncherComponents import launch_subprocess, components, Component, Type, icon_paths
@@ -31,3 +34,14 @@ else:
 def data_path(file_name: str):
     import pkgutil
     return pkgutil.get_data(__name__, f"data/{file_name}")
+
+class DataWinFile(FilePath):
+    """Path to Minit Vanilla data file"""
+    description = "Gato Roboto data.win"
+    md5s = [
+        "38970C275305CCD7C9ABE9A10817872E",  # steam
+        # "",  # epic
+        # "",  # itch.io
+    ]
+    # the hashes for vanilla to be verified by the /patch command
+    required = False

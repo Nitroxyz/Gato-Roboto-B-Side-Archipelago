@@ -118,6 +118,7 @@ class GatoRobotoContext(CommonContext):
                 logger.info("ERROR: data.win is missing. Please validate your files.")
                 raise FileNotFoundError()
 
+            error_message = None
             # The most cursed validation system
             from . import DataWinFile
             data_file = DataWinFile("")
@@ -128,15 +129,20 @@ class GatoRobotoContext(CommonContext):
                     break
                 except ValueError:
                     error_message = "ERROR: data.win is not vanilla, please reset the file and patch again"
+                except FileNotFoundError:
+                    if error_message is None:
+                        error_message = "ERROR: data.win is missing. Please validate your files."
 
             if error_message is not None:
                 logger.info(error_message)
                 raise ValueError()
+            else:
+                logger.info("Vanilla data.win found!")
 
             # Copy the validated file
             os.makedirs(name=os.path.join(steam_install, "ArchipelagoData"), exist_ok=True)
             for overwrite_path in [data_path, copy_path]:
-                if not os.path.samefile(overwrite_path, validate_path):
+                if overwrite_path != validate_path: # TODO: change to path comparison
                     if os.path.exists(overwrite_path):
                         os.remove(overwrite_path)
                     shutil.copy(validate_path, overwrite_path)

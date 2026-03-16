@@ -131,11 +131,13 @@ class GatoRobotoContext(CommonContext):
             if error_message is not None:
                 logger.info(error_message)
                 raise ValueError()
+            else:
+                logger.info("Vanilla data.win found!")
 
             # Copy the validated file
             os.makedirs(name=os.path.join(steam_install, "ArchipelagoData"), exist_ok=True)
             for overwrite_path in [data_path, copy_path]:
-                if not os.path.samefile(overwrite_path, validate_path):
+                if not (os.path.exists(overwrite_path) or os.path.samefile(overwrite_path, validate_path)):
                     if os.path.exists(overwrite_path):
                         os.remove(overwrite_path)
                     shutil.copy(validate_path, overwrite_path)

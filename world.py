@@ -47,6 +47,7 @@ class GatoRobotoWorld(World):
         super(GatoRobotoWorld, self).__init__(multiworld, player)
 
         # initial values of instance attributes (*not* class attributes)
+        self.health_filler = 10
         self.using_ut = False
 
     # Our world class must have certain functions ("steps") that get called during generation.

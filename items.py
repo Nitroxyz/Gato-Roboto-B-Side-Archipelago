@@ -33,10 +33,10 @@ ITEM_NAME_TO_ID = {
     "Grape Palette": 10015,
 
     "Health Upgrade": 10208,
-    "Water Level": 10237,
+    "Progressive Water Level": 10237,
     "Hotboy defeated": 10254,
     "Lava Cooled": 10257,
-    "Vent Level": 10268,
+    "Progressive Vent Level": 10268,
     "Cute Meow": 10001,
 }
 
@@ -68,10 +68,10 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Repeater": ItemClassification.useful,
 
     "Health Upgrade": ItemClassification.useful,
-    "Water Level": ItemClassification.progression,
+    "Progressive Water Level": ItemClassification.progression,
     "Hotboy defeated": ItemClassification.progression,
     "Lava Cooled": ItemClassification.progression,
-    "Vent Level": ItemClassification.progression_skip_balancing,
+    "Progressive Vent Level": ItemClassification.progression_skip_balancing,
     "Cute Meow": ItemClassification.filler,
 }
 for vhs in VHS:
@@ -89,6 +89,10 @@ def create_item_with_correct_classification(world: GatoRobotoWorld, name: str) -
     if name == "Big Shot" and world.options.use_smallmech:
         classification = ItemClassification.trap
 
+    return GatoRobotoItem(name, classification, ITEM_NAME_TO_ID[name], world.player)
+
+def create_item_alt(world: GatoRobotoWorld, name: str, classification: ItemClassification) -> GatoRobotoItem:
+    """ Creates item with a manual classification. """
     return GatoRobotoItem(name, classification, ITEM_NAME_TO_ID[name], world.player)
 
 # With those two helper functions defined, let's now get to actually creating and submitting our itempool.
@@ -114,8 +118,8 @@ def create_all_items(world: GatoRobotoWorld) -> None:
     ]
     itempool += [world.create_item(vhs) for vhs in VHS]
     itempool += [world.create_item("Health Upgrade") for _ in range(10)]
-    itempool += [world.create_item("Water Level") for _ in range(3)]
-    itempool += [world.create_item("Vent Level") for _ in range(3)]
+    itempool += [world.create_item("Progressive Water Level") for _ in range(3)]
+    itempool += [world.create_item("Progressive Vent Level") for _ in range(3)]
 
     # lava cooled check
     if world.options.gato_tech == 3 and not world.options.use_smallmech:

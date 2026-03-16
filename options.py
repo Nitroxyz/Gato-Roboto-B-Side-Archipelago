@@ -87,6 +87,16 @@ class ForceLocalStart(DefaultOnToggle):
     """
     display_name = "Force Local Start"
 
+'''class HealthFiller(Range):
+    """
+    Sets how many of the main Health Upgrades get set to "useful" before the rest gets set to "filler". Any other 
+    Use this to allow for extra filler for excluded locations.
+    """
+    display_name = "Health Filler"
+    range_start = 0
+    range_end = 10
+    default = 10'''
+
 @dataclass
 class GatoRobotoOptions(PerGameCommonOptions):
     use_smallmech: GlitchSmallmech

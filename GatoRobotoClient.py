@@ -101,6 +101,7 @@ class GatoRobotoContext(CommonContext):
                 for possible_install_location in GatoRobotoPath.steam_install():
                     if os.path.exists(possible_install_location):
                         steam_install = possible_install_location
+                        logger.info("Steam directory found!")
                         break
 
             # If not valid folder

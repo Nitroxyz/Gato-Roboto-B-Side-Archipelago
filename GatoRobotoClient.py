@@ -107,7 +107,7 @@ class GatoRobotoContext(CommonContext):
             # If not valid folder
             if not os.path.exists(steam_install):
                 logger.info("ERROR: Cannot find Gato Roboto. Please rerun the command with the correct folder.\n"
-                                                 "Command: \"/patch (Steam directory)\" or \"/patch\" for an automatic search.")
+                            "Command: \"/patch (Steam directory)\" or \"/patch\" for an automatic search.")
                 raise FileNotFoundError()
 
             data_path = os.path.join(steam_install, "data.win")
@@ -128,7 +128,7 @@ class GatoRobotoContext(CommonContext):
                     error_message = None
                     break
                 except ValueError:
-                    error_message = "ERROR: data.win is not vanilla, please reset the file and patch again"
+                    error_message = "ERROR: data.win is not vanilla, please validate the file and patch again"
                 except FileNotFoundError:
                     if error_message is None:
                         error_message = "ERROR: data.win is missing. Please validate your files."
@@ -169,21 +169,22 @@ class GatoRobotoContext(CommonContext):
 
             copy_over("warp_pic_ls.png", os.path.join(steam_install, "ArchipelagoData/warp_pic_ls.png"))
             copy_over("warp_pic_nexus.png", os.path.join(steam_install, "ArchipelagoData/warp_pic_nexus.png"))
+            copy_over("warp_pic_vents.png", os.path.join(steam_install, "ArchipelagoData/warp_pic_vents.png"))
 
             logger.info("Patching complete!")
-
-            if auto_start:
-                logger.info("Start game...")
-                exe_path = os.path.join(steam_install, "GatoRoboto.exe")
-                if not os.path.isfile(exe_path):
-                    exe_path = os.path.join(steam_install, "GatoRoboto_patch_1_1.exe")
-                    if not os.path.isfile(exe_path):
-                        logger.info("No known Gato Roboto executible in the install folder")
-                        return
-                #subprocess.Popen([exe_path, "-game", patched_path])
-                subprocess.Popen([exe_path])
         except:
             logger.info("Failed to patch data.win")
+
+        if auto_start:
+            logger.info("Start game...")
+            exe_path = os.path.join(steam_install, "GatoRoboto.exe")
+            if not os.path.isfile(exe_path):
+                exe_path = os.path.join(steam_install, "GatoRoboto_patch_1_1.exe")
+                if not os.path.isfile(exe_path):
+                    logger.info("No known Gato Roboto executible in the install folder")
+                    return
+            # subprocess.Popen([exe_path, "-game", patched_path])
+            subprocess.Popen([exe_path])
 
 
 

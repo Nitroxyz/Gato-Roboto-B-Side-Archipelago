@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from Options import OptionGroup, PerGameCommonOptions, Toggle, DefaultOnToggle, Choice, Range
+from Options import OptionGroup, PerGameCommonOptions, Toggle, DefaultOnToggle, Choice, Range, StartInventoryPool
 
 
 # Flymech (off)
@@ -24,7 +24,7 @@ class GlitchGatoTech(Choice):
     """
     Difficulty of strategies.
 
-    "Medium" is recommended for normal players. You might have to do some tricks done in the Any% speedrun.
+    "Medium" is recommended for normal players. You might have to do some tricks done in the Any% speedrun if you enable glitches.
 
     "Hard" includes a bunch of difficult or obscure strategies, which require advanced knowledge.
 
@@ -87,15 +87,15 @@ class ForceLocalStart(DefaultOnToggle):
     """
     display_name = "Force Local Start"
 
-'''class HealthFiller(Range):
+class HealthFiller(Toggle):
     """
-    Sets how many of the main Health Upgrades get set to "useful" before the rest gets set to "filler". Any other 
+    Makes all Health Upgrades filler.
     Use this to allow for extra filler for excluded locations.
     """
     display_name = "Health Filler"
     range_start = 0
     range_end = 10
-    default = 10'''
+    default = 10
 
 @dataclass
 class GatoRobotoOptions(PerGameCommonOptions):
@@ -108,10 +108,12 @@ class GatoRobotoOptions(PerGameCommonOptions):
     heatercore_goal: HeaterCoreGoal
     ventilation_goal: VentilationGoal
     loresanity: Loresanity
+    health_filler: HealthFiller
+    start_inventory_from_pool: StartInventoryPool
 
 option_groups = [
     OptionGroup(
-        "Expert Logic",
+        "Logic Options",
         [GlitchSmallmech, GlitchWatermech, GlitchGatoTech, NexusStart],
     ),
     OptionGroup(
@@ -124,6 +126,6 @@ option_groups = [
     ),
     OptionGroup(
         "Technical Stuff",
-        [ForceLocalStart],
+        [ForceLocalStart, HealthFiller],
     ),
 ]

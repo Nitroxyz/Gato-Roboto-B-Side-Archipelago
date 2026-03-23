@@ -1,6 +1,7 @@
 from collections.abc import Mapping
 from typing import Any, ClassVar
 
+from BaseClasses import ItemClassification
 from Options import OptionError
 # Imports of base Archipelago modules must be absolute.
 from worlds.AutoWorld import World
@@ -67,6 +68,10 @@ class GatoRobotoWorld(World):
     # We also put this in a different file, the same one that create_items is in.
     def create_item(self, name: str) -> items.GatoRobotoItem:
         return items.create_item_with_correct_classification(self, name)
+
+    def create_item_alt(self, name: str, classification: ItemClassification) -> items.GatoRobotoItem:
+        """ Creates item with a manual classification. """
+        return items.create_item_with_alternate_classification(self, name, classification)
 
     # For features such as item links and panic-method start inventory, AP may ask your world to create extra filler.
     # The way it does this is by calling get_filler_item_name.

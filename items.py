@@ -33,11 +33,13 @@ ITEM_NAME_TO_ID = {
     "Grape Palette": 10015,
 
     "Health Upgrade": 10208,
-    "Water Level": 10237,
+    "Progressive Water Level": 10237,
     "Hotboy defeated": 10254,
     "Lava Cooled": 10257,
-    "Vent Level": 10268,
+    "Progressive Vent Level": 10268,
     "Cute Meow": 10001,
+
+    "UT Out of Logic": 6900,
 }
 
 VHS = (
@@ -66,42 +68,31 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Decoder": ItemClassification.progression,
     "Big Shot": ItemClassification.useful,
     "Repeater": ItemClassification.useful,
-
     "Health Upgrade": ItemClassification.useful,
-    "Water Level": ItemClassification.progression,
+    "Progressive Water Level": ItemClassification.progression,
     "Hotboy defeated": ItemClassification.progression,
     "Lava Cooled": ItemClassification.progression,
-    "Vent Level": ItemClassification.progression_skip_balancing,
+    "Progressive Vent Level": ItemClassification.progression_skip_balancing,
     "Cute Meow": ItemClassification.filler,
+
+    "UT Out of Logic": ItemClassification.progression,
 }
-for vhs in VHS:
-    DEFAULT_ITEM_CLASSIFICATIONS[vhs] = ItemClassification.progression_deprioritized_skip_balancing
 
 class GatoRobotoItem(Item):
     game = "Gato Roboto B-Side"
 
+
 def create_item_with_correct_classification(world: GatoRobotoWorld, name: str) -> GatoRobotoItem:
     # Our world class must have a create_item() function that can create any of our items by name at any time.
-    # So, we make this helper function that creates the item by name with the correct classification.
-    # Note: This function's content could just be the contents of world.create_item in world.py directly,
-    # but it seemed nicer to have it in its own function over here in items.py.
     classification = DEFAULT_ITEM_CLASSIFICATIONS[name]
-    if name == "Big Shot" and world.options.use_smallmech:
-        classification = ItemClassification.trap
-
     return GatoRobotoItem(name, classification, ITEM_NAME_TO_ID[name], world.player)
 
-# With those two helper functions defined, let's now get to actually creating and submitting our itempool.
+
+def create_item_with_alternate_classification(world: GatoRobotoWorld, name: str, classification: ItemClassification) -> GatoRobotoItem:
+    return GatoRobotoItem(name, classification, ITEM_NAME_TO_ID[name], world.player)
+
+
 def create_all_items(world: GatoRobotoWorld) -> None:
-    # This is the function in which we will create all the items that this world submits to the multiworld item pool.
-    # There must be exactly as many items as there are locations.
-    # In our case, there are either six or seven locations.
-    # We must make sure that when there are six locations, there are six items,
-    # and when there are seven locations, there are seven items.
-
-    # Creating items should generally be done via the world's create_item method.
-    # First, we create a list containing all the items that always exist.
-
     itempool: list[Item] = [
         world.create_item("Rocket"),
         world.create_item("Spin Jump"),
@@ -112,10 +103,18 @@ def create_all_items(world: GatoRobotoWorld) -> None:
         world.create_item("Big Shot"),
         world.create_item("Repeater"),
     ]
-    itempool += [world.create_item(vhs) for vhs in VHS]
-    itempool += [world.create_item("Health Upgrade") for _ in range(10)]
-    itempool += [world.create_item("Water Level") for _ in range(3)]
-    itempool += [world.create_item("Vent Level") for _ in range(3)]
+    if world.options.use_smallmech:
+        itempool.append(world.create_item_alt("Big Shot", ItemClassification.trap))
+    else:
+        itempool.append(world.create_item("Big Shot"))
+
+    itempool += [world.create_item_alt(vhs, ItemClassification.progression_deprioritized_skip_balancing) for vhs in VHS]
+    if world.options.health_filler:
+        itempool += [world.create_item_alt("Health Upgrade", ItemClassification.filler) for _ in range(10)]
+    else:
+        itempool += [world.create_item("Health Upgrade") for _ in range(10)]
+    itempool += [world.create_item("Progressive Water Level") for _ in range(3)]
+    itempool += [world.create_item("Progressive Vent Level") for _ in range(3)]
 
     # lava cooled check
     if world.options.gato_tech == 3 and not world.options.use_smallmech:
@@ -141,25 +140,12 @@ def create_all_items(world: GatoRobotoWorld) -> None:
     # This is how the generator actually knows about the existence of our items.
     world.multiworld.itempool += itempool
 
+
 def generate_early(world: GatoRobotoWorld) -> None:
     ''' Make sure that the Rocket gets spawned early '''
 
     # Early Starter items
-    '''if world.options.unlock_all_warps:
-        starter_pick = world.random.choice(["Rocket Start", "Spin Jump Start"])
-    else:
-    starter_pick = "Rocket Start"
-
-    if starter_pick == "Rocket Start":'''
     if world.options.local_start:
         world.multiworld.local_early_items[world.player]["Rocket"] = 1
     else:
         world.multiworld.early_items[world.player]["Rocket"] = 1
-    '''else:
-        if world.options.local_start:
-            world.multiworld.local_early_items[world.player]["Spin Jump"] = 1
-            world.multiworld.local_early_items[world.player]["Dash"] = 1
-        else:
-            world.multiworld.early_items[world.player]["Spin Jump"] = 1
-            world.multiworld.early_items[world.player]["Dash"] = 1'''
-

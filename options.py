@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from Options import OptionGroup, PerGameCommonOptions, Toggle, DefaultOnToggle, Choice, Range
+from Options import OptionGroup, PerGameCommonOptions, Toggle, DefaultOnToggle, Choice, Range, StartInventoryPool
 
 
 # Flymech (off)
@@ -24,7 +24,7 @@ class GlitchGatoTech(Choice):
     """
     Difficulty of strategies.
 
-    "Medium" is recommended for normal players. You might have to do some tricks done in the Any% speedrun.
+    "Medium" is recommended for normal players. You might have to do some tricks done in the Any% speedrun if you enable glitches.
 
     "Hard" includes a bunch of difficult or obscure strategies, which require advanced knowledge.
 
@@ -87,6 +87,32 @@ class ForceLocalStart(DefaultOnToggle):
     """
     display_name = "Force Local Start"
 
+"""
+Allows you to preview more advanced options displayed as yellow "glitched" settings on the Universal Tracker.
+You can select which options you want to preview by setting a yaml with the higher diffictulty and putting it in your "Players" folder.
+Enable this setting on the player yaml.
+"""
+
+class OutOfLogicDisplay(Choice):
+    """
+    Shows out-of-logic check in the universal tracker.
+    "difficulty" shows logic for a difficulty one level higher.
+    """
+    display_name = "Out-Of-Logic Display"
+    option_off = 0
+    option_difficulty = 2
+    default = option_off
+
+class HealthFiller(Toggle):
+    """
+    Makes all Health Upgrades filler.
+    Use this to allow for extra filler for excluded locations.
+    """
+    display_name = "Health Filler"
+    range_start = 0
+    range_end = 10
+    default = 10
+
 @dataclass
 class GatoRobotoOptions(PerGameCommonOptions):
     use_smallmech: GlitchSmallmech
@@ -98,10 +124,13 @@ class GatoRobotoOptions(PerGameCommonOptions):
     heatercore_goal: HeaterCoreGoal
     ventilation_goal: VentilationGoal
     loresanity: Loresanity
+    health_filler: HealthFiller
+    start_inventory_from_pool: StartInventoryPool
+    glitched_logic_display: OutOfLogicDisplay
 
 option_groups = [
     OptionGroup(
-        "Expert Logic",
+        "Logic Options",
         [GlitchSmallmech, GlitchWatermech, GlitchGatoTech, NexusStart],
     ),
     OptionGroup(
@@ -114,6 +143,6 @@ option_groups = [
     ),
     OptionGroup(
         "Technical Stuff",
-        [ForceLocalStart],
+        [ForceLocalStart, OutOfLogicDisplay, HealthFiller],
     ),
 ]

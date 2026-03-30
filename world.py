@@ -1,6 +1,7 @@
 from collections.abc import Mapping
 from typing import Any, ClassVar
 
+from BaseClasses import ItemClassification
 from Options import OptionError
 # Imports of base Archipelago modules must be absolute.
 from worlds.AutoWorld import World
@@ -35,6 +36,8 @@ class GatoRobotoWorld(World):
 
     # Universal Tracker configuration
     ut_can_gen_without_yaml = True
+    # Used as an "item" for glitched logic
+    glitches_item_name = "UT Out of Logic"
     tracker_world: ClassVar = {
         "map_page_folder": "ut_maps",
         "map_page_maps": "maps/maps.json",
@@ -47,6 +50,7 @@ class GatoRobotoWorld(World):
         super(GatoRobotoWorld, self).__init__(multiworld, player)
 
         # initial values of instance attributes (*not* class attributes)
+        self.health_filler = 10
         self.using_ut = False
 
     # Our world class must have certain functions ("steps") that get called during generation.
@@ -66,6 +70,10 @@ class GatoRobotoWorld(World):
     # We also put this in a different file, the same one that create_items is in.
     def create_item(self, name: str) -> items.GatoRobotoItem:
         return items.create_item_with_correct_classification(self, name)
+
+    def create_item_alt(self, name: str, classification: ItemClassification) -> items.GatoRobotoItem:
+        """ Creates item with a manual classification. """
+        return items.create_item_with_alternate_classification(self, name, classification)
 
     # For features such as item links and panic-method start inventory, AP may ask your world to create extra filler.
     # The way it does this is by calling get_filler_item_name.
@@ -91,7 +99,7 @@ class GatoRobotoWorld(World):
     # slot_data is just a dictionary using basic types, that will be converted to json when sent to the client.
     def fill_slot_data(self) -> Mapping[str, Any]:
         # If you need access to the player's chosen options on the client side, there is a helper for that.
-        slot_data = self.options.as_dict("use_smallmech", "use_watermech", "nexus_start", "gato_tech", "aqueduct_goal", "heatercore_goal", "ventilation_goal", "loresanity")
+        slot_data = self.options.as_dict("use_smallmech", "use_watermech", "nexus_start", "gato_tech", "aqueduct_goal", "heatercore_goal", "ventilation_goal", "loresanity", "glitched_logic_display")
         slot_data["game_id"] = str(uuid.uuid4())
         return slot_data
 

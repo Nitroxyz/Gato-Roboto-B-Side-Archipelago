@@ -20,7 +20,7 @@ def setup_options_from_slot_data(world: GatoRobotoWorld) -> None:
                 world.options.heatercore_goal.value = slot_data['heatercore_goal']
                 world.options.ventilation_goal.value = slot_data['ventilation_goal']
                 world.options.loresanity.value = slot_data['loresanity']
-
+                world.options.glitched_logic_display.value = slot_data['glitched_logic_display']
 
 # for UT poptracker integration map tab switching
 def map_page_index(data: Any) -> int:

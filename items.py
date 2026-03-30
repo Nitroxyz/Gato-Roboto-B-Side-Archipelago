@@ -38,6 +38,8 @@ ITEM_NAME_TO_ID = {
     "Lava Cooled": 10257,
     "Progressive Vent Level": 10268,
     "Cute Meow": 10001,
+
+    "UT Out of Logic": 6900,
 }
 
 VHS = (
@@ -72,6 +74,8 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Lava Cooled": ItemClassification.progression,
     "Progressive Vent Level": ItemClassification.progression_skip_balancing,
     "Cute Meow": ItemClassification.filler,
+
+    "UT Out of Logic": ItemClassification.progression,
 }
 
 class GatoRobotoItem(Item):

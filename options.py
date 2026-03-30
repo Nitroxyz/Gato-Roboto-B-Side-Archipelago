@@ -87,6 +87,22 @@ class ForceLocalStart(DefaultOnToggle):
     """
     display_name = "Force Local Start"
 
+"""
+Allows you to preview more advanced options displayed as yellow "glitched" settings on the Universal Tracker.
+You can select which options you want to preview by setting a yaml with the higher diffictulty and putting it in your "Players" folder.
+Enable this setting on the player yaml.
+"""
+
+class OutOfLogicDisplay(Choice):
+    """
+    Shows out-of-logic check in the universal tracker.
+    "difficulty" shows logic for a difficulty one level higher.
+    """
+    display_name = "Out-Of-Logic Display"
+    option_off = 0
+    option_difficulty = 2
+    default = option_off
+
 class HealthFiller(Toggle):
     """
     Makes all Health Upgrades filler.
@@ -110,6 +126,7 @@ class GatoRobotoOptions(PerGameCommonOptions):
     loresanity: Loresanity
     health_filler: HealthFiller
     start_inventory_from_pool: StartInventoryPool
+    glitched_logic_display: OutOfLogicDisplay
 
 option_groups = [
     OptionGroup(
@@ -126,6 +143,6 @@ option_groups = [
     ),
     OptionGroup(
         "Technical Stuff",
-        [ForceLocalStart, HealthFiller],
+        [ForceLocalStart, OutOfLogicDisplay, HealthFiller],
     ),
 ]

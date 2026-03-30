@@ -121,10 +121,8 @@ def create_events(world: GatoRobotoWorld) -> None:
     nexus.add_event("Completed all areas (Nexus)", "<Completed all areas>", location_type=GatoRobotoLocation, item_type=items.GatoRobotoItem, show_in_spoiler=False)
 
     ventilation.add_event("RightSide entry (Ventilation)", "<RightSide entry>", location_type=GatoRobotoLocation, item_type=items.GatoRobotoItem, show_in_spoiler=False)
-    if world.options.use_smallmech:
+    if world.options.use_smallmech or hasattr(world.multiworld, "generation_is_fake"):
         ventilation.add_event("Smallmech entry (Ventilation)", "<Smallmech entry>", location_type=GatoRobotoLocation, item_type=items.GatoRobotoItem, show_in_spoiler=False)
-
-
 
     incubator.add_event("Victory", "Victory", location_type=GatoRobotoLocation, item_type=items.GatoRobotoItem, show_in_spoiler=False)
 

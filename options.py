@@ -96,10 +96,13 @@ Enable this setting on the player yaml.
 class OutOfLogicDisplay(Choice):
     """
     Shows out-of-logic check in the universal tracker.
+    Recommended order is: Medium -> Medium all Glitches -> Hard -> Hard all Glitches -> Vanilla all Glitches -> Vanilla
+    "all_glitches" shows logic with all glitches enabled.
     "difficulty" shows logic for a difficulty one level higher.
     """
     display_name = "Out-Of-Logic Display"
     option_off = 0
+    option_all_glitches = 1
     option_difficulty = 2
     default = option_off
 

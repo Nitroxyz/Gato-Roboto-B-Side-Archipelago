@@ -77,6 +77,8 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
 
     "UT Out of Logic": ItemClassification.progression,
 }
+for vhs in VHS:
+    DEFAULT_ITEM_CLASSIFICATIONS[vhs] = ItemClassification.progression_deprioritized_skip_balancing
 
 class GatoRobotoItem(Item):
     game = "Gato Roboto B-Side"
@@ -100,7 +102,6 @@ def create_all_items(world: GatoRobotoWorld) -> None:
         world.create_item("Dash"),
         world.create_item("Hopper"),
         world.create_item("Decoder"),
-        world.create_item("Big Shot"),
         world.create_item("Repeater"),
     ]
     if world.options.use_smallmech:

@@ -105,7 +105,7 @@ def create_all_items(world: GatoRobotoWorld) -> None:
         world.create_item("Repeater"),
     ]
     if world.options.use_smallmech:
-        itempool.append(world.create_item_alt("Big Shot", ItemClassification.trap))
+        itempool.append(world.create_item_alt("Big Shot", ItemClassification.trap | ItemClassification.useful))
     else:
         itempool.append(world.create_item("Big Shot"))
 

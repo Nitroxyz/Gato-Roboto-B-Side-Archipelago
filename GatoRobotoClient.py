@@ -20,6 +20,33 @@ from Utils import is_linux
 
 verbose = False
 
+
+class GatoRobotoPath:
+    @classmethod
+    def steam_install(cls) -> list[str]:
+        if is_linux:
+            return [os.path.expanduser(
+                "~/.local/share/Steam/steamapps/common/Gato Roboto")]  # running w/ proton # TODO: Change to real folder
+
+        # default, Utils.is_windows
+        return ["C:\\Program Files (x86)\\Steam\\steamapps\\common\\Gato Roboto",
+                "C:\\Program Files\\Steam\\steamapps\\common\\Gato Roboto"]
+
+    @classmethod
+    def save_game_folder(cls) -> str:
+        if is_linux:
+            return os.path.expanduser(
+                "~/.local/share/Steam/steamapps/compatdata/916730/pfx/drive_c/users/steamuser/AppData/Local/GatoRoboto_patch_1_1/")  # running w/ proton   # TODO: Change to real folder
+
+        # default, Utils.is_windows
+        return os.path.expandvars(r"%localappdata%/GatoRoboto_patch_1_1")
+
+def print_debug(message):
+    """ Handler for any fancy printing shenanigans """
+    if verbose:
+        logger.info(str(message))
+
+#region File handling functions
 def long_file(path):
     """ Creates the full path of the files in the save game folder. """
     return os.path.join(GatoRobotoPath.save_game_folder(), path)
@@ -36,35 +63,13 @@ def overwrite_file(og_path, new_path):
     if os.path.exists(long_file(og_path)):
         safe_delete_file(new_path)
         os.rename(long_file(og_path), long_file(new_path))
+#endregion
 
-def print_debug(message):
-    """ Handler for any fancy printing shenanigans """
-    if verbose:
-        logger.info(str(message))
-
-
-class GatoRobotoPath:
-    @classmethod
-    def steam_install(cls) -> list[str]:
-        if is_linux:
-            return [os.path.expanduser("~/.local/share/Steam/steamapps/common/Gato Roboto")]  # running w/ proton # TODO: Change to real folder
-
-        # default, Utils.is_windows
-        return ["C:\\Program Files (x86)\\Steam\\steamapps\\common\\Gato Roboto",
-                "C:\\Program Files\\Steam\\steamapps\\common\\Gato Roboto"]
-
-    @classmethod
-    def save_game_folder(cls) -> str:
-        if is_linux:
-            return os.path.expanduser(
-                "~/.local/share/Steam/steamapps/compatdata/916730/pfx/drive_c/users/steamuser/AppData/Local/GatoRoboto_patch_1_1/")  # running w/ proton   # TODO: Change to real folder
-
-        # default, Utils.is_windows
-        return os.path.expandvars(r"%localappdata%/GatoRoboto_patch_1_1")
-
+#region Patch functions
 class KnownPatchError(Exception):
     """ Used to raise an exception to cancel patches for known errors. """
     pass
+
 
 def check_install(steam_install: str = "") -> str:
     """ Checks for the path and modifies the steam install when needed. """
@@ -81,7 +86,8 @@ def check_install(steam_install: str = "") -> str:
 
     # If not valid folder
     if not os.path.exists(steam_install):
-        raise KnownPatchError("ERROR: Cannot find Gato Roboto. Please rerun the command with the correct folder or nothing for the default steam directory.")
+        raise KnownPatchError(
+            "ERROR: Cannot find Gato Roboto. Please rerun the command with the correct folder or nothing for the default steam directory.")
     else:
         return steam_install
 
@@ -125,8 +131,8 @@ def unpatch_game(steam_install: str):
                 os.remove(overwrite_path)
             shutil.copy(validate_path, overwrite_path)
 
-def patch_game(steam_install: str):
 
+def patch_game(steam_install: str):
     def copy_over(source_path, destination_path):
         """ Copies data from the apworld """
         data = gatoroboto_b_side.data_path(source_path)
@@ -151,6 +157,7 @@ def patch_game(steam_install: str):
     copy_over("warp_pic_nexus.png", os.path.join(steam_install, "ArchipelagoData/warp_pic_nexus.png"))
     copy_over("warp_pic_vents.png", os.path.join(steam_install, "ArchipelagoData/warp_pic_vents.png"))
 
+
 def auto_start(steam_install: str):
     """ Start the game. """
     exe_path = os.path.join(steam_install, "GatoRoboto.exe")
@@ -160,6 +167,7 @@ def auto_start(steam_install: str):
             raise KnownPatchError("ERROR: No known Gato Roboto executible in the install folder")
     # subprocess.Popen([exe_path, "-game", patched_path])
     subprocess.Popen([exe_path])
+#endregion
 
 class GatoRobotoCommandProcessor(ClientCommandProcessor):
 
@@ -286,6 +294,7 @@ class GatoRobotoContext(CommonContext):
         safe_delete_file("items.json")
         safe_delete_file("init.json")
         print_debug("(Re-)connect to Game")
+
 
 # All the communication happens here
 async def game_watcher(ctx: GatoRobotoContext):
@@ -428,6 +437,7 @@ async def game_watcher(ctx: GatoRobotoContext):
             logger.info(f"Something else went wrong in \"{current_file_short}\". Exception type {type(e)}")
             await asyncio.sleep(0.3)
             continue
+
 
 def get_clean_game_comms_file(f) -> dict | None:
     content = f.read()

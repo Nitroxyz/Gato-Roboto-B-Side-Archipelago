@@ -100,7 +100,8 @@ There is a lot x_x
 **Noah:** Speedrunner; Helped with the logic and setting up modding  
 **Cullen:** Original game developer; Helped with game specific issues and making modding a little easier  
 **Palex:** Discordian and bananium host; Helped with testing and helped create UT support  
-**Slipomatic:** Discordian; Helped with testing and suggestions  
+**Slipomatic:** Discordian; Helped with testing, suggestions and Design  
+**Sensokaeru:** Discordian; Found various logic bugs
 
 **PoryGone:** Discordian; Helped establish the APworld thread  
 **Faris:** Discordian and UT developer; Helped with setting up UT support  

@@ -5,7 +5,6 @@ from typing import TYPE_CHECKING
 from BaseClasses import ItemClassification, Location, LocationProgressType
 
 from . import items
-from worlds.generic.Rules import forbid_item
 
 if TYPE_CHECKING:
     from .world import GatoRobotoWorld
@@ -110,8 +109,6 @@ def create_regular_locations(world: GatoRobotoWorld) -> None:
     heater_core.add_locations(get_location_names_with_ids(heater_core_list), GatoRobotoLocation)
     ventilation.add_locations(get_location_names_with_ids(ventilation_list), GatoRobotoLocation)
     incubator.add_locations(get_location_names_with_ids(incubator_list), GatoRobotoLocation)
-
-    forbid_item(world.get_location("Rebba quest 2 (Nexus-1716)"), "Rocket", world.player)
 
 def create_events(world: GatoRobotoWorld) -> None:
     nexus = world.get_region("Nexus")

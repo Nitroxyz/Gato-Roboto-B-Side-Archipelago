@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from BaseClasses import CollectionState
-from worlds.generic.Rules import add_rule, set_rule
+from worlds.generic.Rules import set_rule, forbid_item
 
 if TYPE_CHECKING:
     from .world import GatoRobotoWorld
@@ -174,6 +174,9 @@ def set_all_location_rules(world: GatoRobotoWorld) -> None:
 
     current_location = world.get_location("Victory")
     set_rule(current_location, lambda state: state.has("Rocket", world.player) and state.has("Dash", world.player))
+
+    # Prevent Rocket from being placed here
+    forbid_item(world.get_location("Rebba quest 2 (Nexus-1716)"), "Rocket", world.player)
 
 def set_completion_condition(world: GatoRobotoWorld) -> None:
     world.multiworld.completion_condition[world.player] = lambda state: state.has("Victory", world.player)

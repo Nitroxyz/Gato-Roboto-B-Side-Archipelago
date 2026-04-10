@@ -20,6 +20,13 @@ class GlitchWatermech(Toggle):
     """
     display_name = "Use Watermech"
 
+class HardlockBypass(Toggle):
+    """
+    Includes logic for the Ventilation Hardlock bypass.
+    You need to collect all items after the chase, or reset your file if you don't.
+    """
+    display_name = "Ventilation Hardlock Bypass"
+
 class GlitchGatoTech(Choice):
     """
     Difficulty of strategies.
@@ -29,9 +36,8 @@ class GlitchGatoTech(Choice):
     "Hard" includes a bunch of difficult or obscure strategies, which require advanced knowledge.
 
     "Vanilla" is a special difficulty, with a raised difficulty for the very best. It will:
-    - remove the crash fixes in heater core
+    - remove the hotboy crash fixes in heater core (still includes the fix for the mauser fight)
     - include the logic for the standard cat vent skip and vent mashing
-    - assume that you can avoid a hardlock in ventilation by either routing properly or resetting the savefile (not currently!)
     """
     display_name = "Gato Tech"
     option_medium = 1
@@ -96,7 +102,7 @@ Enable this setting on the player yaml.
 class OutOfLogicDisplay(Choice):
     """
     Shows out-of-logic check in the universal tracker.
-    Recommended order is: Medium -> Medium all Glitches -> Hard -> Hard all Glitches -> Vanilla all Glitches -> Vanilla
+    Recommended order is: Medium -> Medium all Glitches -> Hard -> Hard all Glitches -> Vanilla all Glitches -> Vanilla (No Glitches!)
     "all_glitches" shows logic with all glitches enabled.
     "difficulty" shows logic for a difficulty one level higher.
     """
@@ -117,6 +123,7 @@ class HealthFiller(Toggle):
 class GatoRobotoOptions(PerGameCommonOptions):
     use_smallmech: GlitchSmallmech
     use_watermech: GlitchWatermech
+    ventilation_hardlock_bypass: HardlockBypass
     gato_tech: GlitchGatoTech
     nexus_start: NexusStart
     local_start: ForceLocalStart
@@ -131,7 +138,7 @@ class GatoRobotoOptions(PerGameCommonOptions):
 option_groups = [
     OptionGroup(
         "Logic Options",
-        [GlitchSmallmech, GlitchWatermech, GlitchGatoTech, NexusStart],
+        [GlitchSmallmech, GlitchWatermech, HardlockBypass, GlitchGatoTech, NexusStart],
     ),
     OptionGroup(
         "Goal Options",

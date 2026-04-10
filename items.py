@@ -28,7 +28,7 @@ ITEM_NAME_TO_ID = {
     "Urine Palette": 10010,
     "Tamagato Palette": 10011,
     "Gris Palette": 10012,
-    "Chewed Gun Palette": 10013,
+    "Chewed Gum Palette": 10013,
     "Swamp Matcha Palette": 10014,
     "Grape Palette": 10015,
 
@@ -54,7 +54,7 @@ VHS = (
     "Urine Palette",
     "Tamagato Palette",
     "Gris Palette",
-    "Chewed Gun Palette",
+    "Chewed Gum Palette",
     "Swamp Matcha Palette",
     "Grape Palette"
 )

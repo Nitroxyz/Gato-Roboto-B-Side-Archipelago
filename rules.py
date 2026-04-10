@@ -47,7 +47,7 @@ def set_all_location_rules(world: GatoRobotoWorld) -> None:
         "Urine Palette",
         "Tamagato Palette",
         "Gris Palette",
-        "Chewed Gun Palette",
+        "Chewed Gum Palette",
         "Swamp Matcha Palette",
         "Grape Palette"
     )

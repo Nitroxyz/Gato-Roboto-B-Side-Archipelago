@@ -49,7 +49,7 @@ class NexusStart(Toggle):
 
 class AqueductGoal(Range):
     """
-    Required amount of "Water Level" required to enter Incubator.
+    Required amount of "Progressive Water Level" required to enter Incubator.
     """
     display_name = "Aqueduct Goal"
     range_start = 0
@@ -67,7 +67,7 @@ class HeaterCoreGoal(Range):
 
 class VentilationGoal(Range):
     """
-    Required amount of "Vent Level" required to enter Incubator.
+    Required amount of "Progressive Vent Level" required to enter Incubator.
     """
     display_name = "Ventilation Goal"
     range_start = 0

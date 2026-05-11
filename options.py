@@ -22,6 +22,7 @@ class GlitchWatermech(Toggle):
 
 class HardlockBypass(Toggle):
     """
+    WORK IN PROGRESS!
     Includes logic for the Ventilation Hardlock bypass.
     You need to collect all items after the chase, or reset your file if you don't.
     """

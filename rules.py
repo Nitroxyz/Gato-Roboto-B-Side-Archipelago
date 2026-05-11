@@ -143,7 +143,9 @@ def set_all_location_rules(world: GatoRobotoWorld) -> None:
         current_location = world.get_location("Smallmech entry (Ventilation)")
         set_rule(current_location, lambda state:  ((world.options.use_smallmech or (world.options.glitched_logic_display == 1 and state.has("UT Out of Logic", world.player))) and state.has("Spin Jump", world.player) and state.has("Progressive Water Level", world.player, 3) and state.has("Cooler", world.player)) or ((world.options.use_smallmech or (world.options.glitched_logic_display == 1 and state.has("UT Out of Logic", world.player))) and state.has("Spin Jump", world.player) and state.has("Progressive Water Level", world.player, 3) and state.has("Dash", world.player) and state.has("Hopper", world.player)) or ((world.options.gato_tech + (world.options.glitched_logic_display == 2 and state.has("UT Out of Logic", world.player)) >= 2) and (world.options.use_smallmech or (world.options.glitched_logic_display == 1 and state.has("UT Out of Logic", world.player))) and state.has("Spin Jump", world.player) and state.has("Progressive Water Level", world.player, 3)))
     current_location = world.get_location("RightSide entry (Ventilation)")
-    set_rule(current_location, lambda state: (state.has("Progressive Vent Level", world.player, 3)) or (state.has("Progressive Vent Level", world.player, 1) and state.has("<Smallmech entry>", world.player) and state.has("Cooler", world.player) and state.has("Dash", world.player)) or ((world.options.gato_tech + (world.options.glitched_logic_display == 2 and state.has("UT Out of Logic", world.player)) >= 2) and state.has("Progressive Vent Level", world.player, 1) and state.has("<Smallmech entry>", world.player) and state.has("Spin Jump", world.player)))
+    set_rule(current_location, lambda state: (state.has("Progressive Vent Level", world.player, 3)) or
+                                             (state.has("Progressive Vent Level", world.player, 1) and state.has("<Smallmech entry>", world.player) and state.has("Cooler", world.player) and state.has("Dash", world.player)) or
+                                             ((world.options.gato_tech + (world.options.glitched_logic_display == 2 and state.has("UT Out of Logic", world.player)) >= 2) and state.has("Progressive Vent Level", world.player, 1) and state.has("<Smallmech entry>", world.player) and state.has("Spin Jump", world.player)))
 
     current_location = world.get_location("VHS (Incubator-1513)")
     set_rule(current_location, lambda state: (state.has("Rocket", world.player)))
@@ -173,7 +175,7 @@ def set_all_location_rules(world: GatoRobotoWorld) -> None:
 
 
     current_location = world.get_location("Victory")
-    set_rule(current_location, lambda state: state.has("Rocket", world.player) and state.has("Dash", world.player))
+    set_rule(current_location, lambda state: (state.has("Rocket", world.player) and state.has("Dash", world.player) and state.has("Spin Jump", world.player)) or ((world.options.gato_tech + (world.options.glitched_logic_display == 2 and state.has("UT Out of Logic", world.player)) >= 2) and state.has("Rocket", world.player) and state.has("Dash", world.player)))
 
     # Prevent Rocket from being placed here
     forbid_item(world.get_location("Rebba quest 2 (Nexus-1716)"), "Rocket", world.player)

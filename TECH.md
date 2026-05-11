@@ -10,7 +10,7 @@
 - Upwards Spinjump Rocketjumps
 - No Move Rocketjumps
 - Warps
-- Light Vent Boosts
+- Light Vent Drops
 - Spinjump Pogo
 - Water boosting
 - Drop Rocketjumps
@@ -19,7 +19,7 @@
 - Any% Niche Knowledge
 - Sideways Spinjump Rocketjumps
 - Ceiling Rocketjumps
-- Max height Wall Rocketjumps
+- Max Height Wall Rocketjumps
 - No-Spinjump Ceiling Rocketjumps
 ## Hard
 - All Niche Knowledge

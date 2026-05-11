@@ -25,8 +25,8 @@ class GatoRobotoPath:
     @classmethod
     def steam_install(cls) -> list[str]:
         if is_linux:
-            return [os.path.expanduser(
-                "~/.local/share/Steam/steamapps/common/Gato Roboto")]  # running w/ proton # TODO: Change to real folder
+            return [os.path.expanduser("~/.local/share/Steam/steamapps/common/GatoRoboto_patch_1_1"),
+                    os.path.expanduser("~/.steam/steam/steamapps/common/GatoRoboto_patch_1_1")]  # running w/ proton # TODO: Change to real folder
 
         # default, Utils.is_windows
         return ["C:\\Program Files (x86)\\Steam\\steamapps\\common\\Gato Roboto",
@@ -35,8 +35,10 @@ class GatoRobotoPath:
     @classmethod
     def save_game_folder(cls) -> str:
         if is_linux:
-            return os.path.expanduser(
-                "~/.local/share/Steam/steamapps/compatdata/916730/pfx/drive_c/users/steamuser/AppData/Local/GatoRoboto_patch_1_1/")  # running w/ proton   # TODO: Change to real folder
+            if os.path.exists("~/.local/share/Steam"):
+                return os.path.expanduser("~/.local/share/Steam/steamapps/compatdata/916730/pfx/drive_c/users/steamuser/AppData/Local/GatoRoboto_patch_1_1/")
+            else:
+                return os.path.expanduser("~/.steam/steam/steamapps/compatdata/916730/pfx/drive_c/users/steamuser/AppData/Local/GatoRoboto_patch_1_1/")
 
         # default, Utils.is_windows
         return os.path.expandvars(r"%localappdata%/GatoRoboto_patch_1_1")
@@ -310,7 +312,7 @@ async def game_watcher(ctx: GatoRobotoContext):
         current_file_short: str = "outer"
         """ Used in debugging to find the section of the error """
         try:
-            # TODO: Replace ai junk
+            # TODO: Replace ai junk (up for removal/replacement
             # check for active process
             current_file_short = "active process check"
             running = False
@@ -321,6 +323,10 @@ async def game_watcher(ctx: GatoRobotoContext):
                         running = True
                 except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
                     continue
+
+            # This is a band-aid fix for linux since it doesn't seem to work for it
+            if is_linux:
+                running = True
 
             # game is not running. disconnect when needed
             if not running or os.path.exists(long_file("off.json")):

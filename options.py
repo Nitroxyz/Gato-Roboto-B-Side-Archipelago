@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from Options import OptionGroup, PerGameCommonOptions, Toggle, DefaultOnToggle, Choice, Range, StartInventoryPool
+from Options import OptionGroup, PerGameCommonOptions, Toggle, DefaultOnToggle, Choice, Range, StartInventoryPool, Visibility
 
 
 # Flymech (off)
@@ -27,6 +27,7 @@ class HardlockBypass(Toggle):
     You need to collect all items after the chase, or reset your file if you don't.
     """
     display_name = "Ventilation Hardlock Bypass"
+    visibility = Visibility.none
 
 class GlitchGatoTech(Choice):
     """

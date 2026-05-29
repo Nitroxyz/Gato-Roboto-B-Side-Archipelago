@@ -312,7 +312,7 @@ async def game_watcher(ctx: GatoRobotoContext):
         current_file_short: str = "outer"
         """ Used in debugging to find the section of the error """
         try:
-            # TODO: Replace ai junk (up for removal/replacement
+            # TODO: Replace ai junk (up for removal/replacement)
             # check for active process
             current_file_short = "active process check"
             running = False
@@ -324,7 +324,7 @@ async def game_watcher(ctx: GatoRobotoContext):
                 except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
                     continue
 
-            # This is a band-aid fix for linux since it doesn't seem to work for it
+            # This is a Band-Aid fix for linux since it doesn't seem to work for it
             if is_linux:
                 running = True
 

@@ -94,16 +94,17 @@ There is a lot x_x
 - Deathlink
 - Add VHS 1 to the itempool
 # The great people who helped in the project
-**Nitroxy:** Speedrunner and programmer; Main dev  
-**Tylui:** Original randomizer developer; Provided original logic and helped organize the randomizer  
-**Haxaplax:** Speedrunner and randomizer player; Helped with the logic and testing  
-**Noah:** Speedrunner; Helped with the logic and setting up modding  
-**Cullen:** Original game developer; Helped with game specific issues and making modding a little easier  
-**Palex:** Discordian and bananium host; Helped with testing and helped create UT support  
-**Slipomatic:** Discordian; Helped with testing, suggestions and Design  
-**Sensokaeru:** Discordian; Found various logic bugs
+**Nitroxy:** Main dev  
+**Tylui:** Provided original logic and helped organize the randomizer  
+**Haxaplax:** Helped with the logic and testing  
+**Noah:** Helped with the logic and setting up modding  
+**Cullen:** Helped with game specific issues and making modding a little easier  
+**Palex:** Helped with testing and helped create UT support  
+**Slipomatic:** Helped with testing, suggestions and Design  
+**Sensokaeru:** Found various logic bugs and Chewed Gun
+**Threeandthree:** Helped with Linux support
 
-**PoryGone:** Discordian; Helped establish the APworld thread  
-**Faris:** Discordian and UT developer; Helped with setting up UT support  
-**Ixrec:** Discordian; Helped with setting up UT support  
-**Mysteryem**: Discordian; Helped with fixing the Client  
+**PoryGone:** Helped establish the APworld thread  
+**Faris:** Helped with setting up UT support  
+**Ixrec:** Helped with setting up UT support  
+**Mysteryem**: Helped with fixing the Client  

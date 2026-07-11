@@ -7,7 +7,7 @@ if TYPE_CHECKING:
 
 def setup_options_from_slot_data(world: GatoRobotoWorld) -> None:
     # implement .yaml-less Universal Tracker support
-    if hasattr(world.multiworld, "generation_is_fake"):
+    if getattr(world.multiworld, "generation_is_fake", False):
         if hasattr(world.multiworld, "re_gen_passthrough"):
             if "Gato Roboto B-Side" in world.multiworld.re_gen_passthrough:
                 world.using_ut = True

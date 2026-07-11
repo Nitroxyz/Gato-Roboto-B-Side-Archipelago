@@ -6,7 +6,6 @@ import typing
 import bsdiff4
 import shutil
 import json
-import psutil
 
 #import subprocess
 
@@ -15,12 +14,20 @@ import Utils
 from NetUtils import NetworkItem, ClientStatus
 from worlds import gatoroboto_b_side
 from MultiServer import mark_raw
-from CommonClient import CommonContext, server_loop, gui_enabled, ClientCommandProcessor, logger, get_base_parser
+
+from CommonClient import ClientCommandProcessor, server_loop, gui_enabled, logger, get_base_parser
 from Utils import is_linux
+
+tracker_loaded = False
+try:
+    from worlds.tracker.TrackerClient import TrackerGameContext as CommonContext
+    tracker_loaded = True
+except ModuleNotFoundError:
+    from CommonClient import CommonContext as CommonContext
 
 verbose = False
 
-
+# TODO: Remove A(i) Side code
 class GatoRobotoPath:
     @classmethod
     def steam_install(cls) -> list[str]:
@@ -243,6 +250,7 @@ class GatoRobotoContext(CommonContext):
         """ This flag depicts wether the game is "connected" and you can send/receive commands. """
 
     # TODO: Up for removal
+    # TODO: Remove A(i) Side code
     async def server_auth(self, password_requested: bool = False):
         if password_requested and not self.password:
             await super().server_auth(password_requested)
@@ -251,6 +259,8 @@ class GatoRobotoContext(CommonContext):
         await self.send_connect()
 
     def on_package(self, cmd, args):
+        super().on_package(cmd, args)
+
         if cmd == "Connected":
             self.game = self.slot_info[self.slot].game
             # Do folder init here
@@ -268,16 +278,14 @@ class GatoRobotoContext(CommonContext):
             self.reconnect_game()
 
     def run_gui(self):
-        from kvui import GameManager
-
-        class UTManager(GameManager):
-            logging_pairs = [
-                ("Client", "Archipelago")
-            ]
-            base_title = "Archipelago Gato Roboto Client"
-
-        self.ui = UTManager(self)
+        ui_class = super().make_gui()
+        ui_class.logging_pairs = [("Client", "Archipelago")]
+        ui_class.base_title = "Gato Roboto B-Side Client"
+        self.ui = ui_class(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
+
+    def run_generator(self):
+        ...
 
     async def connection_closed(self):
         self.game_is_initialized = False
@@ -312,26 +320,10 @@ async def game_watcher(ctx: GatoRobotoContext):
         current_file_short: str = "outer"
         """ Used in debugging to find the section of the error """
         try:
-            # TODO: Replace ai junk (up for removal/replacement)
-            # check for active process
-            current_file_short = "active process check"
-            running = False
-            for process in psutil.process_iter(attrs=["exe"]):
-                try:
-                    exe_path: str = process.info["exe"]
-                    if exe_path and "gatoroboto" in exe_path.lower():  # ✅ Check if not None
-                        running = True
-                except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
-                    continue
-
-            # This is a Band-Aid fix for linux since it doesn't seem to work for it
-            if is_linux:
-                running = True
-
             # game is not running. disconnect when needed
-            if not running or os.path.exists(long_file("off.json")):
+            if os.path.exists(long_file("off.json")):
                 if ctx.game_is_initialized:
-                    print_debug(f"Game isn't active anymore {not running} {os.path.exists(long_file('off.json'))}")
+                    print_debug(f"Game isn't active anymore {os.path.exists(long_file('off.json'))}")
 
                     logger.info("Lost Connection to Game")
                     ctx.reconnect_game()
@@ -444,7 +436,7 @@ async def game_watcher(ctx: GatoRobotoContext):
             await asyncio.sleep(0.3)
             continue
 
-
+# TODO: Remove A(i) Side code
 def get_clean_game_comms_file(f) -> dict | None:
     content = f.read()
 
@@ -467,7 +459,7 @@ def get_clean_game_comms_file(f) -> dict | None:
 
     return cleaned_json
 
-
+# TODO: Remove A(i) Side code
 def launch():
     async def _main():
         ctx = GatoRobotoContext(None, None)

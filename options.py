@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
-from Options import OptionGroup, PerGameCommonOptions, Toggle, DefaultOnToggle, Choice, Range, StartInventoryPool, Visibility
+from Options import OptionGroup, PerGameCommonOptions, Toggle, DefaultOnToggle, Choice, Range, StartInventoryPool, \
+    Visibility, DeathLink
 
 
 # Flymech (off)
@@ -84,10 +85,17 @@ class VentilationGoal(Range):
 
 class Loresanity(Toggle):
     """
-    Add lore buttons/terminals to the itempool.
-    Includes the main terminal in nexus and the two secret lore spot in nexus.
+    Add lore buttons/terminals as checkable locations.
+    Includes the main terminal in nexus and the two secret lore spots in nexus.
     """
     display_name = "Loresanity"
+
+class Bosssanity(Toggle):
+    """
+    Add mauser boss kills as checkable locations.
+    Do not kill the first 3 bosses with Smallmech since that causes a crash/softlock!
+    """
+    display_name = "Bosssanity"
 
 class ForceLocalStart(DefaultOnToggle):
     """
@@ -112,7 +120,7 @@ class OutOfLogicDisplay(Choice):
     option_off = 0
     option_all_glitches = 1
     option_difficulty = 2
-    default = option_off
+    default = option_all_glitches
 
 class HealthFiller(Toggle):
     """
@@ -120,6 +128,27 @@ class HealthFiller(Toggle):
     Use this to allow for extra filler for excluded locations.
     """
     display_name = "Health Filler"
+
+class DeathLinkAmnesty(Range):
+    """Amount of deaths before a deathlink is sent."""
+    display_name = "DeathLink Amnesty"
+    range_start = 0
+    range_end = 20
+    default = 1
+
+class DeathLinkAmnestyCat(Range):
+    """Amount of deaths before a deathlink is sent while being a cat."""
+    display_name = "DeathLink Amnesty Cat"
+    range_start = 0
+    range_end = 60
+    default = 3
+
+class DeathLinkGrace(Range):
+    """Amount of deathslinks you need to receive before dying."""
+    display_name = "DeathLink Grace"
+    range_start = 0
+    range_end = 60
+    default = 1
 
 @dataclass
 class GatoRobotoOptions(PerGameCommonOptions):
@@ -136,19 +165,24 @@ class GatoRobotoOptions(PerGameCommonOptions):
     health_filler: HealthFiller
     start_inventory_from_pool: StartInventoryPool
     glitched_logic_display: OutOfLogicDisplay
+    bosssanity: Bosssanity
+    deathlink: DeathLink
+    amnesty: DeathLinkAmnesty
+    amnesty_cat: DeathLinkAmnestyCat
+    grace: DeathLinkGrace
 
 option_groups = [
     OptionGroup(
         "Logic Options",
-        [GlitchSmallmech, GlitchWatermech, HardlockBypass, GlitchGatoTech, NexusStart],
+        [GlitchSmallmech, GlitchWatermech, HardlockBypass, GlitchGatoTech],
     ),
     OptionGroup(
-        "Goal Options",
-        [AqueductGoal, HeaterCoreGoal, VentilationGoal],
+        "Gameplay Options",
+        [NexusStart, AqueductGoal, HeaterCoreGoal, VentilationGoal, DeathLink, DeathLinkAmnesty, DeathLinkAmnestyCat, DeathLinkGrace],
     ),
     OptionGroup(
         "Checksanity",
-        [Loresanity],
+        [Loresanity, Bosssanity],
     ),
     OptionGroup(
         "Technical Stuff",

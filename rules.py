@@ -110,7 +110,7 @@ def set_all_location_rules(world: GatoRobotoWorld) -> None:
     current_location = world.get_location("Health Upgrade (Heater Core-0417)")
     set_rule(current_location, lambda state: (state.has("Lava Cooled", world.player) and state.has("Rocket", world.player)))
     current_location = world.get_location("Dash (Heater Core-1114)")
-    set_rule(current_location, lambda state: (state.has("Rocket", world.player)))
+    set_rule(current_location, lambda state: (state.has("Lava Cooled", world.player) and state.has("Rocket", world.player)))
     current_location = world.get_location("VHS (Heater Core-0414)")
     set_rule(current_location, lambda state: ((world.options.gato_tech + (world.options.glitched_logic_display == 2 and state.has("UT Out of Logic", world.player)) >= 3) and state.has("Lava Cooled", world.player) and state.has("Rocket", world.player) and (world.options.use_smallmech or (world.options.glitched_logic_display == 1 and state.has("UT Out of Logic", world.player)))) or ((world.options.gato_tech + (world.options.glitched_logic_display == 2 and state.has("UT Out of Logic", world.player)) >= 3) and state.has("Lava Cooled", world.player) and state.has("Rocket", world.player) and state.has("Dash", world.player)) or ((world.options.gato_tech + (world.options.glitched_logic_display == 2 and state.has("UT Out of Logic", world.player)) <= 2) and state.has("Lava Cooled", world.player) and state.has("Rocket", world.player)))
     if (world.options.gato_tech >= 3) and not world.options.use_smallmech:
@@ -120,7 +120,7 @@ def set_all_location_rules(world: GatoRobotoWorld) -> None:
         set_rule(current_location, lambda state: ((world.options.use_smallmech or (world.options.glitched_logic_display == 1 and state.has("UT Out of Logic", world.player))) and state.has("Rocket", world.player)) or (state.has("Rocket", world.player) and state.has("Dash", world.player)) or (state.has("Spin Jump", world.player) and state.has("Dash", world.player)))
     else:
         current_location = world.get_location("Cooler (Heater Core-0113)")
-        set_rule(current_location, lambda state: ((world.options.use_smallmech or (world.options.glitched_logic_display == 1 and state.has("UT Out of Logic", world.player))) and state.has("Rocket", world.player)) or (state.has("Dash", world.player) and state.has("Rocket", world.player)))
+        set_rule(current_location, lambda state: (state.has("Rocket", world.player) and state.has("Dash", world.player) and state.has("Spin Jump", world.player)) or ((world.options.use_smallmech or (world.options.glitched_logic_display == 1 and state.has("UT Out of Logic", world.player))) and state.has("Rocket", world.player)) or ((world.options.gato_tech + (world.options.glitched_logic_display == 2 and state.has("UT Out of Logic", world.player)) >= 2) and state.has("Rocket", world.player) and state.has("Dash", world.player)))
         current_location = world.get_location("Lava Cooled (Heater Core-0015)")
         set_rule(current_location, lambda state: ((world.options.use_smallmech or (world.options.glitched_logic_display == 1 and state.has("UT Out of Logic", world.player))) and state.has("Rocket", world.player)) or (state.has("Dash", world.player) and state.has("Rocket", world.player)))
 
@@ -170,6 +170,21 @@ def set_all_location_rules(world: GatoRobotoWorld) -> None:
         set_rule(current_location, lambda state: (state.has("<RightSide entry>", world.player)))
         current_location = world.get_location("Terminal (Incubator-1514)")
         set_rule(current_location, lambda state: True)
+
+    # Bosssanity
+    if world.options.bosssanity:
+        current_location = world.get_location("Mauser Boss (Landing Site-1412)")
+        set_rule(current_location, lambda state: state.has("Rocket", world.player))
+        current_location = world.get_location("Mauser Boss (Aqueducts-2009)")
+        set_rule(current_location, lambda state: (state.has("Progressive Water Level", world.player, 2) and state.has("Rocket", world.player)) or ((world.options.use_watermech or (world.options.glitched_logic_display == 1 and state.has("UT Out of Logic", world.player))) and state.has("Rocket", world.player)))
+        current_location = world.get_location("Mauser Boss (Heater Core-0115)")
+        set_rule(current_location, lambda state: (state.has("Rocket", world.player) and state.has("Dash", world.player)) or ((world.options.use_smallmech or (world.options.glitched_logic_display == 1 and state.has("UT Out of Logic", world.player))) and state.has("Rocket", world.player)))
+        current_location = world.get_location("Mauser Boss (Ventilation-0419)")
+        set_rule(current_location, lambda state: (state.has("Progressive Vent Level", world.player, 1)) or ((world.options.gato_tech + (world.options.glitched_logic_display == 2 and state.has("UT Out of Logic", world.player)) >= 2) and state.has("<Smallmech entry>", world.player)) or ((world.options.gato_tech + (world.options.glitched_logic_display == 2 and state.has("UT Out of Logic", world.player)) >= 3)))
+        current_location = world.get_location("Hotboy 1 (Heater Core-0019)")
+        set_rule(current_location, lambda state: True)
+        current_location = world.get_location("Hotboy 2 (Heater Core-0313)")
+        set_rule(current_location, lambda state: ((world.options.gato_tech + (world.options.glitched_logic_display == 2 and state.has("UT Out of Logic", world.player)) <= 2) and state.has("Lava Cooled", world.player) and state.has("Rocket", world.player)) or ((world.options.gato_tech + (world.options.glitched_logic_display == 2 and state.has("UT Out of Logic", world.player)) <= 2) and (world.options.use_smallmech or (world.options.glitched_logic_display == 1 and state.has("UT Out of Logic", world.player))) and state.has("Rocket", world.player)) or ((world.options.gato_tech + (world.options.glitched_logic_display == 2 and state.has("UT Out of Logic", world.player)) >= 3) and (world.options.use_smallmech or (world.options.glitched_logic_display == 1 and state.has("UT Out of Logic", world.player))) and state.has("Lava Cooled", world.player) and state.has("Rocket", world.player)) or ((world.options.gato_tech + (world.options.glitched_logic_display == 2 and state.has("UT Out of Logic", world.player)) >= 3) and (world.options.use_smallmech or (world.options.glitched_logic_display == 1 and state.has("UT Out of Logic", world.player)))) or ((world.options.gato_tech + (world.options.glitched_logic_display == 2 and state.has("UT Out of Logic", world.player)) >= 3) and state.has("Dash", world.player)) )
 
 
     current_location = world.get_location("Victory")

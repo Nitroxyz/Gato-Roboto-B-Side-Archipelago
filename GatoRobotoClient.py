@@ -7,7 +7,7 @@ import bsdiff4
 import shutil
 import json
 
-#import subprocess
+from packaging import tags
 
 import Utils
 
@@ -15,7 +15,7 @@ from NetUtils import NetworkItem, ClientStatus
 from worlds import gatoroboto_b_side
 from MultiServer import mark_raw
 
-from CommonClient import ClientCommandProcessor, server_loop, gui_enabled, logger, get_base_parser
+from CommonClient import ClientCommandProcessor, server_loop, gui_enabled, logger, get_base_parser, handle_url_arg
 from Utils import is_linux
 
 tracker_loaded = False
@@ -50,15 +50,20 @@ class GatoRobotoPath:
         # default, Utils.is_windows
         return os.path.expandvars(r"%localappdata%/GatoRoboto_patch_1_1")
 
+
 def print_debug(message):
     """ Handler for any fancy printing shenanigans """
     if verbose:
         logger.info(str(message))
 
+def data_path_folder(path: str):
+    import pkgutil
+    return pkgutil.get_data(__name__, "data/" + path)
+
 #region File handling functions
 def long_file(path):
     """ Creates the full path of the files in the save game folder. """
-    return os.path.join(GatoRobotoPath.save_game_folder(), path)
+    return os.path.join(GatoRobotoPath.save_game_folder(), "archipelago", path)
 
 
 def safe_delete_file(path):
@@ -140,11 +145,10 @@ def unpatch_game(steam_install: str):
                 os.remove(overwrite_path)
             shutil.copy(validate_path, overwrite_path)
 
-
 def patch_game(steam_install: str):
     def copy_over(source_path, destination_path):
         """ Copies data from the apworld """
-        data = gatoroboto_b_side.data_path(source_path)
+        data = data_path_folder(source_path)
         with open(destination_path, "wb") as f:
             f.write(data)
 
@@ -158,7 +162,8 @@ def patch_game(steam_install: str):
     else:
         # Write patched game data
         with open(data_path, "rb") as f:
-            patched_file: bytes = bsdiff4.patch(f.read(), gatoroboto_b_side.data_path("patch.bsdiff"))
+            import pkgutil # data_path is here!
+            patched_file: bytes = bsdiff4.patch(f.read(), data_path_folder("patch.bsdiff"))
         with open(patched_path, "wb") as f:
             f.write(patched_file)
 
@@ -236,7 +241,7 @@ class GatoRobotoCommandProcessor(ClientCommandProcessor):
 
 
 class GatoRobotoContext(CommonContext):
-    tags = {"AP"}
+    tags = {"AP"} # Keep bc of UT!
     game = "Gato Roboto B-Side"
     command_processor = GatoRobotoCommandProcessor
     items_handling = 0b111
@@ -249,24 +254,14 @@ class GatoRobotoContext(CommonContext):
         self.game_is_initialized: bool = False
         """ This flag depicts wether the game is "connected" and you can send/receive commands. """
 
-    # TODO: Up for removal
-    # TODO: Remove A(i) Side code
-    async def server_auth(self, password_requested: bool = False):
-        if password_requested and not self.password:
-            await super().server_auth(password_requested)
-
-        await self.get_username()
-        await self.send_connect()
-
     def on_package(self, cmd, args):
         super().on_package(cmd, args)
 
         if cmd == "Connected":
             self.game = self.slot_info[self.slot].game
-            # Do folder init here
-            if not os.path.exists(f"{GatoRobotoPath.save_game_folder()}"):
-                os.mkdir(f"{GatoRobotoPath.save_game_folder()}")
             print_debug("Setting Game ID")
+            # set deathlink mode
+            Utils.async_start(self.update_death_link(args["slot_data"].get("deathlink", False))) # Minit mirror
             # send game id (and slot data) for syncing
             if "game_id" not in args["slot_data"]:
                 args["slot_data"]["game_id"] = "no-id"
@@ -277,6 +272,12 @@ class GatoRobotoContext(CommonContext):
             overwrite_file("tmp_id.json", "gameid.json")
             self.reconnect_game()
 
+    def on_deathlink(self, data: typing.Dict[str, typing.Any]) -> None:
+        super().on_deathlink(data)
+
+        print_debug("Receive Deathlink")
+        open(long_file("kill.json"), "a").close() # TODO: Improve deathlink message
+
     def run_gui(self):
         ui_class = super().make_gui()
         ui_class.logging_pairs = [("Client", "Archipelago")]
@@ -284,6 +285,7 @@ class GatoRobotoContext(CommonContext):
         self.ui = ui_class(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
 
+    # TODO: Removed?
     def run_generator(self):
         ...
 
@@ -306,8 +308,8 @@ class GatoRobotoContext(CommonContext):
         print_debug("(Re-)connect to Game")
 
 
-# All the communication happens here
 async def game_watcher(ctx: GatoRobotoContext):
+    """ All the communication happens here """
     logger.info("Waiting for Connection to Game")
 
     while not ctx.exit_event.is_set():
@@ -321,9 +323,10 @@ async def game_watcher(ctx: GatoRobotoContext):
         """ Used in debugging to find the section of the error """
         try:
             # game is not running. disconnect when needed
-            if os.path.exists(long_file("off.json")):
+            current_file_short = "off.json"
+            if os.path.exists(long_file(current_file_short)):
                 if ctx.game_is_initialized:
-                    print_debug(f"Game isn't active anymore {os.path.exists(long_file('off.json'))}")
+                    print_debug(f"Game isn't active anymore {os.path.exists(long_file(current_file_short))}")
 
                     logger.info("Lost Connection to Game")
                     ctx.reconnect_game()
@@ -361,9 +364,16 @@ async def game_watcher(ctx: GatoRobotoContext):
                     if not os.path.exists(long_file(current_file_short)):
                         print_debug("Request init")
 
-                        open(long_file(current_file_short), "a").close()
+                        open(long_file(current_file_short), "w").close()
                 else:
                     # if game is initialized, do everything else
+                    # check for death
+                    current_file_short = "death.json"
+                    if os.path.exists(long_file(current_file_short)):
+                        safe_delete_file(current_file_short)
+                        if "DeathLink" in ctx.tags:
+                            await ctx.send_death("purrgatory")
+
                     # watch for received locations from game
                     current_file_short = "locations.json"
                     if os.path.exists(long_file(current_file_short)):
@@ -459,31 +469,44 @@ def get_clean_game_comms_file(f) -> dict | None:
 
     return cleaned_json
 
+# Universal Tracker Mirror
+async def main(args):
+    # Do folder init here
+    if not os.path.exists(GatoRobotoPath.save_game_folder()):
+        logger.log("Are you sure you have the game installed?")
+        os.mkdir(f"{GatoRobotoPath.save_game_folder()}")
+    if not os.path.exists(os.path.join(GatoRobotoPath.save_game_folder(), "archipelago")):
+        os.mkdir(os.path.join(GatoRobotoPath.save_game_folder(), "archipelago"))
+
+    ctx = GatoRobotoContext(args.connect, args.password)
+    ctx.auth = args.name
+
+    ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
+
+    if gui_enabled:
+        ctx.run_gui()
+    ctx.run_cli()
+
+    ctx.client_task = asyncio.create_task(game_watcher(ctx), name="GatoRobotoProgressionWatcher")
+
+    await ctx.exit_event.wait()
+    await ctx.shutdown()
+
 # TODO: Remove A(i) Side code
-def launch():
-    async def _main():
-        ctx = GatoRobotoContext(None, None)
-
-        #safe_delete_file("gameid.json")
-        #safe_delete_file("victory.json")
-
-        ctx.server_task = asyncio.create_task(server_loop(ctx), name="server loop")
-        asyncio.create_task(game_watcher(ctx), name="GatoRobotoProgressionWatcher")
-
-        if gui_enabled:
-            ctx.run_gui()
-        ctx.run_cli()
-
-        await ctx.exit_event.wait()
-        await ctx.shutdown()
+def launch(*args):
 
     Utils.init_logging("GatoRobotoClient", exception_logger="Client")
     import colorama
 
     colorama.init()
 
-    asyncio.run(_main())
-    colorama.deinit()
-
     parser = get_base_parser(description="Gato Roboto Client, for text interfacing.")
-    args = parser.parse_args()
+    parser.add_argument("--name", default=None, help="Slot Name to connect as.")
+    parser.add_argument("url", nargs="?", help="Archipelago connection url")
+
+    args = handle_url_arg(parser.parse_args(args))
+
+    #colorama.just_fix_windows_console()
+
+    asyncio.run(main(args))
+    colorama.deinit()

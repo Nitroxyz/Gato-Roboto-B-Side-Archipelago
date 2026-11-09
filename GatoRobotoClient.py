@@ -27,7 +27,7 @@ except ModuleNotFoundError:
 
 verbose = False
 
-# TODO: Remove A(i) Side code
+# TODO: A-Side code
 class GatoRobotoPath:
     @classmethod
     def steam_install(cls) -> list[str]:
@@ -100,8 +100,7 @@ def check_install(steam_install: str = "") -> str:
 
     # If not valid folder
     if not os.path.exists(steam_install):
-        raise KnownPatchError(
-            "ERROR: Cannot find Gato Roboto. Please rerun the command with the correct folder or nothing for the default steam directory.")
+        raise KnownPatchError("ERROR: Cannot find Gato Roboto. Please rerun the command with the correct folder or nothing for the default steam directory.")
     else:
         return steam_install
 
@@ -239,6 +238,16 @@ class GatoRobotoCommandProcessor(ClientCommandProcessor):
             logger.info(str(e))
             logger.info("An unknown error occurred. Please report to the dev.")
 
+    @mark_raw
+    def _cmd_toggle_deathlink(self, mode: str = ""):
+        """ Toggle the death link. """
+        if mode == "on":
+            Utils.async_start(self.ctx.update_death_link(True))
+        elif mode == "off":
+            Utils.async_start(self.ctx.update_death_link(False))
+        else:
+            Utils.async_start(self.ctx.update_death_link(not "DeathLink" in self.ctx.tags))
+
 
 class GatoRobotoContext(CommonContext):
     tags = {"AP"} # Keep bc of UT!
@@ -285,7 +294,7 @@ class GatoRobotoContext(CommonContext):
         self.ui = ui_class(self)
         self.ui_task = asyncio.create_task(self.ui.async_run(), name="UI")
 
-    # TODO: Removed?
+    # TODO: Remove?
     def run_generator(self):
         ...
 
@@ -372,7 +381,7 @@ async def game_watcher(ctx: GatoRobotoContext):
                     if os.path.exists(long_file(current_file_short)):
                         safe_delete_file(current_file_short)
                         if "DeathLink" in ctx.tags:
-                            await ctx.send_death("purrgatory")
+                            await ctx.send_death(f"{ctx.auth} is in purrgatory")
 
                     # watch for received locations from game
                     current_file_short = "locations.json"
@@ -446,7 +455,7 @@ async def game_watcher(ctx: GatoRobotoContext):
             await asyncio.sleep(0.3)
             continue
 
-# TODO: Remove A(i) Side code
+# TODO: A-Side code
 def get_clean_game_comms_file(f) -> dict | None:
     content = f.read()
 
@@ -492,7 +501,6 @@ async def main(args):
     await ctx.exit_event.wait()
     await ctx.shutdown()
 
-# TODO: Remove A(i) Side code
 def launch(*args):
 
     Utils.init_logging("GatoRobotoClient", exception_logger="Client")

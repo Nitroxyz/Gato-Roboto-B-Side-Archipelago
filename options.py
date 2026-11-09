@@ -45,7 +45,7 @@ class GlitchGatoTech(Choice):
     display_name = "Gato Tech"
     option_medium = 1
     option_hard = 2
-    option_vanilla_expert = 3
+    option_master = 3
 
     default = option_medium
 
@@ -150,6 +150,16 @@ class DeathLinkGrace(Range):
     range_end = 60
     default = 1
 
+class AdditionalCoolers(Range):
+    """
+    Add additional coolers into the pool, which continiously reduce rocket cooldown.
+    It won't be accounted in logic and will silently fail if you don't have enough filler.
+    """
+    display_name = "Additional Rockets"
+    range_start = 0
+    range_end = 3
+    default = 0
+
 @dataclass
 class GatoRobotoOptions(PerGameCommonOptions):
     use_smallmech: GlitchSmallmech
@@ -170,6 +180,7 @@ class GatoRobotoOptions(PerGameCommonOptions):
     amnesty: DeathLinkAmnesty
     amnesty_cat: DeathLinkAmnestyCat
     grace: DeathLinkGrace
+    additional_coolers: AdditionalCoolers
 
 option_groups = [
     OptionGroup(
@@ -185,6 +196,11 @@ option_groups = [
         [Loresanity, Bosssanity],
     ),
     OptionGroup(
+        "More Item Upgrades",
+        [AdditionalCoolers],
+    ),
+    OptionGroup(
+
         "Technical Stuff",
         [ForceLocalStart, OutOfLogicDisplay, HealthFiller],
     ),

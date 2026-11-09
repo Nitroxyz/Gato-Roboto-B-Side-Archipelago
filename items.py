@@ -95,6 +95,7 @@ def create_item_with_alternate_classification(world: GatoRobotoWorld, name: str,
 
 
 def create_all_items(world: GatoRobotoWorld) -> None:
+
     itempool: list[Item] = [
         world.create_item("Rocket"),
         world.create_item("Spin Jump"),
@@ -131,14 +132,19 @@ def create_all_items(world: GatoRobotoWorld) -> None:
     lava_cooled = world.get_location("Hotboy 2 (Heater Core-0313)")
     lava_cooled.place_locked_item(world.create_item("Progressive Heater Vent"))
 
-    # filler check
-    number_of_items = len(itempool)
-    number_of_unfilled_locations = len(world.multiworld.get_unfilled_locations(world.player))
-    needed_number_of_filler_items = number_of_unfilled_locations - number_of_items
-    itempool += [world.create_filler() for _ in range(needed_number_of_filler_items)]
+    def filler_check():
+        number_of_items = len(itempool)
+        number_of_unfilled_locations = len(world.multiworld.get_unfilled_locations(world.player))
+        needed_number_of_filler_items = number_of_unfilled_locations - number_of_items
+        return needed_number_of_filler_items
+
+    # Additional rockets
+    itempool += [world.create_item_alt("Cooler", ItemClassification.useful) for _ in range(min(world.options.additional_coolers, filler_check()))]
+
+    # Filler
+    itempool += [world.create_filler() for _ in range(filler_check())]
 
     # Anyway. With our world's itempool finalized, we now need to submit it to the multiworld itempool.
-    # This is how the generator actually knows about the existence of our items.
     world.multiworld.itempool += itempool
 
 

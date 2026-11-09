@@ -7,7 +7,7 @@ if TYPE_CHECKING:
 
 def setup_options_from_slot_data(world: GatoRobotoWorld) -> None:
     # implement .yaml-less Universal Tracker support
-    if hasattr(world.multiworld, "generation_is_fake"):
+    if getattr(world.multiworld, "generation_is_fake", False):
         if hasattr(world.multiworld, "re_gen_passthrough"):
             if "Gato Roboto B-Side" in world.multiworld.re_gen_passthrough:
                 world.using_ut = True
@@ -20,6 +20,7 @@ def setup_options_from_slot_data(world: GatoRobotoWorld) -> None:
                 world.options.heatercore_goal.value = slot_data['heatercore_goal']
                 world.options.ventilation_goal.value = slot_data['ventilation_goal']
                 world.options.loresanity.value = slot_data['loresanity']
+                world.options.bosssanity.value = slot_data['bosssanity']
                 world.options.glitched_logic_display.value = slot_data['glitched_logic_display']
 
 # for UT poptracker integration map tab switching

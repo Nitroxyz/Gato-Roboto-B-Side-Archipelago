@@ -334,5 +334,35 @@
                 "map_locations": [{"map": "Incubator", "x": 2256, "y": 537}]
             }
         ]
+    },
+
+    {
+        "name": "Boss Checks",
+        "children": [
+            {
+                "name": "Mauser Boss (Landing Site-1412)", "sections": [
+                    { "name": "Mauser Boss (Landing Site-1412)"}
+                ],
+                "map_locations": [{"map": "Landing Site", "x": 3590, "y": 1130}]
+            },
+            {
+                "name": "Mauser Boss (Aqueducts-2009)", "sections": [
+                    { "name": "Mauser Boss (Aqueducts-2009)"}
+                ],
+                "map_locations": [{"map": "Aqueducts", "x": 6350, "y": 1250}]
+            },
+            {
+                "name": "Mauser Boss (Heater Core-0115)", "sections": [
+                    { "name": "Mauser Boss (Heater Core-0115)"}
+                ],
+                "map_locations": [{"map": "Heater Core", "x": 456, "y": 700}]
+            },
+            {
+                "name": "Mauser Boss (Ventilation-0419)", "sections": [
+                    { "name": "Mauser Boss (Ventilation-0419)"}
+                ],
+                "map_locations": [{"map": "Ventilation", "x": 456, "y": 1515}]
+            }
+        ]
     }
 ]

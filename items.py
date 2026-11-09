@@ -34,7 +34,7 @@ ITEM_NAME_TO_ID = {
 
     "Health Upgrade": 10208,
     "Progressive Water Level": 10237,
-    "Hotboy defeated": 10254,
+    "Progressive Heater Vent": 10254,
     "Lava Cooled": 10257,
     "Progressive Vent Level": 10268,
     "Cute Meow": 10001,
@@ -70,7 +70,7 @@ DEFAULT_ITEM_CLASSIFICATIONS = {
     "Repeater": ItemClassification.useful,
     "Health Upgrade": ItemClassification.useful,
     "Progressive Water Level": ItemClassification.progression,
-    "Hotboy defeated": ItemClassification.progression,
+    "Progressive Heater Vent": ItemClassification.progression,
     "Lava Cooled": ItemClassification.progression,
     "Progressive Vent Level": ItemClassification.progression_skip_balancing,
     "Cute Meow": ItemClassification.filler,
@@ -127,9 +127,9 @@ def create_all_items(world: GatoRobotoWorld) -> None:
 
     # Lock the hot boys
     lava_cooled = world.get_location("Hotboy 1 (Heater Core-0019)")
-    lava_cooled.place_locked_item(world.create_item("Hotboy defeated"))
+    lava_cooled.place_locked_item(world.create_item("Progressive Heater Vent"))
     lava_cooled = world.get_location("Hotboy 2 (Heater Core-0313)")
-    lava_cooled.place_locked_item(world.create_item("Hotboy defeated"))
+    lava_cooled.place_locked_item(world.create_item("Progressive Heater Vent"))
 
     # filler check
     number_of_items = len(itempool)
@@ -144,7 +144,6 @@ def create_all_items(world: GatoRobotoWorld) -> None:
 
 def generate_early(world: GatoRobotoWorld) -> None:
     ''' Make sure that the Rocket gets spawned early '''
-
     # Early Starter items
     if world.options.local_start:
         world.multiworld.local_early_items[world.player]["Rocket"] = 1

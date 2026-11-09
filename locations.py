@@ -40,8 +40,6 @@ LOCATION_NAME_TO_ID = {
 	"Dash (Heater Core-1114)": 41114,
 	"Health Upgrade (Heater Core-1713)": 41713,
 	"Health Upgrade (Heater Core-0417)": 40417,
-    "Hotboy 1 (Heater Core-0019)": 40019,
-    "Hotboy 2 (Heater Core-0313)": 40313,
     "Lava Cooled (Heater Core-0015)": 40015,
 
 	"Bigshot (Ventilation-1718)": 51718,
@@ -66,6 +64,13 @@ LOCATION_NAME_TO_ID = {
     "Terminal (Heater Core-2215)": 42215,
     "Terminal (Ventilation-1618)": 51618,
     "Terminal (Incubator-1514)": 61514,
+
+    "Mauser Boss (Landing Site-1412)": 11412,
+    "Mauser Boss (Aqueducts-2009)": 22009,
+    "Mauser Boss (Heater Core-0115)": 40115,
+    "Mauser Boss (Ventilation-0419)": 50419,
+    "Hotboy 1 (Heater Core-0019)": 40019,
+    "Hotboy 2 (Heater Core-0313)": 40313,
 }
 
 class GatoRobotoLocation(Location):
@@ -102,6 +107,12 @@ def create_regular_locations(world: GatoRobotoWorld) -> None:
         heater_core_list += ["Terminal (Heater Core-2215)"]
         ventilation_list += ["Terminal (Ventilation-1618)"]
         incubator_list += ["Terminal (Incubator-1514)"]
+
+    if world.options.bosssanity:
+        landing_site_list += ["Mauser Boss (Landing Site-1412)"]
+        aqueducts_list += ["Mauser Boss (Aqueducts-2009)"]
+        heater_core_list += ["Mauser Boss (Heater Core-0115)"]
+        ventilation_list += ["Mauser Boss (Ventilation-0419)"]
 
     landing_site.add_locations(get_location_names_with_ids(landing_site_list), GatoRobotoLocation)
     nexus.add_locations(get_location_names_with_ids(nexus_list), GatoRobotoLocation)

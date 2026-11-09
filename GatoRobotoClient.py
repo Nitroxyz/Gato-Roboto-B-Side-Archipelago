@@ -369,7 +369,8 @@ async def game_watcher(ctx: GatoRobotoContext):
                     current_file_short = "death.json"
                     if os.path.exists(long_file(current_file_short)):
                         safe_delete_file(current_file_short)
-                        await ctx.send_death("purrgatory")
+                        if "DeathLink" in ctx.tags:
+                            await ctx.send_death("purrgatory")
 
                     # watch for received locations from game
                     current_file_short = "locations.json"

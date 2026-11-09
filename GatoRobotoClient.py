@@ -252,6 +252,13 @@ class GatoRobotoContext(CommonContext):
         self.game_is_initialized: bool = False
         """ This flag depicts wether the game is "connected" and you can send/receive commands. """
 
+    # Do not remove!
+    async def server_auth(self, password_requested: bool = False):
+            if password_requested and not self.password:
+                await super(GatoRobotoContext, self).server_auth(password_requested)
+            await self.get_username()
+            await self.send_connect()
+
     def on_package(self, cmd, args):
         super().on_package(cmd, args)
 
@@ -471,7 +478,7 @@ def get_clean_game_comms_file(f) -> dict | None:
 async def main(args):
     # Do folder init here
     if not os.path.exists(GatoRobotoPath.save_game_folder()):
-        logger.log("Are you sure you have the game installed?")
+        logger.info("Are you sure you have the game installed?")
         os.mkdir(f"{GatoRobotoPath.save_game_folder()}")
     if not os.path.exists(os.path.join(GatoRobotoPath.save_game_folder(), "archipelago")):
         os.mkdir(os.path.join(GatoRobotoPath.save_game_folder(), "archipelago"))
